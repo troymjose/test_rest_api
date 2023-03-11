@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Forlders supported for unit testing
+_api/
+_test_suites/
