@@ -1,5 +1,8 @@
-from test_rest_api.rest_api.exception import RestApiConfigException
+import functools
+import traceback
+from test_rest_api.utils.error_msg import ErrorMsg
 from test_rest_api.rest_api.rest_api import RestApi
+from test_rest_api.rest_api.exception import RestApiCreationException
 
 
 def rest_api(func):
@@ -10,7 +13,7 @@ def rest_api(func):
     Example:
 
         @rest_api
-        def login_api(username: str, password: str):
+        def login_api(username: str, password: str) -> dict:
             return {
                     url: "https://my_domain.com/login",
                     parameters: {'param1': 'value1', 'param2': 'value2'},
@@ -19,20 +22,31 @@ def rest_api(func):
                     }
     """
 
+    @functools.wraps(func)
     def inner(*args, **kwargs) -> RestApi:
-        # Get the function name
-        name = func.__name__
-        # Get the python file path of the function
-        module = func.__module__
-        # Call the function to retrieve user specified rest api data/config
-        rest_api_config: dict = func(*args, **kwargs)
+        # Get the name & python file path of the function
+        name, module = func.__name__, func.__module__
+        # Retrieve user specified rest api config
+        try:
+            rest_api_config: dict = func(*args, **kwargs)
+        except Exception as exc:
+            raise RestApiCreationException(name=name,
+                                           module=module,
+                                           parent_exception=str(exc),
+                                           traceback=traceback.format_exc())
         # Validate if the rest_api_config is a valid dictionary
         if not isinstance(rest_api_config, dict):
-            raise RestApiConfigException(name=name, module=module, config=rest_api_config)
+            raise RestApiCreationException(name=name,
+                                           module=module,
+                                           parent_exception=ErrorMsg.INVALID_REST_API_CONFIG,
+                                           traceback=traceback.format_exc())
+        # Create & return RestApi object
         try:
-            # Create & return RestApi object
             return RestApi(**rest_api_config)
-        except Exception as e:
-            raise RestApiConfigException(name=name, module=module, config=rest_api_config, parent_exception=str(e))
+        except Exception as exc:
+            raise RestApiCreationException(name=name,
+                                           module=module,
+                                           parent_exception=str(exc),
+                                           traceback=traceback.format_exc())
 
     return inner
