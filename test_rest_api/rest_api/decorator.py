@@ -40,7 +40,7 @@ def rest_api(func):
                                            module=module,
                                            parent_exception=ErrorMsg.INVALID_REST_API_CONFIG,
                                            traceback=traceback.format_exc())
-        # Create & return RestApi object
+        # Create & return RestApi instance object
         try:
             return RestApi(**rest_api_config)
         except Exception as exc:
