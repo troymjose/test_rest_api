@@ -1,0 +1,67 @@
+from dataclasses import dataclass
+from test_rest_api.utils.colors import colors
+
+
+@dataclass(frozen=True)
+class Docs:
+    commands: str = f"""
+--------
+Commands
+--------
+-> Run Test Suite
+Syntax : {colors.LIGHT_BLUE}python -m test_rest_api run "{colors.LIGHT_CYAN}<Path to folder/file>{colors.LIGHT_BLUE}"{colors.RESET}
+Example: python -m test_rest_api run "/Users/user/Documents/TestSuite"
+"""
+
+
+@dataclass(frozen=True)
+class ErrorMsg:
+    INVALID_PATH: str = f"""
+ERROR! Please provide a valid path
+{Docs.commands}
+"""
+    INVALID_COMMAND: str = f"""
+ERROR! Please provide a valid command
+{Docs.commands}
+"""
+    INVALID_REST_API: str = """
+Invalid Rest Api
+Please create proper rest api functions
+Tip: Refer the example below !
+
+Example Code:
+from test_rest_api import rest_api
+@rest_api
+def login_api(username: str, password: str) -> dict:
+    return {
+            'url': 'https://my_domain.com/login',
+            'parameters': {'param1': 'value1', 'param2': 'value2'},
+            'headers': {'content-type': 'application/json'},
+            'body': {'name':username,'password':password}
+            }
+"""
+    INVALID_REST_API_CONFIG: str = f"""
+Invalid Rest Api
+Please return a valid dictionary/json from @rest_api decorated api functions
+"""
+    INVALID_METHOD: str = f"""
+Invalid Request Method
+Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
+"""
+    REST_API_SEND_EXCEPTION: str = f"""
+Rest api request failed
+Tip: Refer the example below !
+
+Example Code:
+from my_api_file import my_api
+response = await my_api.send(method='get')
+or
+from my_api_file import my_api
+response = await my_api.get()
+
+Both the code does the same functionality but with different syntax
+Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
+"""
+#     UNKNOWN_EXCEPTION: str = f"""
+# ERROR! Sorry Something went wrong
+# """
