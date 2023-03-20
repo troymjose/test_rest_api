@@ -1,5 +1,5 @@
-import functools
 import traceback
+import functools
 from test_rest_api.utils.error_msg import ErrorMsg
 from test_rest_api.rest_api.rest_api import RestApi
 from test_rest_api.rest_api.exception import RestApiCreationException
@@ -15,10 +15,10 @@ def rest_api(func):
         @rest_api
         def login_api(username: str, password: str) -> dict:
             return {
-                    url: "https://my_domain.com/login",
-                    parameters: {'param1': 'value1', 'param2': 'value2'},
-                    headers: {'content-type': 'application/json'},
-                    body: {'name':username,'pass':password}
+                    'url': 'https://my_domain.com/login',
+                    'parameters': {'param1': 'value1', 'param2': 'value2'},
+                    'headers': {'content-type': 'application/json'},
+                    'body': {'name':username,'pass':password}
                     }
     """
 
@@ -39,14 +39,14 @@ def rest_api(func):
             raise RestApiCreationException(name=name,
                                            module=module,
                                            parent_exception=ErrorMsg.INVALID_REST_API_CONFIG,
-                                           traceback=traceback.format_exc())
+                                           traceback='')
         # Create & return RestApi instance object
         try:
-            return RestApi(**rest_api_config)
+            return RestApi(**rest_api_config, name=name, module=module)
         except Exception as exc:
             raise RestApiCreationException(name=name,
                                            module=module,
                                            parent_exception=str(exc),
-                                           traceback=traceback.format_exc())
+                                           traceback='')
 
     return inner
