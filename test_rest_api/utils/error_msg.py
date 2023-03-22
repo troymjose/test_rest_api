@@ -52,16 +52,19 @@ Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 Rest api request failed
 Tip: Refer the example below !
 
-Example Code:
+Example Code (All the below code does the same functionality but different with syntax):
+from test_rest_api import RestApiMethod
+from my_api_file import my_api
+response = await my_api.send(method=RestApiMethod.GET)
+or
 from my_api_file import my_api
 response = await my_api.send(method='get')
 or
 from my_api_file import my_api
 response = await my_api.get()
 
-Both the code does the same functionality but with different syntax
 Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
-#     UNKNOWN_EXCEPTION: str = f"""
-# ERROR! Sorry Something went wrong
-# """
+    UNKNOWN_EXCEPTION: str = f"""
+Sorry Something went wrong
+"""
