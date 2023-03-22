@@ -87,7 +87,8 @@ class Report:
 
     def add_test_result(self, test_result: ReportTestResult):
         # Add the test result to tests instance variable
-        self.tests[test_result.name] = test_result
+        if test_result.status != TestStatus.DISABLE:
+            self.tests[test_result.name] = test_result
         # Update the total tests count
         self.summary.tests.total += 1
         # Update the overall test summary status if failed (It was initialized as True)
