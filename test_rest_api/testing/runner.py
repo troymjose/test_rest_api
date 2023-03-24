@@ -223,7 +223,7 @@ class Runner:
 
         This is also used by package in __main__.py to enable command line test execution
         example:
-                python -m test_rest_api -t "<Test Suite Path>" -r "<Test Result Path>"
+                python -m test_rest_api -t "<Test Suite Path>" -r "<Test Result Path> -h #smoke#sanity
         """
         try:
             # Validate if the path provided for test suite file/folder is valid
