@@ -24,6 +24,10 @@ ERROR! Please provide a valid path for the test suite
 ERROR! Please provide a valid path for the test result
 {Docs.commands}
 """
+    INVALID_TEST_TAG: str = f"""
+ERROR! Please provide a valid tag list
+{Docs.commands}
+"""
     INVALID_COMMAND: str = f"""
 ERROR! Please provide a valid command
 {Docs.commands}

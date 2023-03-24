@@ -93,8 +93,8 @@ class Report:
         self.summary: ReportTestSummary = ReportTestSummary()
 
     def add_test_result(self, test_result: ReportTestResult):
-        # Add the test result to tests instance variable
-        if test_result.status != TestStatus.DISABLE:
+        # Add the test result to tests instance variable only if it's not disabled or skipped
+        if test_result.status != TestStatus.DISABLE and test_result.status != TestStatus.SKIP:
             if test_result.is_async:
                 self.async_tests.append(test_result)
             else:

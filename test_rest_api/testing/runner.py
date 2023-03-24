@@ -26,6 +26,8 @@ class Runner:
         self.test_suite_path: str = ''
         # Test result path
         self.test_result_path: str = ''
+        # Test tags
+        self.test_tags: list = []
         # List of file paths
         self.test_files: list = []
         # List of @test decorated sync function objects
@@ -203,6 +205,7 @@ class Runner:
         report.summary.test.duration = str(end - start)
         report.summary.test.start = start.strftime('%Y-%m-%d %H:%M:%S')
         report.summary.test.end = end.strftime('%Y-%m-%d %H:%M:%S')
+        report.summary.test.tags = self.test_tags
         # Close the aiohttp session after completing the test
         await AioHttpSession().close()
         # Create the test report
@@ -210,7 +213,7 @@ class Runner:
         # Summary Result in console
         Runner.console_summary()
 
-    def run(self, test_suite_path: str, test_result_path: str):
+    def run(self, test_suite_path: str, test_result_path: str, test_tags: list = []):
         """
         Method to run the testsuite
         This method can be used by the users to trigger the test in code.
@@ -233,6 +236,11 @@ class Runner:
                 sys.exit(ErrorMsg.INVALID_TEST_RESULT_PATH)
             # Update the path in test_result_path instance variable
             self.test_result_path = test_result_path
+            # Validate tags
+            if not isinstance(test_tags, list):
+                sys.exit(ErrorMsg.INVALID_TEST_TAG)
+            # Update the test tags in test_tags instance variable
+            self.test_tags = test_tags
             # Run 'run_testsuite' coroutine in an event loop.
             asyncio.run(self.run_testsuite())
         except Exception as exc:
