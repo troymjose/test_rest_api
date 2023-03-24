@@ -1,4 +1,7 @@
-from typing import Dict
+import os
+import json
+from typing import List
+from datetime import datetime
 from dataclasses import dataclass, asdict
 from test_rest_api import BugPriority
 
@@ -85,17 +88,17 @@ class ReportTestSummary:
 
 class Report:
     def __init__(self):
-        self.sync_tests: Dict[str:ReportTestResult] = {}
-        self.async_tests: Dict[str:ReportTestResult] = {}
+        self.sync_tests: List[ReportTestResult] = []
+        self.async_tests: List[ReportTestResult] = []
         self.summary: ReportTestSummary = ReportTestSummary()
 
     def add_test_result(self, test_result: ReportTestResult):
         # Add the test result to tests instance variable
         if test_result.status != TestStatus.DISABLE:
             if test_result.is_async:
-                self.async_tests[test_result.name] = test_result
+                self.async_tests.append(test_result)
             else:
-                self.sync_tests[test_result.name] = test_result
+                self.sync_tests.append(test_result)
         # Update the total tests count
         self.summary.tests.total += 1
         # Update the sync and async tests count
@@ -122,12 +125,17 @@ class Report:
             setattr(self.summary.errors, test_result.error_type,
                     getattr(self.summary.errors, test_result.error_type) + 1)
 
-    def save(self):
+    def save(self, *, path):
+        # Initialise result dictionary
         result = {}
-        import json
-        data = asdict(self.summary)
-        with open('/Users/trjose/Documents/Troy/Personal/Test Rest Framework/result.json', 'w') as f:
-            json.dump(data, f)
+        # Update the result dictionary
+        result['summary'] = asdict(self.summary)
+        result['sync_tests'] = [asdict(test) for test in self.sync_tests]
+        result['async_tests'] = [asdict(test) for test in self.async_tests]
+        # Save to json file
+        file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json"
+        with open(os.path.join(path, file_name), 'w') as f:
+            json.dump(result, f)
 
 
 report = Report()

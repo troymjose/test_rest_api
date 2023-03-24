@@ -200,10 +200,10 @@ class Runner:
         report.summary.test.end = end.strftime('%Y-%m-%d %H:%M:%S')
         # Close the aiohttp session after completing the test
         await AioHttpSession().close()
-        # Summary Result in console
-        Runner.console_summary()
         # Create the test report
         self.create_test_report()
+        # Summary Result in console
+        Runner.console_summary()
 
     def run(self, test_suite_path: str, test_result_path: str):
         """
