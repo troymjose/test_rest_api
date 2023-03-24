@@ -93,6 +93,9 @@ class Report:
         self.summary: ReportTestSummary = ReportTestSummary()
 
     def add_test_result(self, test_result: ReportTestResult):
+        """
+        Add test result details for a single test
+        """
         # Add the test result to tests instance variable only if it's not disabled or skipped
         if test_result.status != TestStatus.DISABLE and test_result.status != TestStatus.SKIP:
             if test_result.is_async:
@@ -111,6 +114,7 @@ class Report:
             self.summary.test.status = False
         # Update the total test status count
         if test_result.status in asdict(TestStatus()).values():
+            # pass is converted to success, because 'pass' is a python keyword & hence we can't create dataclass
             test_result.status = 'success' if test_result.status == TestStatus.PASS else test_result.status
             setattr(self.summary.tests, test_result.status,
                     getattr(self.summary.tests, test_result.status) + 1)
@@ -126,6 +130,9 @@ class Report:
                     getattr(self.summary.errors, test_result.error_type) + 1)
 
     def save(self, *, path):
+        """
+        Save the test report to the disk
+        """
         # Initialise result dictionary
         result = {}
         # Update the result dictionary
