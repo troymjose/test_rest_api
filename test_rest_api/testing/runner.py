@@ -23,7 +23,9 @@ class Runner:
 
     def __init__(self):
         # Test suite path
-        self.path: str = ''
+        self.test_suite_path: str = ''
+        # Test result path
+        self.test_result_path: str = ''
         # List of file paths
         self.test_files: list = []
         # List of @test decorated sync function objects
@@ -36,7 +38,7 @@ class Runner:
         Load the module in runtime and return it
         """
         # Create module path from file path
-        name = file.replace(self.path, '').replace('/', '.')[1:-3]
+        name = file.replace(self.test_suite_path, '').replace('/', '.')[1:-3]
         # Load the module
         loader = importlib.machinery.SourceFileLoader(name, file)
         module = types.ModuleType(name)
@@ -101,10 +103,10 @@ class Runner:
         """
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting test setup{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Test Suite: {self.path}{colors.LIGHT_CYAN}")
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Test Suite: {self.test_suite_path}{colors.LIGHT_CYAN}")
         test_rest_api_logger.info(f'{colors.LIGHT_PURPLE}Auto detecting test suites{colors.LIGHT_CYAN}')
         # Load python files
-        self.load_test_files(self.path)
+        self.load_test_files(self.test_suite_path)
         # Logging
         test_rest_api_logger.info(
             f'{colors.LIGHT_PURPLE}{len(self.test_files)} test suites detected{colors.LIGHT_CYAN}')
@@ -149,6 +151,15 @@ class Runner:
                         {colors.LIGHT_CYAN}Total tests: {colors.LIGHT_PURPLE}{report.summary.tests.total}
                         {colors.LIGHT_CYAN}Test Duration: {colors.LIGHT_PURPLE}{report.summary.test.duration}''')
 
+    def create_test_report(self):
+        """
+        Create and save the test report
+        """
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Creating test report{colors.LIGHT_CYAN}")
+        # Create the report
+        report.save(path=self.test_result_path)
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Created test report{colors.LIGHT_CYAN}")
+
     async def run_testsuite(self):
         """
         Run the test suite
@@ -191,26 +202,32 @@ class Runner:
         await AioHttpSession().close()
         # Summary Result in console
         Runner.console_summary()
-        # Save the report
-        report.save()
+        # Create the test report
+        self.create_test_report()
 
-    def run(self, path: str):
+    def run(self, test_suite_path: str, test_result_path: str):
         """
         Method to run the testsuite
         This method can be used by the users to trigger the test in code.
         example:
                 from test_rest_api import runner
-                runner.run(path="<Test Suite Path>")
+                runner.run(test_suite_path="<Test Suite Path>", test_result_path="<Test Result Path>")
+
         This is also used by package in __main__.py to enable command line test execution
         example:
-                python -m test_rest_api -t "<Test Suite Path>"
+                python -m test_rest_api -t "<Test Suite Path>" -r "<Test Result Path>"
         """
         try:
             # Validate if the path provided for test suite file/folder is valid
-            if not os.path.exists(path):
-                sys.exit(ErrorMsg.INVALID_PATH)
-            # Update the path in instance variable
-            self.path = path
+            if not os.path.exists(test_suite_path):
+                sys.exit(ErrorMsg.INVALID_TEST_SUITE_PATH)
+            # Update the path in test_suite_path instance variable
+            self.test_suite_path = test_suite_path
+            # Validate if the path provided for test result folder is valid
+            if not os.path.isdir(test_result_path):
+                sys.exit(ErrorMsg.INVALID_TEST_RESULT_PATH)
+            # Update the path in test_result_path instance variable
+            self.test_result_path = test_result_path
             # Run 'run_testsuite' coroutine in an event loop.
             asyncio.run(self.run_testsuite())
         except Exception as exc:

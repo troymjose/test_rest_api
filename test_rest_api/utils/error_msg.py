@@ -9,15 +9,19 @@ class Docs:
 Commands
 --------
 -> Run Test Suite
-Syntax : {colors.LIGHT_BLUE}python -m test_rest_api -t "{colors.LIGHT_CYAN}<Path to folder/file>{colors.LIGHT_BLUE}"{colors.RESET}
-Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite"
+Syntax : {colors.LIGHT_BLUE}python -m test_rest_api -t "{colors.LIGHT_CYAN}<Path to test suite folder/file>{colors.LIGHT_BLUE}" -r "{colors.LIGHT_CYAN}<Path to test result folder>{colors.LIGHT_BLUE}"{colors.RESET}
+Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite" -r "/Users/user/Documents/TestResult"
 """
 
 
 @dataclass(frozen=True)
 class ErrorMsg:
-    INVALID_PATH: str = f"""
-ERROR! Please provide a valid path
+    INVALID_TEST_SUITE_PATH: str = f"""
+ERROR! Please provide a valid path for the test suite
+{Docs.commands}
+"""
+    INVALID_TEST_RESULT_PATH: str = f"""
+ERROR! Please provide a valid path for the test result
 {Docs.commands}
 """
     INVALID_COMMAND: str = f"""
