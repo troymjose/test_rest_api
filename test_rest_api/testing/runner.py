@@ -170,6 +170,11 @@ class Runner:
         self.setup_testsuite()
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed test setup{colors.LIGHT_CYAN}")
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Started sorting synchronous tests{colors.LIGHT_CYAN}")
+        # Sort the synchronous tests
+        self.sync_tests.sort(key=lambda x: x.execution_order)
+        # Logging
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed sorting synchronous tests{colors.LIGHT_CYAN}")
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Creating aiohttp client session{colors.LIGHT_CYAN}")
         # Session should be created inside async function even if it itself not an async function
         # Also creation should happen inside the main event loop (Should not be in a separate event loop)

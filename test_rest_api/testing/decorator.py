@@ -10,7 +10,7 @@ from test_rest_api.reporting.report import report, ReportTestResult, TestStatus,
 from test_rest_api.rest_api.exception import RestApiCreationException, RestApiSendException
 
 
-def test(*, name="", desc="", enabled=True, tags=()):
+def test(*, name="", desc="", enabled=True, tags=(), execution_order='z'):
     def testcase_decorator(func):
         @functools.wraps(func)
         async def inner(*args, **kwargs):
@@ -124,6 +124,8 @@ def test(*, name="", desc="", enabled=True, tags=()):
         # Only async functions can be decorated with @test
         inner.is_testcase = True
         inner.is_async_testcase = True if iscoroutinefunction(func) else False
+        # For ordering sequential testcases
+        inner.execution_order = execution_order
         return inner
 
     return testcase_decorator
