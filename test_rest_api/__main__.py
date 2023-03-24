@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # Get the arguments
     command, test_suite_path = sys.argv[1], sys.argv[2]
     # Run command
-    if command == 'run':
+    if command == '-t':
         # Run the test suite
         runner.run(path=test_suite_path)
     else:

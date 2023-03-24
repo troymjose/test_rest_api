@@ -9,8 +9,8 @@ class Docs:
 Commands
 --------
 -> Run Test Suite
-Syntax : {colors.LIGHT_BLUE}python -m test_rest_api run "{colors.LIGHT_CYAN}<Path to folder/file>{colors.LIGHT_BLUE}"{colors.RESET}
-Example: python -m test_rest_api run "/Users/user/Documents/TestSuite"
+Syntax : {colors.LIGHT_BLUE}python -m test_rest_api -t "{colors.LIGHT_CYAN}<Path to folder/file>{colors.LIGHT_BLUE}"{colors.RESET}
+Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite"
 """
 
 
