@@ -18,6 +18,8 @@ def test(*, name="", desc="", enabled=True, tags=()):
             testsuite: str = func.__module__
             # Create the test name
             testcase_name: str = f'{name} ({testsuite})' if name else f'{func.__name__} ({testsuite})'
+            # Get the type of test function
+            is_async = True if iscoroutinefunction(func) else False
             # Initialise test status and test details
             test_status, test_details = TestStatus.DISABLE, 'Testcase is disabled'
             # Initialise bug priority and error type which will be used for reporting
@@ -29,8 +31,13 @@ def test(*, name="", desc="", enabled=True, tags=()):
                 # Update the test status and details
                 test_status, test_details = TestStatus.SKIP, 'Testcase is skipped'
                 try:
-                    # Call the test async function
-                    await func(*args, **kwargs)
+                    # Check the type of function (async or sync)
+                    if is_async:
+                        # Call the async test function
+                        await func(*args, **kwargs)
+                    else:
+                        # Call the sync test function
+                        func(*args, **kwargs)
                     # Log the result
                     test_rest_api_logger.info(f"{colors.LIGHT_GREEN}{testcase_name}{colors.LIGHT_CYAN}")
                     # Update the test status and details
@@ -101,6 +108,7 @@ def test(*, name="", desc="", enabled=True, tags=()):
             # Create Report test result object instance
             test_result = ReportTestResult(name=testcase_name,
                                            desc=desc,
+                                           is_async=is_async,
                                            testsuite=testsuite,
                                            status=test_status,
                                            details=test_details,
@@ -114,7 +122,8 @@ def test(*, name="", desc="", enabled=True, tags=()):
             report.add_test_result(test_result)
 
         # Only async functions can be decorated with @test
-        inner.is_testcase = True if iscoroutinefunction(func) else False
+        inner.is_testcase = True
+        inner.is_async_testcase = True if iscoroutinefunction(func) else False
         return inner
 
     return testcase_decorator

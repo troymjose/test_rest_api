@@ -7,7 +7,7 @@ import aiohttp
 import asyncio
 import importlib.machinery
 from datetime import datetime
-from inspect import getmembers, iscoroutinefunction
+from inspect import getmembers, iscoroutinefunction, isfunction
 from test_rest_api.utils.colors import colors
 from test_rest_api.reporting.report import report
 from test_rest_api.utils.error_msg import ErrorMsg
@@ -26,8 +26,10 @@ class Runner:
         self.path: str = ''
         # List of file paths
         self.test_files: list = []
-        # List of @test decorated function objects
-        self.tests: list = []
+        # List of @test decorated sync function objects
+        self.sync_tests: list = []
+        # List of @test decorated async function objects
+        self.async_tests: list = []
 
     def load_module(self, file: str):
         """
@@ -42,27 +44,41 @@ class Runner:
         # Return the module
         return module
 
-    def load_test_file_tests(self, mod):
+    def load_test_file_sync_tests(self, mod):
         """
-        From test file load all the @test decorated function objects in a list
+        From test file load all the @test decorated sync function objects in a list
+        Conditions: Is sync Function & Decorated with @test
+        """
+        return [obj for _, obj in getmembers(mod) if
+                isfunction(obj) and obj.__dict__.get('is_testcase', False) and not obj.__dict__.get('is_async_testcase',
+                                                                                                    False)]
+
+    def load_test_file_async_tests(self, mod):
+        """
+        From test file load all the @test decorated async function objects in a list
         Conditions: Is Async Function & Decorated with @test
         """
         return [obj for _, obj in getmembers(mod) if
-                iscoroutinefunction(obj) and obj.__dict__.get('is_testcase', False)]
+                iscoroutinefunction(obj) and obj.__dict__.get('is_testcase', False) and obj.__dict__.get(
+                    'is_async_testcase', False)]
 
     def load_tests(self):
         """
-        Auto-detect @test decorated functions from the list of test python files
+        Auto-detect @test decorated sync and async functions from the list of test python files
         Update the function objects in tests list
         """
         # For each file path in list of python files from testsuite folder
         for test_file in self.test_files:
             # Load the module in runtime from file paths
             module = self.load_module(test_file)
-            # Load the @test decorated functions as a list from the module
-            tests = self.load_test_file_tests(module)
-            # Update the tests instance variable
-            self.tests.extend(tests)
+            # Load the @test decorated sync functions as a list from the module
+            sync_tests = self.load_test_file_sync_tests(module)
+            # Update the sync_tests instance variable
+            self.sync_tests.extend(sync_tests)
+            # Load the @test decorated async functions as a list from the module
+            async_tests = self.load_test_file_async_tests(module)
+            # Update the async_tests instance variable
+            self.async_tests.extend(async_tests)
 
     def load_test_files(self, path):
         """
@@ -96,7 +112,12 @@ class Runner:
         # Load @test decorated functions from the loaded python files
         self.load_tests()
         # Logging
-        test_rest_api_logger.info(f'{colors.LIGHT_PURPLE}{len(self.tests)} tests detected{colors.LIGHT_CYAN}')
+        test_rest_api_logger.info(
+            f'{colors.LIGHT_PURPLE}{len(self.sync_tests)} synchronous tests detected{colors.LIGHT_CYAN}')
+        test_rest_api_logger.info(
+            f'{colors.LIGHT_PURPLE}{len(self.async_tests)} asynchronous tests detected{colors.LIGHT_CYAN}')
+        test_rest_api_logger.info(
+            f'{colors.LIGHT_PURPLE}Total tests: {len(self.sync_tests) + len(self.async_tests)}{colors.LIGHT_CYAN}')
 
     @staticmethod
     def console_branding():
@@ -124,9 +145,9 @@ class Runner:
                         || ............  T E S T - S U M M A R Y   ............. ||
                         || ..................................................... ||
                           =======================================================
-                        {colors.LIGHT_CYAN}Test Status: {colors.LIGHT_PURPLE}{'PASS' if report.summary.status else 'FAIL'}
-                        {colors.LIGHT_CYAN}Total tests: {colors.LIGHT_PURPLE}{report.summary.total}
-                        {colors.LIGHT_CYAN}Test Duration: {colors.LIGHT_PURPLE}{report.summary.duration}''')
+                        {colors.LIGHT_CYAN}Test Status: {colors.LIGHT_PURPLE}{'PASS' if report.summary.test.status else 'FAIL'}
+                        {colors.LIGHT_CYAN}Total tests: {colors.LIGHT_PURPLE}{report.summary.tests.total}
+                        {colors.LIGHT_CYAN}Test Duration: {colors.LIGHT_PURPLE}{report.summary.test.duration}''')
 
     async def run_testsuite(self):
         """
@@ -146,25 +167,32 @@ class Runner:
         AioHttpSession.set(session=session)
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Created aiohttp client session{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting async test execution{colors.LIGHT_CYAN}")
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting sync test execution{colors.LIGHT_CYAN}")
         # Test start time
         start = datetime.now()
+        # Run synchronous tests before async tests
+        for sync_test in (sync_test for sync_test in self.sync_tests):
+            await sync_test()
+        # Logging
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed sync test execution{colors.LIGHT_CYAN}")
+        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting async test execution{colors.LIGHT_CYAN}")
         # Running Tasks Concurrently (Execute async functions concurrently)
         # Run all async functions from tests list in parallel
-        await asyncio.gather(*[test() for test in self.tests], return_exceptions=False)
+        await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
         # Test end time
         end = datetime.now()
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed async test execution{colors.LIGHT_CYAN}")
         # Update report summary details
-        report.summary.duration = end - start
-        report.summary.start = start.strftime('%Y-%m-%d %H:%M:%S')
-        report.summary.end = end.strftime('%Y-%m-%d %H:%M:%S')
-        report.summary.status = 'PASS' if report.summary.status else 'FAIL'
+        report.summary.test.duration = str(end - start)
+        report.summary.test.start = start.strftime('%Y-%m-%d %H:%M:%S')
+        report.summary.test.end = end.strftime('%Y-%m-%d %H:%M:%S')
         # Close the aiohttp session after completing the test
         await AioHttpSession().close()
         # Summary Result in console
         Runner.console_summary()
+        # Save the report
+        report.save()
 
     def run(self, path: str):
         """
@@ -175,7 +203,7 @@ class Runner:
                 runner.run(path="<Test Suite Path>")
         This is also used by package in __main__.py to enable command line test execution
         example:
-                python -m test_rest_api run "<Test Suite Path>"
+                python -m test_rest_api -t "<Test Suite Path>"
         """
         try:
             # Validate if the path provided for test suite file/folder is valid

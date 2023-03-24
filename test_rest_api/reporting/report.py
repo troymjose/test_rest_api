@@ -1,6 +1,5 @@
 from typing import Dict
 from dataclasses import dataclass, asdict
-
 from test_rest_api import BugPriority
 
 
@@ -24,6 +23,7 @@ class ErrorType:
 class ReportTestResult:
     name: str
     desc: str
+    is_async: bool
     testsuite: str
     status: str
     details: str
@@ -47,6 +47,8 @@ class ReportTestSummaryTest:
 @dataclass
 class ReportTestSummaryTests:
     total: int
+    sync_tests: int
+    async_tests: int
     success: int
     fail: int
     error: int
@@ -75,27 +77,38 @@ class ReportTestSummaryErrors:
 @dataclass
 class ReportTestSummary:
     test: ReportTestSummaryTest = ReportTestSummaryTest(status=True, start='', end='', duration=0, tags=())
-    tests: ReportTestSummaryTests = ReportTestSummaryTests(total=0, success=0, fail=0, error=0, disable=0, skip=0)
+    tests: ReportTestSummaryTests = ReportTestSummaryTests(total=0, async_tests=0, sync_tests=0, success=0, fail=0,
+                                                           error=0, disable=0, skip=0)
     bugs: ReportTestSummaryBugs = ReportTestSummaryBugs(total=0, low=0, minor=0, major=0, critical=0, blocker=0)
     errors: ReportTestSummaryErrors = ReportTestSummaryErrors(total=0, restapi_creation=0, restapi_send=0, unexpected=0)
 
 
 class Report:
     def __init__(self):
-        self.tests: Dict[str:ReportTestResult] = {}
+        self.sync_tests: Dict[str:ReportTestResult] = {}
+        self.async_tests: Dict[str:ReportTestResult] = {}
         self.summary: ReportTestSummary = ReportTestSummary()
 
     def add_test_result(self, test_result: ReportTestResult):
         # Add the test result to tests instance variable
         if test_result.status != TestStatus.DISABLE:
-            self.tests[test_result.name] = test_result
+            if test_result.is_async:
+                self.async_tests[test_result.name] = test_result
+            else:
+                self.sync_tests[test_result.name] = test_result
         # Update the total tests count
         self.summary.tests.total += 1
+        # Update the sync and async tests count
+        if test_result.is_async:
+            self.summary.tests.async_tests += 1
+        else:
+            self.summary.tests.sync_tests += 1
         # Update the overall test summary status if failed (It was initialized as True)
         if test_result.status == TestStatus.FAIL or test_result.status == TestStatus.ERROR:
             self.summary.test.status = False
         # Update the total test status count
         if test_result.status in asdict(TestStatus()).values():
+            test_result.status = 'success' if test_result.status == TestStatus.PASS else test_result.status
             setattr(self.summary.tests, test_result.status,
                     getattr(self.summary.tests, test_result.status) + 1)
         # Update the total bug and bug priority count
@@ -108,6 +121,13 @@ class Report:
             self.summary.errors.total += 1
             setattr(self.summary.errors, test_result.error_type,
                     getattr(self.summary.errors, test_result.error_type) + 1)
+
+    def save(self):
+        result = {}
+        import json
+        data = asdict(self.summary)
+        with open('/Users/trjose/Documents/Troy/Personal/Test Rest Framework/result.json', 'w') as f:
+            json.dump(data, f)
 
 
 report = Report()
