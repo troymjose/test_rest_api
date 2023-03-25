@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>REPORT</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div id="root-div" style="text-align: center">
+    <!-- Top Nav bar -->
+    <nav class="navbar fixed-top bg-dark-subtle" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">&nbsp;&nbsp; <i class="bi bi-columns-gap"></i>&nbsp;&nbsp;T E S T - R E S T
+                - A P I </a>
+            <form class="d-flex" role="search">
+                <a class="text-light" type="submit"
+                ><i class="bi bi-info-square"></i
+                ></a>
+            </form>
+        </div>
+    </nav>
+    <!--    <br/>-->
+    <!--    <br/>-->
+    <!--    <br/>-->
+    <!-- Summary Results -->
+    <div id="summary-div" style="padding: 30px; text-align: left">
+        <br/>
+        <br/>
+        <br/>
+        <h4 class="text-body-secondary"><i class="bi bi-clipboard2-data-fill"></i>&nbsp;&nbsp;Summary
+        </h4>
+        <hr class="border border-secondary border-2 opacity-50"/>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col">
+                <!-- Run Results -->
+                <div class="card h-100">
+                    <div class="card-header"><h5 class="card-title text-body-secondary"><i
+                            class="bi bi-speedometer"></i>&nbsp;&nbsp;Run</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td>Status</td>
+                                {%+ if summary.test.status %}
+                                <td><span class="badge text-bg-light rounded-pill"
+                                          style="color: green !important;">PASS</span></td>
+                                {% else %}
+                                <td><span class="badge text-bg-light rounded-pill"
+                                          style="color: red !important;">FAIL</span></td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Start</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.test.start }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>End</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.test.end }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.test.duration }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tags</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ '#'.join(summary.test.tags) if summary.test.tags else '#ALL' }}</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <canvas id="runDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Status Results -->
+                <div class="card h-100">
+                    <div class="card-header"><h5 class="card-title text-body-secondary"><i
+                            class="bi bi-ui-checks-grid"></i>&nbsp;&nbsp;Status</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td>Total</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.total }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Success</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.success }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fail</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.fail }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Error</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.error }}</span></td>
+                            </tr>
+                            <tr>
+                                <td>Disable</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.disable }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Skip</td>
+                                <td><span class="badge text-bg-light rounded-pill">{{ summary.tests.skip }}</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <canvas id="statusDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Status Bugs -->
+                <div class="card h-100">
+                    <div class="card-header"><h5 class="card-title text-body-secondary"><i
+                            class="bi bi-bug-fill"></i>&nbsp;&nbsp;Bugs
+                    </h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td>Total</td>
+                                <td><span class="badge text-bg-light rounded-pill">133</span></td>
+                            </tr>
+                            <tr>
+                                <td>Low</td>
+                                <td><span class="badge text-bg-light rounded-pill">12</span></td>
+                            </tr>
+                            <tr>
+                                <td>Minor</td>
+                                <td><span class="badge text-bg-light rounded-pill">2</span></td>
+                            </tr>
+                            <tr>
+                                <td>Major</td>
+                                <td><span class="badge text-bg-light rounded-pill">36</span></td>
+                            </tr>
+                            <tr>
+                                <td>Critical</td>
+                                <td><span class="badge text-bg-light rounded-pill">89</span></td>
+                            </tr>
+                            <tr>
+                                <td>Blocker</td>
+                                <td><span class="badge text-bg-light rounded-pill">98</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <canvas id="bugDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <!-- Status Errors -->
+                <div class="card h-100">
+                    <div class="card-header"><h5 class="card-title text-body-secondary"><i
+                            class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;Errors</h5></div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td>Total</td>
+                                <td><span class="badge text-bg-light rounded-pill">23</span></td>
+                            </tr>
+                            <tr>
+                                <td>Restapi creation</td>
+                                <td><span class="badge text-bg-light rounded-pill">12</span></td>
+                            </tr>
+                            <tr>
+                                <td>Restapi send</td>
+                                <td><span class="badge text-bg-light rounded-pill">12:21:24:3 313 212 22</span></td>
+                            </tr>
+                            <tr>
+                                <td>Unexpected</td>
+                                <td><span class="badge text-bg-light rounded-pill">12:21:24:3 313 212 22</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <canvas id="errorDoughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Synchronous Tests -->
+    <div id="sync-div" style="padding: 30px; text-align: left">
+        <br/>
+        <br/>
+        <br/>
+        <h4 class="text-body-secondary"><i class="bi bi-list-ol"></i>&nbsp;&nbsp;Synchronous Tests
+        </h4>
+        <hr class="border border-secondary border-2 opacity-50"/>
+        <!-- Synchronous Test Result Accordion -->
+        <div class="accordion" id="syncTestResultAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                        Accordion Item #1
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Asynchronous Tests -->
+    <div id="async-div" style="padding: 30px; text-align: left">
+        <br/>
+        <br/>
+        <br/>
+        <h4 class="text-body-secondary"><i class="bi bi-list-stars"></i>&nbsp;&nbsp;Asynchronous Tests
+        </h4>
+        <hr class="border border-secondary border-2 opacity-50"/>
+        <!-- Asynchronous Test Result Accordion -->
+        <div class="accordion" id="asyncTestResultAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                        Accordion Item #1
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <strong>This is the first item's accordion body.</strong> It is shown by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the
+                        collapse plugin adds the appropriate classes that we use to style each element. These classes
+                        control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                        modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                        that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                        does limit overflow.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Floating button for navigating summary, sync & async sections -->
+<div
+        class="btn-group-vertical"
+        role="group"
+        aria-label="Vertical button group"
+        style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background-color: #ffffff;
+        opacity: 0.4;
+        z-index: 50;
+        border-radius: 50px;
+      "
+>
+    <a role="button" class="btn btn-link btn-lg" href="#root-div" style="text-decoration: none; color: black;"><b><i
+            class="bi bi-clipboard2-data-fill" style="font-size: xx-large;"></i></b></a>
+    <a role="button" class="btn btn-link btn-lg" href="#sync-div" style="text-decoration: none; color: black"><b><i
+            class="bi bi-list-ol" style="font-size: xx-large;"></i></b></a>
+    <a role="button" class="btn btn-link btn-lg" href="#async-div" style="text-decoration: none; color: black"><b><i
+            class="bi bi-list-stars" style="font-size: xx-large;"></i></b></a>
+</div>
+<!-- Bootstrap cdn -->
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"
+></script>
+<!-- Chart.js cdn -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Summary Run Doughnut Chart -->
+<script>
+      const runDoughnutChart = document.getElementById("runDoughnutChart");
+      new Chart(runDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Synchronous", "Asynchronous"],
+          datasets: [
+            {
+              label: "Tests",
+              data: [300, 50],
+              backgroundColor: [
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<!-- Summary Status Doughnut Chart -->
+<script>
+      const statusDoughnutChart = document.getElementById(
+        "statusDoughnutChart"
+      );
+      new Chart(statusDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Success", "Fail", "Error", "Disable", "Skip"],
+          datasets: [
+            {
+              label: "Status",
+              data: [300, 50, 34, 23, 12],
+              backgroundColor: [
+                "rgba(75, 192, 192,0.8)",
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(255, 205, 86, 0.8)",
+                "rgba(201, 203, 207, 0.8)",
+                "rgba(54, 162, 235, 0.8)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<!-- Summary Bug Doughnut Chart -->
+<script>
+      const bugDoughnutChart = document.getElementById("bugDoughnutChart");
+      new Chart(bugDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Low", "Minor", "Major", "Critical", "Blocker"],
+          datasets: [
+            {
+              label: "Priority",
+              data: [300, 50, 34, 23, 12],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.1)",
+                "rgba(255, 99, 132, 0.3)",
+                "rgba(255, 99, 132, 0.55)",
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(255, 99, 132, 1)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<!-- Summary Bug Doughnut Chart -->
+<script>
+      const errorDoughnutChart = document.getElementById("errorDoughnutChart");
+      new Chart(errorDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Restapi creation", "Restapi send", "Unexpected"],
+          datasets: [
+            {
+              label: "Type",
+              data: [300, 50, 34],
+              backgroundColor: [
+              "rgba(255, 205, 86, 0.3)",
+              "rgba(255, 205, 86, 0.7)",
+              "rgba(255, 205, 86, 1)"
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
