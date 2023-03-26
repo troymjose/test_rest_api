@@ -297,14 +297,32 @@
         <br />
         <br />
         <br />
-        <h4 class="text-body-secondary">
-          <i class="bi bi-list-ol"></i>&nbsp;&nbsp;Synchronous Tests
-        </h4>
+        <nav
+          class="navbar bg-body-tertiary"
+          style="background-color: white !important"
+        >
+          <div class="container-fluid">
+            <h4 class="text-body-secondary">
+              <i class="bi bi-list-ol"></i>&nbsp;&nbsp;Synchronous Tests
+            </h4>
+            <form class="d-flex" role="search">
+              <input
+                id="sync_test_search"
+                class="form-control me-4"
+                type="search"
+                placeholder="Search"
+              />
+            </form>
+          </div>
+        </nav>
         <hr class="border border-secondary border-2 opacity-50" />
         <!-- Synchronous Test Result Accordion -->
         <div class="accordion" id="syncTestResultAccordion">
           {% for sync_test in sync_tests %}
-          <div class="accordion-item">
+          <div
+            class="accordion-item"
+            id="{{ sync_test.name.replace(' ','').replace('(','').replace(')','') }}"
+          >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
@@ -350,14 +368,32 @@
         <br />
         <br />
         <br />
-        <h4 class="text-body-secondary">
-          <i class="bi bi-list-stars"></i>&nbsp;&nbsp;Asynchronous Tests
-        </h4>
+        <nav
+          class="navbar bg-body-tertiary"
+          style="background-color: white !important"
+        >
+          <div class="container-fluid">
+            <h4 class="text-body-secondary">
+              <i class="bi bi-list-stars"></i>&nbsp;&nbsp;Asynchronous Tests
+            </h4>
+            <form class="d-flex" role="search">
+              <input
+                id="async_test_search"
+                class="form-control me-4"
+                type="search"
+                placeholder="Search"
+              />
+            </form>
+          </div>
+        </nav>
         <hr class="border border-secondary border-2 opacity-50" />
         <!-- Asynchronous Test Result Accordion -->
         <div class="accordion" id="asyncTestResultAccordion">
           {% for async_test in async_tests %}
-          <div class="accordion-item">
+          <div
+            class="accordion-item"
+            id="{{ async_test.name.replace(' ','').replace('(','').replace(')','') }}"
+          >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
@@ -540,6 +576,60 @@
           ],
         },
       });
+    </script>
+    <!-- Search sync tests -->
+    <script>
+      (function () {
+        var searchTerm, panelContainerId;
+        // Create a new contains that is case insensitive
+        $.expr[":"].containsCaseInsensitive = function (n, i, m) {
+          return (
+            jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0
+          );
+        };
+        $("#sync_test_search").on("change keyup paste click", function () {
+          searchTerm = $(this).val();
+          $("#syncTestResultAccordion > .accordion-item").each(function () {
+            panelContainerId = "#" + $(this).attr("id");
+            $(
+              panelContainerId +
+                ":not(:containsCaseInsensitive(" +
+                searchTerm +
+                "))"
+            ).hide();
+            $(
+              panelContainerId + ":containsCaseInsensitive(" + searchTerm + ")"
+            ).show();
+          });
+        });
+      })();
+    </script>
+    <!-- Search async tests -->
+    <script>
+      (function () {
+        var searchTerm, panelContainerId;
+        // Create a new contains that is case insensitive
+        $.expr[":"].containsCaseInsensitive = function (n, i, m) {
+          return (
+            jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0
+          );
+        };
+        $("#async_test_search").on("change keyup paste click", function () {
+          searchTerm = $(this).val();
+          $("#asyncTestResultAccordion > .accordion-item").each(function () {
+            panelContainerId = "#" + $(this).attr("id");
+            $(
+              panelContainerId +
+                ":not(:containsCaseInsensitive(" +
+                searchTerm +
+                "))"
+            ).hide();
+            $(
+              panelContainerId + ":containsCaseInsensitive(" + searchTerm + ")"
+            ).show();
+          });
+        });
+      })();
     </script>
   </body>
 </html>

@@ -51,7 +51,7 @@ def test(*, name="", desc="", enabled=True, tags=(), execution_order='z'):
                         # Log the result
                         test_rest_api_logger.info(f"{colors.LIGHT_GREEN}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the test status and details
-                        test_status, test_details = TestStatus.PASS, 'Testcase successfully completed with zero errors'
+                        test_status, test_details = TestStatus.PASS, 'Success !'
                     except RestApiCreationException as rest_api_creation_exc:
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")

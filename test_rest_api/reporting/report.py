@@ -1,8 +1,9 @@
 import os
-import json
+import pathlib
 from typing import List
 from datetime import datetime
 from dataclasses import dataclass, asdict
+from jinja2 import Environment, FileSystemLoader
 from test_rest_api import BugPriority
 
 
@@ -91,6 +92,7 @@ class Report:
         self.sync_tests: List[ReportTestResult] = []
         self.async_tests: List[ReportTestResult] = []
         self.summary: ReportTestSummary = ReportTestSummary()
+        self.template = Report.create_jija2_template()
 
     def add_test_result(self, test_result: ReportTestResult):
         """
@@ -133,16 +135,31 @@ class Report:
         """
         Save the test report to the disk
         """
-        # Initialise result dictionary
-        result = {}
-        # Update the result dictionary
-        result['summary'] = asdict(self.summary)
-        result['sync_tests'] = [asdict(test) for test in self.sync_tests]
-        result['async_tests'] = [asdict(test) for test in self.async_tests]
-        # Save to json file
-        file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}.json"
+        # Render the jinja report template html file
+        rendered_html = self.template.render(summary=self.summary,
+                                             sync_tests=self.sync_tests,
+                                             async_tests=self.async_tests)
+        # Create html report file name using current datetime details
+        file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.html"
+        # Save to html file
         with open(os.path.join(path, file_name), 'w') as f:
-            json.dump(result, f)
+            f.write(rendered_html)
+
+    @staticmethod
+    def create_jija2_template():
+        """
+        Jinja2 initialisation
+        """
+        # Template html file name
+        report_template_file_name = 'report.html'
+        # Create loader with the current script path
+        file_system_loader = FileSystemLoader(searchpath=pathlib.Path(__file__).parent.resolve())
+        # Create environment using the above loader
+        environment = Environment(loader=file_system_loader)
+        # Fetch the template file
+        template = environment.get_template(report_template_file_name)
+        # Return the template object
+        return template
 
 
 report = Report()
