@@ -329,6 +329,27 @@
                 type="search"
                 placeholder="Search"
               />
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic outlined example"
+              >
+                <button
+                  id="sync_test_open_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-down-circle-fill"></i>
+                </button>
+                <button
+                  id="sync_test_close_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-up-circle-fill"></i>
+                </button>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </form>
           </div>
         </nav>
@@ -491,6 +512,27 @@
                 type="search"
                 placeholder="Search"
               />
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic outlined example"
+              >
+                <button
+                  id="async_test_open_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-down-circle-fill"></i>
+                </button>
+                <button
+                  id="async_test_close_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-up-circle-fill"></i>
+                </button>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </form>
           </div>
         </nav>
@@ -829,6 +871,29 @@
           });
         });
       })();
+    </script>
+    <!-- Open All & Close All for Accordion -->
+    <script>
+      $("#sync_test_open_all").on("click", function () {
+        $(
+          "#syncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("show");
+      });
+      $("#sync_test_close_all").on("click", function () {
+        $(
+          "#syncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("hide");
+      });
+      $("#async_test_open_all").on("click", function () {
+        $(
+          "#asyncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("show");
+      });
+      $("#async_test_close_all").on("click", function () {
+        $(
+          "#asyncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("hide");
+      });
     </script>
   </body>
 </html>
