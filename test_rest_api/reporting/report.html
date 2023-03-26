@@ -24,7 +24,10 @@
   <body>
     <div id="root-div" style="text-align: center">
       <!-- Top Nav bar -->
-      <nav class="navbar fixed-top bg-dark-subtle" data-bs-theme="dark">
+      <nav
+        class="navbar fixed-top bg-dark-subtle shadow-lg p-3 mb-5 bg-body-tertiary"
+        data-bs-theme="dark"
+      >
         <div class="container-fluid">
           <a class="navbar-brand"
             >&nbsp;&nbsp; <i class="bi bi-columns-gap"></i>&nbsp;&nbsp;T E S T -
@@ -106,8 +109,8 @@
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ '#'.join(summary.test.tags) if summary.test.tags
-                          else '#ALL' }}</span
+                          >{{ '#' + '#'.join(summary.test.tags) if
+                          summary.test.tags else '#ALL' }}</span
                         >
                       </td>
                     </tr>
@@ -201,38 +204,48 @@
                       <td>Total</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >133</span
+                          >{{ summary.bugs.total }}</span
                         >
                       </td>
                     </tr>
                     <tr>
                       <td>Low</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">12</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.bugs.low }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Minor</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">2</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.bugs.minor }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Major</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">36</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.bugs.major }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Critical</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">89</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.bugs.critical }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Blocker</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">98</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.bugs.blocker }}</span
+                        >
                       </td>
                     </tr>
                   </tbody>
@@ -257,20 +270,24 @@
                     <tr>
                       <td>Total</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">23</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.total }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Restapi creation</td>
                       <td>
-                        <span class="badge text-bg-light rounded-pill">12</span>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.restapi_creation }}</span
+                        >
                       </td>
                     </tr>
                     <tr>
                       <td>Restapi send</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >12:21:24:3 313 212 22</span
+                          >{{ summary.errors.restapi_send }}</span
                         >
                       </td>
                     </tr>
@@ -278,7 +295,7 @@
                       <td>Unexpected</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >12:21:24:3 313 212 22</span
+                          >{{ summary.errors.unexpected }}</span
                         >
                       </td>
                     </tr>
@@ -396,7 +413,8 @@
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.tags }}</span
+                          >{{ '#' + '#'.join(sync_test.tags) if sync_test.tags
+                          else '#ALL' }}</span
                         >
                       </td>
                     </tr>
@@ -557,7 +575,8 @@
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.tags }}</span
+                          >{{ '#' + '#'.join(async_test.tags) if async_test.tags
+                          else '#ALL' }}</span
                         >
                       </td>
                     </tr>
@@ -625,7 +644,7 @@
         bottom: 0;
         right: 0;
         background-color: #ffffff;
-        opacity: 0.4;
+        opacity: 0.5;
         z-index: 50;
         border-radius: 50px;
       "
@@ -674,7 +693,7 @@
           datasets: [
             {
               label: "Tests",
-              data: [300, 50],
+              data: [{{ summary.tests.sync_tests }}, {{ summary.tests.async_tests }}],
               backgroundColor: [
                 "rgba(54, 162, 235, 0.5)",
                 "rgba(153, 102, 255, 0.5)",
@@ -697,7 +716,7 @@
           datasets: [
             {
               label: "Status",
-              data: [300, 50, 34, 23, 12],
+              data: [{{ summary.tests.success }}, {{ summary.tests.fail }}, {{ summary.tests.error }}, {{ summary.tests.disable }}, {{ summary.tests.skip }}],
               backgroundColor: [
                 "rgba(75, 192, 192,0.8)",
                 "rgba(255, 99, 132, 0.8)",
@@ -721,7 +740,7 @@
           datasets: [
             {
               label: "Priority",
-              data: [300, 50, 34, 23, 12],
+              data: [{{ summary.bugs.low }}, {{ summary.bugs.minor }}, {{ summary.bugs.major }}, {{ summary.bugs.critical }}, {{ summary.bugs.blocker }}],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.1)",
                 "rgba(255, 99, 132, 0.3)",
@@ -735,7 +754,7 @@
         },
       });
     </script>
-    <!-- Summary Bug Doughnut Chart -->
+    <!-- Summary Error Doughnut Chart -->
     <script>
       const errorDoughnutChart = document.getElementById("errorDoughnutChart");
       new Chart(errorDoughnutChart, {
@@ -745,7 +764,7 @@
           datasets: [
             {
               label: "Type",
-              data: [300, 50, 34],
+              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
                 "rgba(255, 205, 86, 0.3)",
                 "rgba(255, 205, 86, 0.7)",
