@@ -292,6 +292,14 @@
                       </td>
                     </tr>
                     <tr>
+                      <td>Global Variables</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.global_variables }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
                       <td>Unexpected</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
@@ -802,15 +810,16 @@
       new Chart(errorDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Restapi creation", "Restapi send", "Unexpected"],
+          labels: ["Restapi creation", "Restapi send", "Global variables", "Unexpected"],
           datasets: [
             {
               label: "Type",
-              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.unexpected }}],
+              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.global_variables }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
-                "rgba(255, 205, 86, 0.3)",
-                "rgba(255, 205, 86, 0.7)",
-                "rgba(255, 205, 86, 1)",
+                "rgba(255, 205, 86, 0.1)",
+                "rgba(255, 205, 86, 0.4)",
+                "rgba(255, 205, 86, 0.6)",
+                "rgba(255, 205, 86, 1)"
               ],
               hoverOffset: 4,
             },

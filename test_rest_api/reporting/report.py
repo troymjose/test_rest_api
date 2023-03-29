@@ -4,7 +4,7 @@ from typing import List
 from datetime import datetime
 from dataclasses import dataclass, asdict
 from jinja2 import Environment, FileSystemLoader
-from test_rest_api import BugPriority
+from test_rest_api.testing.bug import BugPriority
 
 
 @dataclass
@@ -20,6 +20,7 @@ class TestStatus:
 class ErrorType:
     RESTAPI_CREATION: str = 'restapi_creation'
     RESTAPI_SEND: str = 'restapi_send'
+    GLOBAL_VARIABLES: str = 'global_variables'
     UNEXPECTED: str = 'unexpected'
 
 
@@ -75,6 +76,7 @@ class ReportTestSummaryErrors:
     total: int
     restapi_creation: int
     restapi_send: int
+    global_variables: int
     unexpected: int
 
 
@@ -84,7 +86,8 @@ class ReportTestSummary:
     tests: ReportTestSummaryTests = ReportTestSummaryTests(total=0, async_tests=0, sync_tests=0, success=0, fail=0,
                                                            error=0, disable=0, skip=0)
     bugs: ReportTestSummaryBugs = ReportTestSummaryBugs(total=0, low=0, minor=0, major=0, critical=0, blocker=0)
-    errors: ReportTestSummaryErrors = ReportTestSummaryErrors(total=0, restapi_creation=0, restapi_send=0, unexpected=0)
+    errors: ReportTestSummaryErrors = ReportTestSummaryErrors(total=0, restapi_creation=0, restapi_send=0,
+                                                              global_variables=0, unexpected=0)
 
 
 class Report:
