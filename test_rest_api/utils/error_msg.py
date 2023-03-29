@@ -20,6 +20,10 @@ class ErrorMsg:
 ERROR! Please provide a valid path for the test suite
 {Docs.commands}
 """
+    INVALID_ENV_PATH: str = f"""
+ERROR! Please provide a valid path for .env file
+{Docs.commands}
+"""
     INVALID_TEST_RESULT_PATH: str = f"""
 ERROR! Please provide a valid path for the test result
 {Docs.commands}
@@ -31,6 +35,9 @@ ERROR! Please provide a valid tag list
     INVALID_COMMAND: str = f"""
 ERROR! Please provide a valid command
 {Docs.commands}
+"""
+    EMPTY_TESTS: str = f"""
+No Tests Found!
 """
     INVALID_REST_API: str = """
 Invalid Rest Api
