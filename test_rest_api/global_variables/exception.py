@@ -4,7 +4,7 @@ class VariableNotFoundException(Exception):
     """
 
     def __init__(self, *, name):
-        self.message = f"Variable not found.\n'{name}' is not present in Global variables"
+        self.message = f"Variable not found.\n'{name}' is not present in global variables"
         super().__init__(self.message)
 
 
@@ -14,5 +14,5 @@ class ConstantSetException(Exception):
     """
 
     def __init__(self, *, name):
-        self.message = f"Constant variables cannot be updated.\n'{name}' is a constant Global variable"
+        self.message = f"Constant global variables cannot be updated.\n'{name}' is a constant global variable"
         super().__init__(self.message)

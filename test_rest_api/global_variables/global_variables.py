@@ -16,7 +16,7 @@ class Variable:
 
 class GlobalVariables:
     """
-    Global variables can be used for parameterization and correlation
+    Global variables can be used for parameterization and correlation in tests
     """
 
     @classmethod
