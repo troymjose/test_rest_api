@@ -10,18 +10,22 @@ class RestApiCreationException(TestRestApiException):
         self.exc = msg
         self.error_msg = """
 Rest api creation failed
-Tip: Refer the example below !
 
 Example Code
+------------
+(Example 1)
 from test_rest_api import RestApi
 my_api = RestApi(
-                url="https://www.MyDomain.com/",
-                parameters={"param1":"val1","param2":"val2"},
-                headers={"Content-Type": "application/json"},
-                body={}
+                url = "https://www.MyDomain.com/",
+                parameters = { "param1" : "val1", "param2" : "val2" },
+                headers = { "Content-Type" : "application/json" },
+                body = {}
                 )
 
 Note: Only "url" is mandatory and rest are optional
+Default parameters: {}
+Default headers: {}
+Default body: {}
 """
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)
         super().__init__(self.message)
@@ -36,19 +40,22 @@ class RestApiSendException(TestRestApiException):
         self.exc = msg
         self.error_msg = f"""
 Rest api request failed
-Tip: Refer the example below !
 
-Example Code (All the below code does the same functionality but different with syntax):
-
+Example Code
+------------
+(Example 1)
 from my_api_file import my_api
 response = await my_api.send(method='get')
-or
+
+(Example 2)
 from my_api_file import my_api
 response = await my_api.send(method=my_api.METHODS.GET)
-or
+
+(Example 3)
 from my_api_file import my_api
 response = await my_api.get()
 
+All the above example codes does the same functionality but different with syntax
 Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)

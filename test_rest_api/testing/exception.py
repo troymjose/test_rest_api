@@ -10,9 +10,10 @@ class BugCreationException(TestRestApiException):
         self.exc = msg
         self.error_msg = """
 Bug creation failed
-Tip: Refer the example below !
 
 Example Code
+------------
+(Example 1)
 from test_rest_api import Bug
 Bug(message="my bug msg",
     priority=Bug.PRIORITY.CRITICAL,
@@ -20,11 +21,11 @@ Bug(message="my bug msg",
     expected_result="my expected result",
     steps_to_reproduce="detailed steps to reproduce")
 
-Note: All the arguments are optional.
-
+(Example 2)
 from test_rest_api import Bug
 Bug()
 
+All the arguments are optional.
 Default bug priority: 'low'
 Supported bug priorities: 'low', 'minor', 'major', 'critical', 'blocker'
 """
