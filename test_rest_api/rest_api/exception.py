@@ -43,9 +43,8 @@ Example Code (All the below code does the same functionality but different with 
 from my_api_file import my_api
 response = await my_api.send(method='get')
 or
-from test_rest_api import RestApi
 from my_api_file import my_api
-response = await my_api.send(method=RestApi.METHOD.GET)
+response = await my_api.send(method=my_api.METHODS.GET)
 or
 from my_api_file import my_api
 response = await my_api.get()

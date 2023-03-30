@@ -63,23 +63,6 @@ Please return a valid dictionary/json from @rest_api decorated api functions
 Invalid Request Method
 Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
-    REST_API_SEND_EXCEPTION: str = f"""
-Rest api request failed
-Tip: Refer the example below !
-
-Example Code (All the below code does the same functionality but different with syntax):
-from test_rest_api import RestApiMethod
-from my_api_file import my_api
-response = await my_api.send(method=RestApiMethod.GET)
-or
-from my_api_file import my_api
-response = await my_api.send(method='get')
-or
-from my_api_file import my_api
-response = await my_api.get()
-
-Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
-"""
     UNKNOWN_EXCEPTION: str = f"""
 Sorry Something went wrong
 """

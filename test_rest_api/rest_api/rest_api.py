@@ -1,43 +1,94 @@
-import traceback
-from dataclasses import dataclass
-from aiohttp import ClientResponse
+from dataclasses import asdict
 from aiohttp.client_exceptions import ClientConnectorError, InvalidURL, ContentTypeError
 from test_rest_api.utils.error_msg import ErrorMsg
+from test_rest_api.rest_api.method import RestApiMethod
 from test_rest_api.utils.aiohttp_session import AioHttpSession
-from test_rest_api.rest_api.exception import RestApiSendException
+from test_rest_api.rest_api.exception import RestApiSendException, RestApiCreationException
+from test_rest_api.rest_api.response import RestApiResponse, ClientResponse
 
 
-class RestApiMethod:
-    GET: str = 'get'
-    POST: str = 'post'
-    PUT: str = 'put'
-    PATCH: str = 'patch'
-    DELETE: str = 'delete'
-    HEAD: str = 'head'
-    OPTIONS: str = 'options'
+class RestApiMeta(type):
+    """
+    Meta class for raising RestApiCreationException
+    """
+
+    # Calls for each instance creation
+    def __call__(cls, *args, **kwargs):
+        try:
+            cls._instance = super().__call__(*args, **kwargs)
+        except Exception as e:
+            # Catch python class instance creation exceptions
+            raise RestApiCreationException(msg=str(e).replace('RestApi.__init__()', '').strip().capitalize())
+        # Validate _instance url, parameters, headers and body
+        cls._validate()
+        # Return the instance
+        return cls._instance
+
+    def _validate(self):
+        """
+        Validate url, parameters, headers and body
+        """
+        self._validate_url()
+        self._validate_parameters_and_headers()
+        self._validate_body()
+
+    def _validate_url(self):
+        """
+        Checks
+        ------
+        1. Valid string
+        """
+        if not isinstance(self._instance.url, str):
+            raise RestApiCreationException(msg='Invalid data type for url. Please provide a valid string')
+
+    def _validate_parameters_and_headers(self):
+        """
+        Checks
+        ------
+        1. Valid dictionary
+        2. Valid dictionary schema
+        """
+        error = 'Please provide a valid dictionary, with both dictionary key and dictionary value as string type'
+        for item in ('parameters', 'headers'):
+            if not isinstance(getattr(self._instance, item), dict):
+                raise RestApiCreationException(msg=f'Invalid data type for {item}. {error}')
+            if not all([isinstance(key, str) and isinstance(key, str) for key, value in
+                        getattr(self._instance, item).items()]):
+                raise RestApiCreationException(msg=f'Invalid dictionary for {item}. {error}')
+
+    def _validate_body(self):
+        """
+        Checks
+        ------
+        1. Valid dictionary
+        """
+        if not isinstance(self._instance.body, dict):
+            raise RestApiCreationException(msg='Invalid data type for body. Please provide a valid dictionary')
 
 
-@dataclass(frozen=True)
-class RestApiResponse:
-    status_code: int
-    content_type: str
-    body: dict
-    headers: dict
-    obj: ClientResponse
+class RestApi(metaclass=RestApiMeta):
+    """
+    Class for creating rest api instances
+    """
+    # Create a frozen instance of RestApiMethod, so that it can be used as a constant in code
+    METHODS = RestApiMethod()
 
-
-class RestApi:
-    def __init__(self, name: str, module: str, url: str, parameters: dict = {}, headers: list = {}, body: dict = {}):
+    def __init__(self, url: str, parameters: dict = {}, headers: dict = {}, body: dict = {}):
         # Rest api variables
         self.url = url
         self.parameters = parameters
         self.headers = headers
         self.body = body
-        # File variables
-        self.name = name
-        self.module = module
         # Aiohttp variables
         self._session = AioHttpSession()
+
+    def __str__(self):
+        return f"""
+Url:        {self.url}
+Headers:    {self.headers}
+Parameters: {self.parameters}
+Body:       {self.body}
+"""
 
     async def send(self, method: str):
         """
@@ -47,26 +98,22 @@ class RestApi:
             # Convert to lowercase
             method = method.lower()
             # Check if the method is valid
-            if method not in {'get', 'post', 'put', 'patch', 'delete', 'head', 'options'}:
+            if method not in asdict(self.METHODS).values():
                 raise Exception(ErrorMsg.INVALID_METHOD)
             # Send the request
             async with getattr(self._session, method)(url=self.url,
                                                       params=self.parameters,
                                                       headers=self.headers,
-                                                      data=self.body) as response:
+                                                      json=self.body) as response:
                 return await self._create_response(response=response)
         except ClientConnectorError as exc:
-            raise RestApiSendException(name=self.name, module=self.module, parent_exception=str(exc),
-                                       traceback=traceback.format_exc())
+            raise RestApiSendException(msg=str(exc))
         except InvalidURL as exc:
-            raise RestApiSendException(name=self.name, module=self.module, parent_exception='Invalid ULR',
-                                       traceback=traceback.format_exc())
+            raise RestApiSendException(msg='Invalid ULR')
         except ContentTypeError as exc:
-            raise RestApiSendException(name=self.name, module=self.module, parent_exception=str(exc),
-                                       traceback=traceback.format_exc())
+            raise RestApiSendException(msg=str(exc))
         except Exception as exc:
-            raise RestApiSendException(name=self.name, module=self.module, parent_exception=str(exc),
-                                       traceback=traceback.format_exc())
+            raise RestApiSendException(msg=str(exc))
 
     async def _create_response(self, response: ClientResponse) -> RestApiResponse:
         """
@@ -87,40 +134,40 @@ class RestApi:
         """
         Send HTTP GET Request
         """
-        return await self.send(method=RestApiMethod.GET)
+        return await self.send(method=self.METHODS.GET)
 
     async def post(self):
         """
         Send HTTP POST Request
         """
-        return await self.send(method=RestApiMethod.POST)
+        return await self.send(method=self.METHODS.POST)
 
     async def put(self):
         """
         Send HTTP PUT Request
         """
-        return await self.send(method=RestApiMethod.PUT)
+        return await self.send(method=self.METHODS.PUT)
 
     async def patch(self):
         """
         Send HTTP PATCH Request
         """
-        return await self.send(method=RestApiMethod.PATCH)
+        return await self.send(method=self.METHODS.PATCH)
 
     async def delete(self):
         """
         Send HTTP DELETE Request
         """
-        return await self.send(method=RestApiMethod.DELETE)
+        return await self.send(method=self.METHODS.DELETE)
 
     async def head(self):
         """
         Send HTTP HEAD Request
         """
-        return await self.send(method=RestApiMethod.HEAD)
+        return await self.send(method=self.METHODS.HEAD)
 
     async def options(self):
         """
         Send HTTP OPTIONS Request
         """
-        return await self.send(method=RestApiMethod.OPTIONS)
+        return await self.send(method=self.METHODS.OPTIONS)
