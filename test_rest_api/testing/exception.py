@@ -25,7 +25,7 @@ Bug(message="my bug msg",
 from test_rest_api import Bug
 Bug()
 
-All the arguments are optional.
+Note: All the arguments are optional
 Default bug priority: 'low'
 Supported bug priorities: 'low', 'minor', 'major', 'critical', 'blocker'
 """

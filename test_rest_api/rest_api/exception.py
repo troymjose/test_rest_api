@@ -22,6 +22,10 @@ my_api = RestApi(
                 body = {}
                 )
 
+(Example 2)
+from test_rest_api import RestApi
+my_api = RestApi(url = "https://www.MyDomain.com/")
+
 Note: Only "url" is mandatory and rest are optional
 Default parameters: {}
 Default headers: {}
@@ -55,7 +59,7 @@ response = await my_api.send(method=my_api.METHODS.GET)
 from my_api_file import my_api
 response = await my_api.get()
 
-All the above example codes does the same functionality but different with syntax
+All the above 3 examples does the same functionality but different with syntax
 Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)
