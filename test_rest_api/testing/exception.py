@@ -1,55 +1,32 @@
 from test_rest_api.utils.exception import TestRestApiException
 
 
-class RestApiCreationException(TestRestApiException):
+class BugCreationException(TestRestApiException):
     """
-    Exception raised while creating rest api object using RestApi class
+    Exception raised while creating bug object using Bug class
     """
 
     def __init__(self, *, msg: str):
         self.exc = msg
         self.error_msg = """
-Rest api creation failed
+Bug creation failed
 Tip: Refer the example below !
 
 Example Code
-from test_rest_api import RestApi
-my_api = RestApi(
-                url="https://www.MyDomain.com/",
-                parameters={"param1":"val1","param2":"val2"},
-                headers={"Content-Type": "application/json"},
-                body={}
-                )
+from test_rest_api import Bug
+Bug(message="my bug msg",
+    priority=Bug.PRIORITY.CRITICAL,
+    actual_result="my actual result",
+    expected_result="my expected result",
+    steps_to_reproduce="detailed steps to reproduce")
 
-Note: Only "url" is mandatory and rest are optional
-"""
-        self.message = self.format(exc=self.exc, error_msg=self.error_msg)
-        super().__init__(self.message)
+Note: All the arguments are optional.
 
+from test_rest_api import Bug
+Bug()
 
-class RestApiSendException(TestRestApiException):
-    """
-    Exception raised while sending rest api using aiohttp
-    """
-
-    def __init__(self, *, msg: str):
-        self.exc = msg
-        self.error_msg = f"""
-Rest api request failed
-Tip: Refer the example below !
-
-Example Code (All the below code does the same functionality but different with syntax):
-
-from my_api_file import my_api
-response = await my_api.send(method='get')
-or
-from my_api_file import my_api
-response = await my_api.send(method=my_api.METHODS.GET)
-or
-from my_api_file import my_api
-response = await my_api.get()
-
-Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
+Default bug priority: 'low'
+Supported bug priorities: 'low', 'minor', 'major', 'critical', 'blocker'
 """
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)
         super().__init__(self.message)
