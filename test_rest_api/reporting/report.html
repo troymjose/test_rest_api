@@ -82,6 +82,14 @@
                       {% endif %}
                     </tr>
                     <tr>
+                      <td>Tests</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.total }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
                       <td>Start</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
@@ -292,6 +300,14 @@
                       </td>
                     </tr>
                     <tr>
+                      <td>Bug creation</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.bug_creation }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
                       <td>Global Variables</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
@@ -483,7 +499,7 @@
                       <td>Error Type</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.error_type }}</span
+                          >{{ sync_test.error_type.replace('_', ' ').capitalize() }}</span
                         >
                       </td>
                     </tr>
@@ -666,7 +682,7 @@
                       <td>Error Type</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.error_type }}</span
+                          >{{ async_test.error_type.replace('_', ' ').capitalize() }}</span
                         >
                       </td>
                     </tr>
@@ -810,15 +826,16 @@
       new Chart(errorDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Restapi creation", "Restapi send", "Global variables", "Unexpected"],
+          labels: ["Restapi creation", "Restapi send", "Bug creation", "Global variables", "Unexpected"],
           datasets: [
             {
               label: "Type",
-              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.global_variables }}, {{ summary.errors.unexpected }}],
+              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.bug_creation }}, {{ summary.errors.global_variables }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
                 "rgba(255, 205, 86, 0.1)",
-                "rgba(255, 205, 86, 0.4)",
-                "rgba(255, 205, 86, 0.6)",
+                "rgba(255, 205, 86, 0.3)",
+                "rgba(255, 205, 86, 0.5)",
+                "rgba(255, 205, 86, 0.7)",
                 "rgba(255, 205, 86, 1)"
               ],
               hoverOffset: 4,

@@ -20,6 +20,7 @@ class TestStatus:
 class ErrorType:
     RESTAPI_CREATION: str = 'restapi_creation'
     RESTAPI_SEND: str = 'restapi_send'
+    BUG_CREATION: str = 'bug_creation'
     GLOBAL_VARIABLES: str = 'global_variables'
     UNEXPECTED: str = 'unexpected'
 
@@ -42,52 +43,52 @@ class ReportTestResult:
 
 @dataclass
 class ReportTestSummaryTest:
-    start: str
-    end: str
-    duration: str
-    tags: tuple
-    status: bool
+    start: str = ''
+    end: str = ''
+    duration: str = ''
+    tags: tuple = ()
+    status: bool = True
+    total: int = 0
 
 
 @dataclass
 class ReportTestSummaryTests:
-    total: int
-    sync_tests: int
-    async_tests: int
-    success: int
-    fail: int
-    error: int
-    disable: int
-    skip: int
+    total: int = 0
+    sync_tests: int = 0
+    async_tests: int = 0
+    success: int = 0
+    fail: int = 0
+    error: int = 0
+    disable: int = 0
+    skip: int = 0
 
 
 @dataclass
 class ReportTestSummaryBugs:
-    total: int
-    low: int
-    minor: int
-    major: int
-    critical: int
-    blocker: int
+    total: int = 0
+    low: int = 0
+    minor: int = 0
+    major: int = 0
+    critical: int = 0
+    blocker: int = 0
 
 
 @dataclass
 class ReportTestSummaryErrors:
-    total: int
-    restapi_creation: int
-    restapi_send: int
-    global_variables: int
-    unexpected: int
+    total: int = 0
+    restapi_creation: int = 0
+    restapi_send: int = 0
+    bug_creation: int = 0
+    global_variables: int = 0
+    unexpected: int = 0
 
 
 @dataclass
 class ReportTestSummary:
-    test: ReportTestSummaryTest = ReportTestSummaryTest(status=True, start='', end='', duration=0, tags=())
-    tests: ReportTestSummaryTests = ReportTestSummaryTests(total=0, async_tests=0, sync_tests=0, success=0, fail=0,
-                                                           error=0, disable=0, skip=0)
-    bugs: ReportTestSummaryBugs = ReportTestSummaryBugs(total=0, low=0, minor=0, major=0, critical=0, blocker=0)
-    errors: ReportTestSummaryErrors = ReportTestSummaryErrors(total=0, restapi_creation=0, restapi_send=0,
-                                                              global_variables=0, unexpected=0)
+    test: ReportTestSummaryTest = ReportTestSummaryTest()
+    tests: ReportTestSummaryTests = ReportTestSummaryTests()
+    bugs: ReportTestSummaryBugs = ReportTestSummaryBugs()
+    errors: ReportTestSummaryErrors = ReportTestSummaryErrors()
 
 
 class Report:
@@ -95,7 +96,7 @@ class Report:
         self.sync_tests: List[ReportTestResult] = []
         self.async_tests: List[ReportTestResult] = []
         self.summary: ReportTestSummary = ReportTestSummary()
-        self.template = Report.create_jija2_template()
+        self.template = self.create_jija2_template()
 
     def add_test_result(self, test_result: ReportTestResult):
         """
@@ -103,6 +104,8 @@ class Report:
         """
         # Add the test result to tests instance variable only if it's not disabled or skipped
         if test_result.status != TestStatus.DISABLE and test_result.status != TestStatus.SKIP:
+            # Update the total run count
+            self.summary.test.total += 1
             if test_result.is_async:
                 self.async_tests.append(test_result)
             else:
