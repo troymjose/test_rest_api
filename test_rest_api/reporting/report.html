@@ -367,16 +367,16 @@
           {% for sync_test in sync_tests %}
           <div
             class="accordion-item"
-            id="{{ sync_test.name.replace(' ','').replace('(','').replace(')','') }}"
+            id="{{ sync_test.name.replace(' ','').replace('(','').replace(')','').replace('[','').replace(']','') }}"
           >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-{{ sync_test.name.replace(' ','-') }}"
+                data-bs-target="#panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
                 aria-expanded="false"
-                aria-controls="panelsStayOpen-{{ sync_test.name.replace(' ','-') }}"
+                aria-controls="panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               >
                 {% if sync_test.status == "success" %}
                 <span class="badge" style="background-color: #4bc0c0"
@@ -400,7 +400,7 @@
               </button>
             </h2>
             <div
-              id="panelsStayOpen-{{ sync_test.name.replace(' ','-') }}"
+              id="panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               class="accordion-collapse collapse"
             >
               <div class="accordion-body">
@@ -550,16 +550,16 @@
           {% for async_test in async_tests %}
           <div
             class="accordion-item"
-            id="{{ async_test.name.replace(' ','').replace('(','').replace(')','') }}"
+            id="{{ async_test.name.replace(' ','').replace('(','').replace(')','').replace('[','').replace(']','') }}"
           >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-{{ async_test.name.replace(' ','-') }}"
+                data-bs-target="#panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
                 aria-expanded="false"
-                aria-controls="panelsStayOpen-{{ async_test.name.replace(' ','-') }}"
+                aria-controls="panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               >
                 {% if async_test.status == "success" %}
                 <span class="badge" style="background-color: #4bc0c0"
@@ -583,7 +583,7 @@
               </button>
             </h2>
             <div
-              id="panelsStayOpen-{{ async_test.name.replace(' ','-') }}"
+              id="panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               class="accordion-collapse collapse"
             >
               <div class="accordion-body">
