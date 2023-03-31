@@ -48,15 +48,15 @@ Rest api request failed
 Example Code
 ------------
 (Example 1)
-from my_api_file import my_api
+my_api = RestApi(url= "https://www.MyDomain.com/")
 response = await my_api.send(method='get')
 
 (Example 2)
-from my_api_file import my_api
+my_api = RestApi(url= "https://www.MyDomain.com/")
 response = await my_api.send(method=my_api.METHODS.GET)
 
 (Example 3)
-from my_api_file import my_api
+my_api = RestApi(url= "https://www.MyDomain.com/")
 response = await my_api.get()
 
 All the above 3 examples does the same functionality but with different syntax
