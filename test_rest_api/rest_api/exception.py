@@ -14,19 +14,21 @@ Rest api creation failed
 Example Code
 ------------
 (Example 1)
+
 from test_rest_api import RestApi
-my_api = RestApi(
-                url = "https://www.MyDomain.com/",
-                parameters = { "param1" : "val1", "param2" : "val2" },
-                headers = { "Content-Type" : "application/json" },
-                body = {}
-                )
+
+my_api = RestApi(url = "https://www.my_domain.com/")
 
 (Example 2)
-from test_rest_api import RestApi
-my_api = RestApi(url = "https://www.MyDomain.com/")
 
-Note: Only "url" is mandatory and rest are optional
+from test_rest_api import RestApi
+
+my_api = RestApi( url = "https://www.my_domain.com/",
+                  parameters = { "param_1" : "val_1", "param_2" : "val_2" },
+                  headers = { "Content-Type" : "application/json" },
+                  body = {} )
+
+Note: "url" is mandatory attribute & rest are optional
 Default parameters: {}
 Default headers: {}
 Default body: {}
@@ -48,15 +50,21 @@ Rest api request failed
 Example Code
 ------------
 (Example 1)
-my_api = RestApi(url= "https://www.MyDomain.com/")
+
+my_api = RestApi(url= "https://www.my_domain.com/")
+
 response = await my_api.send(method='get')
 
 (Example 2)
-my_api = RestApi(url= "https://www.MyDomain.com/")
+
+my_api = RestApi(url= "https://www.my_domain.com/")
+
 response = await my_api.send(method=my_api.METHODS.GET)
 
 (Example 3)
-my_api = RestApi(url= "https://www.MyDomain.com/")
+
+my_api = RestApi(url= "https://www.my_domain.com/")
+
 response = await my_api.get()
 
 All the above 3 examples does the same functionality but with different syntax
