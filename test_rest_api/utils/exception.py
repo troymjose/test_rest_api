@@ -1,3 +1,6 @@
+from test_rest_api.utils.decorator_hints import decorated_func_param_hints
+
+
 class TestRestApiException(Exception):
     """
     Base Exception class
@@ -19,6 +22,7 @@ ERROR MESSAGE
 """
 
 
+@decorated_func_param_hints
 def catch_exc(test_rest_api_exception: TestRestApiException):
     """
     Decorator used for catching python code exceptions for functions
@@ -30,7 +34,7 @@ def catch_exc(test_rest_api_exception: TestRestApiException):
     def catch_exc_dec(func):
         def inner(*args, **kwargs):
             try:
-                func(*args, **kwargs)
+                return func(*args, **kwargs)
             except Exception as exc:
                 raise test_rest_api_exception(msg=str(exc))
 

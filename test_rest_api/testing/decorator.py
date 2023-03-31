@@ -10,9 +10,9 @@ from test_rest_api.testing.bug import BugException
 from test_rest_api.logger.exception import LoggerException
 from test_rest_api.utils.logger import test_rest_api_logger
 from test_rest_api.testing.exception import BugCreationException
+from test_rest_api.global_variables.exception import GlobalVariablesException
 from test_rest_api.reporting.report import report, ReportTestResult, TestStatus, ErrorType
 from test_rest_api.rest_api.exception import RestApiCreationException, RestApiSendException
-from test_rest_api.global_variables.exception import VariableNotFoundException, ConstantSetException
 
 # Iter for creating id for testcase name
 iter_test_name = count(start=1)
@@ -93,39 +93,6 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
-                    except VariableNotFoundException as exc:
-                        # Log the result
-                        test_rest_api_logger.info(f"{colors.LIGHT_RED}{testcase_name}{colors.LIGHT_CYAN}")
-                        # Update the error type for reporting
-                        error_type = ErrorType.GLOBAL_VARIABLES
-                        # Get the code traceback details
-                        traceback_data = traceback.format_exc()
-                        # Format the traceback (Remove unwanted info)
-                        start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
-                                              traceback_data)
-                        end_res = re.search(
-                            r'test_rest_api/global_variables/global_variables.py", line (.*?), in get',
-                            traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
-                        traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
-                        # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
-                    except ConstantSetException as exc:
-                        # Log the result
-                        test_rest_api_logger.info(f"{colors.LIGHT_RED}{testcase_name}{colors.LIGHT_CYAN}")
-                        # Update the error type for reporting
-                        error_type = ErrorType.GLOBAL_VARIABLES
-                        # Get the code traceback details
-                        traceback_data = traceback.format_exc()
-                        # Format the traceback (Remove unwanted info)
-                        start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
-                                              traceback_data)
-                        end_res = re.search(r'test_rest_api/global_variables/global_variables.py", line (.*?), in set',
-                                            traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
-                        traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
-                        # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugCreationException as exc:
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
@@ -142,6 +109,21 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         if re.search(r'test_rest_api/testing/bug.py", line (.*?), in __call__', traceback_data):
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
+                        # Update the test status and details
+                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                    except GlobalVariablesException as exc:
+                        # Log the result
+                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        # Update the error type for reporting
+                        error_type = ErrorType.GLOBAL_VARIABLES
+                        # Get the code traceback details
+                        traceback_data = traceback.format_exc()
+                        # Format the traceback (Remove unwanted info)
+                        start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
+                                              traceback_data)
+                        end_res = re.search(r'raise test_rest_api_exception', traceback_data)
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
+                        traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except LoggerException as exc:

@@ -1,25 +1,42 @@
 from test_rest_api.utils.exception import TestRestApiException
 
 
-class VariableNotFoundException(TestRestApiException):
+class GlobalVariablesException(TestRestApiException):
     """
-    Exception raised for error in getattr(self, variable)
-    """
-
-    def __init__(self, *, name):
-        self.exc = 'Global variable not found'
-        self.error_msg = f'"{name}" is not present in global variables'
-        self.message = self.format(exc=self.exc, error_msg=self.error_msg)
-        super().__init__(self.message)
-
-
-class ConstantSetException(TestRestApiException):
-    """
-    Exception raised for error in updating variable instance object value with 'is_constant' flag as True
+    Exception raised for error in using GlobalVariables class
     """
 
-    def __init__(self, *, name):
-        self.exc = 'Constant global variables cannot be updated'
-        self.error_msg = f'"{name}" is a constant global variable'
+    def __init__(self, *, msg: str):
+        self.exc = msg
+        self.error_msg = """
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant flag as True, for constant variables
+is_constant is optional
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+"""
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)
         super().__init__(self.message)

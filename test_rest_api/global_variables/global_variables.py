@@ -1,6 +1,7 @@
 from dotenv import dotenv_values
 from dataclasses import dataclass
-from test_rest_api.global_variables.exception import VariableNotFoundException, ConstantSetException
+from test_rest_api.utils.exception import catch_exc
+from test_rest_api.global_variables.exception import GlobalVariablesException
 
 
 @dataclass
@@ -38,29 +39,40 @@ class GlobalVariables:
         try:
             return getattr(cls, name)
         except Exception as exc:
-            raise VariableNotFoundException(name=name)
+            raise Exception(f'Global variable "{name}" not found')
 
     @classmethod
+    @catch_exc(test_rest_api_exception=GlobalVariablesException)
     def get(cls, name):
         """
         Get the global variable value
         """
+        # Check if name is of type string
+        if not isinstance(name, str):
+            raise Exception('Invalid data type for name. Please provide a valid string')
+        # Get variable obj
         variable_obj = cls._get_variable_obj(name=name)
+        # Return variable obj value
         return variable_obj.value
 
     @classmethod
+    @catch_exc(test_rest_api_exception=GlobalVariablesException)
     def set(cls, name, value, is_constant: bool = False):
         """
         Set the global variable value
         """
+        # Check if name is of type string
+        if not isinstance(name, str):
+            raise Exception('Invalid data type for name. Please provide a valid string')
+        # Check if is_constant is of type bool
+        if not isinstance(is_constant, bool):
+            raise Exception('Invalid data type for is_constant. Please provide a valid boolean')
         try:
             variable_obj = cls._get_variable_obj(name=name)
-            # Constants cannot be updated
-            if variable_obj.is_constant:
-                raise ConstantSetException(name=name)
-        except ConstantSetException as exc:
-            raise exc
         except Exception as exc:
-            pass
+            variable_obj = None
+        # Constants cannot be updated
+        if variable_obj and variable_obj.is_constant:
+            raise Exception(f'Constant global variable "{name}" cannot be updated')
         # Set the class attribute
         setattr(cls, name, Variable(value=value, is_constant=is_constant))
