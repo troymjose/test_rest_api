@@ -59,7 +59,7 @@ response = await my_api.send(method=my_api.METHODS.GET)
 from my_api_file import my_api
 response = await my_api.get()
 
-All the above 3 examples does the same functionality but different with syntax
+All the above 3 examples does the same functionality but with different syntax
 Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
         self.message = self.format(exc=self.exc, error_msg=self.error_msg)

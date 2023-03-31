@@ -7,6 +7,7 @@ from time import perf_counter_ns
 from inspect import iscoroutinefunction
 from test_rest_api.utils.colors import colors
 from test_rest_api.testing.bug import BugException
+from test_rest_api.logger.exception import LoggerException
 from test_rest_api.utils.logger import test_rest_api_logger
 from test_rest_api.testing.exception import BugCreationException
 from test_rest_api.reporting.report import report, ReportTestResult, TestStatus, ErrorType
@@ -69,7 +70,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
                         end_res = re.search(r'raise RestApiCreationException', traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         if re.search(r'test_rest_api/rest_api/rest_api.py", line (.*?), in __call__', traceback_data):
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
@@ -87,7 +88,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
                         end_res = re.search(r'raise RestApiSendException', traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
@@ -105,7 +106,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         end_res = re.search(
                             r'test_rest_api/global_variables/global_variables.py", line (.*?), in get',
                             traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
@@ -121,7 +122,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                                               traceback_data)
                         end_res = re.search(r'test_rest_api/global_variables/global_variables.py", line (.*?), in set',
                                             traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
@@ -136,11 +137,26 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
                         end_res = re.search(r'raise BugCreationException', traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         if re.search(r'test_rest_api/testing/bug.py", line (.*?), in __call__', traceback_data):
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
+                        # Update the test status and details
+                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                    except LoggerException as exc:
+                        # Log the result
+                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        # Update the error type for reporting
+                        error_type = ErrorType.RESTAPI_CREATION
+                        # Get the code traceback details
+                        traceback_data = traceback.format_exc()
+                        # Format the traceback (Remove unwanted info)
+                        start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
+                                              traceback_data)
+                        end_res = re.search(r'raise test_rest_api_exception', traceback_data)
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
+                        traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugException as exc:
@@ -154,7 +170,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
                         end_res = re.search(r'raise BugException', traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:end_res.end()]
+                        traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
@@ -169,7 +185,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Format the traceback (Remove unwanted info)
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:]
+                        traceback_data = traceback_data[start_res.start() + 98:]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}\n\n{"Tip: This may be due to not using await keyword in function calls"}'
                     except Exception as exc:
@@ -182,7 +198,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Format the traceback (Remove unwanted info)
                         start_res = re.search(r'test_rest_api/testing/decorator.py", line (.*?), in inner',
                                               traceback_data)
-                        traceback_data = traceback_data[start_res.start() + 89:]
+                        traceback_data = traceback_data[start_res.start() + 98:]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
             # Set the end time of the test

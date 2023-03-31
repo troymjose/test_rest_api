@@ -17,3 +17,23 @@ ERROR MESSAGE
 -------------
 {error_msg.strip() if error_msg.strip() else _no_data_to_display}
 """
+
+
+def catch_exc(test_rest_api_exception: TestRestApiException):
+    """
+    Decorator used for catching python code exceptions for functions
+    Example: Function calls with empty params, invalid params etc
+
+    Developers can raise python Exceptions inside function body which will be auto converted to TestRestApiExceptions
+    """
+
+    def catch_exc_dec(func):
+        def inner(*args, **kwargs):
+            try:
+                func(*args, **kwargs)
+            except Exception as exc:
+                raise test_rest_api_exception(msg=str(exc))
+
+        return inner
+
+    return catch_exc_dec
