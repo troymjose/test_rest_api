@@ -17,12 +17,12 @@ from test_rest_api.global_variables.exception import VariableNotFoundException, 
 iter_test_name = count(start=1)
 
 
-def test(*, name="", desc="", enabled=True, tags=(), is_async=True, execution_order='z'):
+def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_order='zzzzz'):
     def testcase_decorator(func):
         @functools.wraps(func)
         async def inner(*args, **kwargs):
             # Get the test file path
-            testsuite: str = func.__module__
+            testsuite: str = func.__module__ if func.__module__ else 'root file'
             # Create the test name
             testcase_name: str = f'{name} ({testsuite})' if name else f'{func.__name__} ({testsuite})'
             # Add unique id to the name (Users can provide same name for multiple testcases)
@@ -53,11 +53,11 @@ def test(*, name="", desc="", enabled=True, tags=(), is_async=True, execution_or
                 if enabled:
                     try:
                         # Call the async test function
-                        await func(*args, **kwargs)
+                        result = await func(*args, **kwargs)
                         # Log the result
                         test_rest_api_logger.info(f"{colors.LIGHT_GREEN}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the test status and details
-                        test_status, test_details = TestStatus.PASS, 'Success !'
+                        test_status, test_details = TestStatus.PASS, f'Success !\n\n{str(result) if result else ""}'
                     except RestApiCreationException as exc:
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
