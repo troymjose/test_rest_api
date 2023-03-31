@@ -135,3 +135,4 @@ dmypy.json
 # Forlders supported for unit testing
 _api/
 _test_suites/
+_demo/
