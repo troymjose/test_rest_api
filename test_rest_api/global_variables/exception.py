@@ -31,8 +31,8 @@ variable: str = GlobalVariables.get(name= "variable_name")
 
 Note: Both the above 2 examples does the same functionality but with different syntax
 
-Set is_constant flag as True, for constant variables
-is_constant is optional
+Set is_constant = True, for constant values
+is_constant is an optional attribute
 Default is_constant: False
 
 We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
