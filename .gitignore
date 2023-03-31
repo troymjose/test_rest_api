@@ -136,3 +136,4 @@ dmypy.json
 _api/
 _test_suites/
 _demo/
+_errors/
