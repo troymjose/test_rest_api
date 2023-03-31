@@ -123,9 +123,10 @@ class Report:
         # Update the total test status count
         if test_result.status in asdict(TestStatus()).values():
             # pass is converted to success, because 'pass' is a python keyword & hence we can't create dataclass
-            test_result.status = 'success' if test_result.status == TestStatus.PASS else test_result.status
-            setattr(self.summary.tests, test_result.status,
-                    getattr(self.summary.tests, test_result.status) + 1)
+            # This change is done for handling ReportTestSummaryTests dataclass which uses "success" instead of "pass"
+            report_test_summary_tests_status = 'success' if test_result.status == TestStatus.PASS else test_result.status
+            setattr(self.summary.tests, report_test_summary_tests_status,
+                    getattr(self.summary.tests, report_test_summary_tests_status) + 1)
         # Update the total bug and bug priority count
         if test_result.status == TestStatus.FAIL and test_result.bug_priority in asdict(BugPriority()).values():
             self.summary.bugs.total += 1

@@ -150,7 +150,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>Success</td>
+                      <td>Pass</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
                           >{{ summary.tests.success }}</span
@@ -394,10 +394,10 @@
                 aria-expanded="false"
                 aria-controls="panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               >
-                {% if sync_test.status == "success" %}
+                {% if sync_test.status == "pass" %}
                 <span class="badge" style="background-color: #4bc0c0"
                   ><i class="bi bi-check-circle-fill"></i>&nbsp;&nbsp;<b
-                    >SUCCESS</b
+                    >PASS</b
                   ></span
                 >&nbsp;&nbsp; {% elif sync_test.status == "fail" %}
                 <span class="badge" style="background-color: #ff6384"
@@ -577,10 +577,10 @@
                 aria-expanded="false"
                 aria-controls="panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               >
-                {% if async_test.status == "success" %}
+                {% if async_test.status == "pass" %}
                 <span class="badge" style="background-color: #4bc0c0"
                   ><i class="bi bi-check-circle-fill"></i>&nbsp;&nbsp;<b
-                    >SUCCESS</b
+                    >PASS</b
                   ></span
                 >&nbsp;&nbsp; {% elif async_test.status == "fail" %}
                 <span class="badge" style="background-color: #ff6384"
@@ -778,7 +778,7 @@
       new Chart(statusDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Success", "Fail", "Error", "Disable", "Skip"],
+          labels: ["Pass", "Fail", "Error", "Disable", "Skip"],
           datasets: [
             {
               label: "Status",
