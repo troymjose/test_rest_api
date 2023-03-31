@@ -63,7 +63,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the error type for reporting
-                        error_type = ErrorType.RESTAPI_CREATION
+                        error_type = ErrorType.REST_API
                         # Get the code traceback details
                         traceback_data = traceback.format_exc()
                         # Format the traceback (Remove unwanted info)
@@ -81,7 +81,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the error type for reporting
-                        error_type = ErrorType.RESTAPI_SEND
+                        error_type = ErrorType.REST_API
                         # Get the code traceback details
                         traceback_data = traceback.format_exc()
                         # Format the traceback (Remove unwanted info)
@@ -97,7 +97,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the error type for reporting
-                        error_type = ErrorType.BUG_CREATION
+                        error_type = ErrorType.BUG
                         # Get the code traceback details
                         traceback_data = traceback.format_exc()
                         # Format the traceback (Remove unwanted info)
@@ -130,7 +130,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Log the result
                         test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
                         # Update the error type for reporting
-                        error_type = ErrorType.RESTAPI_CREATION
+                        error_type = ErrorType.LOGGER
                         # Get the code traceback details
                         traceback_data = traceback.format_exc()
                         # Format the traceback (Remove unwanted info)

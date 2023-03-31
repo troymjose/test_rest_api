@@ -18,10 +18,10 @@ class TestStatus:
 
 @dataclass
 class ErrorType:
-    RESTAPI_CREATION: str = 'restapi_creation'
-    RESTAPI_SEND: str = 'restapi_send'
-    BUG_CREATION: str = 'bug_creation'
+    REST_API: str = 'rest_api'
     GLOBAL_VARIABLES: str = 'global_variables'
+    BUG: str = 'bug'
+    LOGGER: str = 'logger'
     UNEXPECTED: str = 'unexpected'
 
 
@@ -76,10 +76,10 @@ class ReportTestSummaryBugs:
 @dataclass
 class ReportTestSummaryErrors:
     total: int = 0
-    restapi_creation: int = 0
-    restapi_send: int = 0
-    bug_creation: int = 0
+    rest_api: int = 0
     global_variables: int = 0
+    bug: int = 0
+    logger: int = 0
     unexpected: int = 0
 
 

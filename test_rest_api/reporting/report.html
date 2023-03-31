@@ -284,26 +284,10 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>Restapi creation</td>
+                      <td>Rest Api</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.restapi_creation }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Restapi send</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.restapi_send }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Bug creation</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.bug_creation }}</span
+                          >{{ summary.errors.rest_api }}</span
                         >
                       </td>
                     </tr>
@@ -312,6 +296,22 @@
                       <td>
                         <span class="badge text-bg-light rounded-pill"
                           >{{ summary.errors.global_variables }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.bug }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Logger</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.errors.logger }}</span
                         >
                       </td>
                     </tr>
@@ -499,7 +499,7 @@
                       <td>Error Type</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.error_type.replace('_', ' ').capitalize() }}</span
+                          >{{ sync_test.error_type.replace('_', ' ').title() }}</span
                         >
                       </td>
                     </tr>
@@ -682,7 +682,7 @@
                       <td>Error Type</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.error_type.replace('_', ' ').capitalize() }}</span
+                          >{{ async_test.error_type.replace('_', ' ').title() }}</span
                         >
                       </td>
                     </tr>
@@ -826,11 +826,11 @@
       new Chart(errorDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Restapi creation", "Restapi send", "Bug creation", "Global variables", "Unexpected"],
+          labels: ["Rest Api", "Global Variables", "Bug", "Logger", "Unexpected"],
           datasets: [
             {
               label: "Type",
-              data: [{{ summary.errors.restapi_creation }}, {{ summary.errors.restapi_send }}, {{ summary.errors.bug_creation }}, {{ summary.errors.global_variables }}, {{ summary.errors.unexpected }}],
+              data: [{{ summary.errors.rest_api }}, {{ summary.errors.global_variables }}, {{ summary.errors.bug }}, {{ summary.errors.logger }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
                 "rgba(255, 205, 86, 0.1)",
                 "rgba(255, 205, 86, 0.3)",
