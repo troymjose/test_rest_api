@@ -1,7 +1,7 @@
 from dotenv import dotenv_values
 from dataclasses import dataclass
-from test_rest_api.utils.exception import catch_exc
-from test_rest_api.global_variables.exception import GlobalVariablesException
+from ..utils.exception import catch_exc
+from .exception import GlobalVariablesException
 
 
 @dataclass

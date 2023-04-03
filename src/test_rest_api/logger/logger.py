@@ -1,6 +1,6 @@
 from datetime import datetime
-from test_rest_api.utils.exception import catch_exc
-from test_rest_api.logger.exception import LoggerException
+from .exception import LoggerException
+from ..utils.exception import catch_exc
 
 
 class Logger:

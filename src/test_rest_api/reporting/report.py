@@ -4,7 +4,7 @@ from typing import List
 from datetime import datetime
 from dataclasses import dataclass, asdict
 from jinja2 import Environment, FileSystemLoader
-from test_rest_api.testing.bug import BugPriority
+from ..testing.bug import BugPriority
 
 
 @dataclass

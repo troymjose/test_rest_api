@@ -5,14 +5,14 @@ from itertools import count
 from datetime import datetime
 from time import perf_counter_ns
 from inspect import iscoroutinefunction
-from test_rest_api.utils.colors import colors
-from test_rest_api.testing.bug import BugException
-from test_rest_api.logger.exception import LoggerException
-from test_rest_api.utils.logger import test_rest_api_logger
-from test_rest_api.testing.exception import BugCreationException
-from test_rest_api.global_variables.exception import GlobalVariablesException
-from test_rest_api.reporting.report import report, ReportTestResult, TestStatus, ErrorType
-from test_rest_api.rest_api.exception import RestApiCreationException, RestApiSendException
+from .bug import BugException
+from ..utils.colors import colors
+from .exception import BugCreationException
+from ..logger.exception import LoggerException
+from ..utils.logger import test_rest_api_logger
+from ..global_variables.exception import GlobalVariablesException
+from ..reporting.report import report, ReportTestResult, TestStatus, ErrorType
+from ..rest_api.exception import RestApiCreationException, RestApiSendException
 
 # Iter for creating id for testcase name
 iter_test_name = count(start=1)

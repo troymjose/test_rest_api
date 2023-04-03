@@ -8,12 +8,12 @@ import asyncio
 import importlib.machinery
 from datetime import datetime
 from time import perf_counter_ns
-from inspect import getmembers, iscoroutinefunction, isfunction
-from test_rest_api.utils.colors import colors
-from test_rest_api.reporting.report import report
-from test_rest_api.utils.error_msg import ErrorMsg
-from test_rest_api.utils.logger import test_rest_api_logger
-from test_rest_api.utils.aiohttp_session import AioHttpSession
+from inspect import getmembers, iscoroutinefunction
+from ..utils.colors import colors
+from ..reporting.report import report
+from ..utils.error_msg import ErrorMsg
+from ..utils.logger import test_rest_api_logger
+from ..utils.aiohttp_session import AioHttpSession
 
 
 class Runner:

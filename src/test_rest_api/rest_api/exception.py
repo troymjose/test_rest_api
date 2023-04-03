@@ -1,4 +1,4 @@
-from test_rest_api.utils.exception import TestRestApiException
+from ..utils.exception import TestRestApiException
 
 
 class RestApiCreationException(TestRestApiException):
