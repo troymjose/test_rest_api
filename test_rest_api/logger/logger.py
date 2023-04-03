@@ -24,4 +24,4 @@ class Logger:
         self._logs += f'{datetime.now().strftime("%H:%M:%S") : <8}: {message}\n'
 
     def __str__(self):
-        return f'LOGS\n----\n{self._logs}'
+        return f'LOGS\n----\n{self._logs}\n'
