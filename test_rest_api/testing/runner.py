@@ -7,6 +7,7 @@ import aiohttp
 import asyncio
 import importlib.machinery
 from datetime import datetime
+from time import perf_counter_ns
 from inspect import getmembers, iscoroutinefunction, isfunction
 from test_rest_api.utils.colors import colors
 from test_rest_api.reporting.report import report
@@ -54,8 +55,8 @@ class Runner:
         Conditions: Is sync Function & Decorated with @test
         """
         return [obj for _, obj in getmembers(mod) if
-                isfunction(obj) and obj.__dict__.get('is_testcase', False) and not obj.__dict__.get('is_async_testcase',
-                                                                                                    False)]
+                iscoroutinefunction(obj) and obj.__dict__.get('is_testcase', False) and not obj.__dict__.get(
+                    'is_async_testcase', False)]
 
     def load_test_file_async_tests(self, mod):
         """
@@ -170,6 +171,9 @@ class Runner:
         Runner.console_branding()
         # Set up the testsuite before run
         self.setup_testsuite()
+        # Exit if the total testcases = 0
+        if len(self.sync_tests) + len(self.async_tests) == 0:
+            sys.exit(ErrorMsg.EMPTY_TESTS)
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed test setup{colors.LIGHT_CYAN}")
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Started sorting synchronous tests{colors.LIGHT_CYAN}")
@@ -186,8 +190,10 @@ class Runner:
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Created aiohttp client session{colors.LIGHT_CYAN}")
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting sync test execution{colors.LIGHT_CYAN}")
-        # Test start time
-        start = datetime.now()
+        # Start the stopwatch / counter
+        timer_start = perf_counter_ns()
+        # Test start date time
+        start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
         # Run synchronous tests before async tests
         for sync_test in (sync_test for sync_test in self.sync_tests):
             await sync_test()
@@ -198,13 +204,17 @@ class Runner:
         # Run all async functions from tests list in parallel
         await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
         # Test end time
-        end = datetime.now()
+        end = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+        # Stop the stopwatch / counter
+        timer_stop = perf_counter_ns()
+        # Calculate the time duration of the test in seconds (note: duration is in nanoseconds)
+        duration = f'{(timer_stop - timer_start) / 1000000000} seconds'
         # Logging
         test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed async test execution{colors.LIGHT_CYAN}")
         # Update report summary details
-        report.summary.test.duration = str(end - start)
-        report.summary.test.start = start.strftime('%Y-%m-%d %H:%M:%S')
-        report.summary.test.end = end.strftime('%Y-%m-%d %H:%M:%S')
+        report.summary.test.start = start
+        report.summary.test.end = end
+        report.summary.test.duration = duration
         report.summary.test.tags = self.test_tags
         # Close the aiohttp session after completing the test
         await AioHttpSession().close()

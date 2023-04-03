@@ -1,81 +1,74 @@
-import re
-from test_rest_api.utils.error_msg import ErrorMsg
+from test_rest_api.utils.exception import TestRestApiException
 
 
-class RestApiException(Exception):
+class RestApiCreationException(TestRestApiException):
     """
-    Base Exception class
-    """
-    _no_data_to_display = 'No data to display'
-
-    @staticmethod
-    def format_traceback(traceback: str, search: str, extra_len: int) -> str:
-        """
-        Remove the data provided above the rest api file, to make the traceback more readable
-        """
-        if not traceback:
-            return ''
-        res = re.search(search, traceback)
-        if not res:
-            return traceback
-        return traceback[res.start() + extra_len:]
-
-
-class RestApiCreationException(RestApiException):
-    """
-    Exception raised while creating rest api object form json data returned form @rest_api decorated functions
+    Exception raised while creating rest api object using RestApi class
     """
 
-    def __init__(self, *, name: str, module: str, parent_exception: str, traceback: str):
-        self.message = f"""
-EXCEPTION
----------
-{parent_exception.strip() if parent_exception else self._no_data_to_display}
+    def __init__(self, *, msg: str):
+        self.exc = msg
+        self.error_msg = """
+Rest api creation failed
 
-FILE NAME
----------
-{name.strip() if name else self._no_data_to_display}
+Example Code
+------------
+(Example 1)
 
-FILE PATH
----------
-{module.strip() if module else self._no_data_to_display}
+from test_rest_api import RestApi
 
-TRACEBACK
----------
-{self.format_traceback(traceback=traceback, search=r'test_rest_api/test_rest_api/rest_api/decorator.py", line (.*?), in inner', extra_len=122).strip() if traceback else self._no_data_to_display}
+my_api = RestApi(url = "https://www.my_domain.com/")
 
-ERROR MESSAGE
--------------
-{ErrorMsg.INVALID_REST_API.strip()}
+(Example 2)
+
+from test_rest_api import RestApi
+
+my_api = RestApi( url = "https://www.my_domain.com/",
+                  parameters = { "param_1" : "val_1", "param_2" : "val_2" },
+                  headers = { "Content-Type" : "application/json" },
+                  body = {} )
+
+Note: "url" is mandatory attribute & rest are optional
+Default parameters: {}
+Default headers: {}
+Default body: {}
 """
+        self.message = self.format(exc=self.exc, error_msg=self.error_msg)
         super().__init__(self.message)
 
 
-class RestApiSendException(RestApiException):
+class RestApiSendException(TestRestApiException):
     """
     Exception raised while sending rest api using aiohttp
     """
 
-    def __init__(self, *, name: str, module: str, parent_exception: str, traceback: str):
-        self.message = f"""
-EXCEPTION
----------
-{parent_exception.strip() if parent_exception else self._no_data_to_display}
+    def __init__(self, *, msg: str):
+        self.exc = msg
+        self.error_msg = f"""
+Rest api request failed
 
-FILE NAME
----------
-{name.strip() if name else self._no_data_to_display}
+Example Code
+------------
+(Example 1)
 
-FILE PATH
----------
-{module.strip() if module else self._no_data_to_display}
+my_api = RestApi(url= "https://www.my_domain.com/")
 
-TRACEBACK
----------
-{self.format_traceback(traceback=traceback, search=r'test_rest_api/test_rest_api/rest_api/rest_api.py", line (.*?), in', extra_len=130).strip() if traceback else self._no_data_to_display}
+response = await my_api.send(method='get')
 
-ERROR MESSAGE
--------------
-{ErrorMsg.REST_API_SEND_EXCEPTION.strip()}
+(Example 2)
+
+my_api = RestApi(url= "https://www.my_domain.com/")
+
+response = await my_api.send(method=my_api.METHODS.GET)
+
+(Example 3)
+
+my_api = RestApi(url= "https://www.my_domain.com/")
+
+response = await my_api.get()
+
+All the above 3 examples does the same functionality but with different syntax
+Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
+        self.message = self.format(exc=self.exc, error_msg=self.error_msg)
         super().__init__(self.message)

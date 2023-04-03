@@ -2,14 +2,17 @@ import os
 import sys
 from test_rest_api.testing.runner import runner
 from test_rest_api.utils.error_msg import ErrorMsg
+from test_rest_api.global_variables.global_variables import GlobalVariables
 
 if __name__ == "__main__":
     # Initialise test suite and test result paths as None
-    test_suite_path = test_result_path = test_tags = None
+    test_suite_path = env_path = test_result_path = test_tags = None
     # Update the values from user command
     for key, value in zip(sys.argv[1::2], sys.argv[2::2]):
         if key == '-t':
             test_suite_path = value
+        elif key == '-e':
+            env_path = value
         elif key == '-r':
             test_result_path = value
         elif key == '-h':
@@ -17,6 +20,13 @@ if __name__ == "__main__":
     # Validate test suite path
     if not test_suite_path or not os.path.exists(test_suite_path):
         sys.exit(ErrorMsg.INVALID_TEST_SUITE_PATH)
+    # Env path is optional
+    if env_path:
+        # Raise error if th env path is invalid
+        if not os.path.exists(test_suite_path):
+            sys.exit(ErrorMsg.INVALID_ENV_PATH)
+        # Add env data to global variables as constants
+        GlobalVariables._set_env_variables(path=env_path)
     # test result path is optional and by default its test suite path
     if not test_result_path:
         test_result_path = test_suite_path
