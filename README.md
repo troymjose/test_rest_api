@@ -1,3 +1,5 @@
+<img alt="test_rest_api" src="https://raw.githubusercontent.com/troymjose/test_rest_api/version_0.0.0.3/test_rest_api.png"  width="50%" >
+
 # TEST REST API
 
 The __test_rest_api__ framework makes it easy to write __fast asynchronous__ REST Api tests, yet scales to support
@@ -5,7 +7,7 @@ complex testing.
 
 ## Requirements
 
-[Python](https://www.python.org/) >= 3.7
+[Python](https://www.python.org/) >= 3.8
 
 [aiohttp](https://pypi.org/project/aiohttp/)
 

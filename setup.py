@@ -4,6 +4,8 @@ Steps for packaging
 
 python3 setup.py sdist bdist_wheel
 python3 -m twine upload dist/*
+Enter your username: __token__
+Enter your password: *****
 """
 
 import os
@@ -16,7 +18,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), "READM
 
 # Setup
 setup(name="test_rest_api",
-      version="0.0.0.0.9",
+      version="0.0.0.0.14",
       author="Troy M Jose",
       author_email="",
       description="Asynchronous Test Framework #HighPerformance #EasyToLearn #FastToCode #AsyncTests",
