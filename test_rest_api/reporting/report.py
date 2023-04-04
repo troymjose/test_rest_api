@@ -1,9 +1,9 @@
 import os
-import pathlib
 from typing import List
 from datetime import datetime
+from jinja2 import Environment
 from dataclasses import dataclass, asdict
-from jinja2 import Environment, FileSystemLoader
+from .html import html_str
 from ..testing.bug import BugPriority
 
 
@@ -157,14 +157,10 @@ class Report:
         """
         Jinja2 initialisation
         """
-        # Template html file name
-        report_template_file_name = 'report.html'
-        # Create loader with the current script path
-        file_system_loader = FileSystemLoader(searchpath=pathlib.Path(__file__).parent.resolve())
-        # Create environment using the above loader
-        environment = Environment(loader=file_system_loader)
-        # Fetch the template file
-        template = environment.get_template(report_template_file_name)
+        # Create Jinja environment
+        environment = Environment()
+        # Create Jinja template
+        template = environment.from_string(html_str)
         # Return the template object
         return template
 

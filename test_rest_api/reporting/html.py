@@ -1,3 +1,4 @@
+html_str = """
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -34,7 +35,7 @@
             R E S T - A P I
           </a>
           <form class="d-flex" role="search">
-            <a class="text-light" type="submit"
+            <a class="text-light" type="submit" href="https://pypi.org/project/test-rest-api/" target="_blank"
               ><i class="bi bi-info-square"></i
             ></a>
           </form>
@@ -923,3 +924,4 @@
     </script>
   </body>
 </html>
+"""
