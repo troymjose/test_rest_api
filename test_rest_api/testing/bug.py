@@ -1,6 +1,6 @@
 from dataclasses import dataclass, asdict
-from test_rest_api.logger.logger import Logger
-from test_rest_api.testing.exception import BugCreationException
+from ..logger.logger import Logger
+from .exception import BugCreationException
 
 
 @dataclass(frozen=True)

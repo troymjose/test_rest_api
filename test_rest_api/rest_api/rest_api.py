@@ -1,10 +1,10 @@
 from dataclasses import asdict
 from aiohttp.client_exceptions import ClientConnectorError, InvalidURL, ContentTypeError
-from test_rest_api.utils.error_msg import ErrorMsg
-from test_rest_api.rest_api.method import RestApiMethod
-from test_rest_api.utils.aiohttp_session import AioHttpSession
-from test_rest_api.rest_api.exception import RestApiSendException, RestApiCreationException
-from test_rest_api.rest_api.response import RestApiResponse, ClientResponse
+from .method import RestApiMethod
+from ..utils.error_msg import ErrorMsg
+from ..utils.aiohttp_session import AioHttpSession
+from .response import RestApiResponse, ClientResponse
+from .exception import RestApiSendException, RestApiCreationException
 
 
 class RestApiMeta(type):

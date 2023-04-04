@@ -1,8 +1,8 @@
 import os
 import sys
-from test_rest_api.testing.runner import runner
-from test_rest_api.utils.error_msg import ErrorMsg
-from test_rest_api.global_variables.global_variables import GlobalVariables
+from .testing.runner import runner
+from .utils.error_msg import ErrorMsg
+from .global_variables.global_variables import GlobalVariables
 
 if __name__ == "__main__":
     # Initialise test suite and test result paths as None
