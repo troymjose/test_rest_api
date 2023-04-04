@@ -33,7 +33,7 @@ html_str = """
           <a class="navbar-brand" style="font-size: x-large;">T E S T -  R E S T - A P I </a>
           <form class="d-flex" role="search">
             <a class="text-light" type="submit" href="https://pypi.org/project/test-rest-api/" target="_blank">
-            <img src="https://raw.githubusercontent.com/troymjose/test_rest_api/version_0.0.0.3/test_rest_api.ico" alt="" width="50" height="50" class="rounded-circle"></a>
+            <img src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/test_rest_api.ico" alt="" width="50" height="50" class="rounded-circle"></a>
             </a>
           </form>
         </div>
