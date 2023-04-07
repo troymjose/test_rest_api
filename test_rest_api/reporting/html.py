@@ -6,7 +6,7 @@ html_str = """
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>REPORT</title>
     <!-- add icon link -->
-    <link rel = "icon" href = "https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" type = "image/x-icon">
+    <link rel="icon" href="https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" type="image/x-icon">
     <style>
       html {
         scroll-behavior: smooth;
@@ -42,6 +42,7 @@ html_str = """
       </nav>
       <!-- Summary Results -->
       <div id="summary-div" style="padding: 30px; text-align: left">
+        <br />
         <br />
         <br />
         <br />
@@ -333,6 +334,7 @@ html_str = """
           </div>
         </div>
       </div>
+      {% if summary.tests.sync_tests > 0 %}
       <!-- Synchronous Tests -->
       <div id="sync-div" style="padding: 30px; text-align: left">
         <br />
@@ -516,6 +518,8 @@ html_str = """
           {% endfor %}
         </div>
       </div>
+      {% endif %}
+      {% if summary.tests.async_tests > 0 %}
       <!-- Asynchronous Tests -->
       <div id="async-div" style="padding: 30px; text-align: left">
         <br />
@@ -699,6 +703,7 @@ html_str = """
           {% endfor %}
         </div>
       </div>
+      {% endif %}
     </div>
     <!-- Floating button for navigating summary, sync & async sections -->
     <div
