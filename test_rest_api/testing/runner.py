@@ -105,24 +105,20 @@ class Runner:
         - Load all the @test decorated functions from the list of python files
         """
         # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting test setup{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Test Suite: {self.test_suite_path}{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f'{colors.LIGHT_PURPLE}Auto detecting test suites{colors.LIGHT_CYAN}')
+        test_rest_api_logger.info(f"{colors.WHITE}Starting test setup{colors.LIGHT_BLUE}")
+        test_rest_api_logger.info(f'{colors.WHITE}Auto detecting test suites{colors.LIGHT_BLUE}')
         # Load python files
         self.load_test_files(self.test_suite_path)
         # Logging
-        test_rest_api_logger.info(
-            f'{colors.LIGHT_PURPLE}{len(self.test_files)} test suites detected{colors.LIGHT_CYAN}')
-        test_rest_api_logger.info(f'{colors.LIGHT_PURPLE}Auto detecting tests{colors.LIGHT_CYAN}')
+        test_rest_api_logger.info(f'{colors.WHITE}Total test suites: {len(self.test_files)}{colors.LIGHT_BLUE}')
+        test_rest_api_logger.info(f'{colors.WHITE}Auto detecting tests{colors.LIGHT_BLUE}')
         # Load @test decorated functions from the loaded python files
         self.load_tests()
         # Logging
+        test_rest_api_logger.info(f'{colors.WHITE}Total synchronous tests: {len(self.sync_tests)}{colors.LIGHT_BLUE}')
+        test_rest_api_logger.info(f'{colors.WHITE}Total asynchronous tests: {len(self.async_tests)}{colors.LIGHT_BLUE}')
         test_rest_api_logger.info(
-            f'{colors.LIGHT_PURPLE}{len(self.sync_tests)} synchronous tests detected{colors.LIGHT_CYAN}')
-        test_rest_api_logger.info(
-            f'{colors.LIGHT_PURPLE}{len(self.async_tests)} asynchronous tests detected{colors.LIGHT_CYAN}')
-        test_rest_api_logger.info(
-            f'{colors.LIGHT_PURPLE}Total tests: {len(self.sync_tests) + len(self.async_tests)}{colors.LIGHT_CYAN}')
+            f'{colors.WHITE}Total tests: {len(self.sync_tests) + len(self.async_tests)}{colors.LIGHT_BLUE}')
 
     @staticmethod
     def console_branding():
@@ -137,7 +133,7 @@ class Runner:
                         || ..................................................... ||
                         || ..................................................... ||
                           =======================================================
-                        {colors.LIGHT_CYAN}''')
+                        {colors.LIGHT_BLUE}''')
 
     @staticmethod
     def console_summary():
@@ -150,18 +146,38 @@ class Runner:
                         || ............  T E S T - S U M M A R Y   ............. ||
                         || ..................................................... ||
                           =======================================================
-                        {colors.LIGHT_CYAN}Test Status: {colors.LIGHT_PURPLE}{'PASS' if report.summary.test.status else 'FAIL'}
-                        {colors.LIGHT_CYAN}Total tests: {colors.LIGHT_PURPLE}{report.summary.tests.total}
-                        {colors.LIGHT_CYAN}Test Duration: {colors.LIGHT_PURPLE}{report.summary.test.duration}''')
+                        
+                        {colors.WHITE}{'Status:' : <20}{colors.LIGHT_CYAN}{'PASS' if report.summary.test.status else 'FAIL'}
+                        {colors.WHITE}{'Tests:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.total}
+                        {colors.WHITE}{'Start:' : <20}{colors.LIGHT_CYAN}{report.summary.test.start}
+                        {colors.WHITE}{'End:' : <20}{colors.LIGHT_CYAN}{report.summary.test.end}
+                        {colors.WHITE}{'Duration:' : <20}{colors.LIGHT_CYAN}{report.summary.test.duration}
+                        {colors.WHITE}{'Tags:' : <20}{colors.LIGHT_CYAN}{report.summary.test.tags}
+                        
+                        {colors.WHITE}{'PASS:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.success}
+                        {colors.WHITE}{'FAIL:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.fail}
+                        {colors.WHITE}{'ERROR:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.error}
+                        {colors.WHITE}{'DISABLE:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.disable}
+                        {colors.WHITE}{'SKIP:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.skip}
+                        
+                        {colors.WHITE}{'LOW:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.low}
+                        {colors.WHITE}{'MINOR:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.minor}
+                        {colors.WHITE}{'MAJOR:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.major}
+                        {colors.WHITE}{'CRITICAL:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.critical}
+                        {colors.WHITE}{'BLOCKER:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.blocker}
+                        
+                        {colors.WHITE}{'REST API:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.rest_api}
+                        {colors.WHITE}{'GLOBAL VARIABLES:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.global_variables}
+                        {colors.WHITE}{'BUG:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.bug}
+                        {colors.WHITE}{'LOGGER:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.logger}
+                        {colors.WHITE}{'UNEXPECTED:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.unexpected}''')
 
     def create_test_report(self):
         """
         Create and save the test report
         """
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Creating test report{colors.LIGHT_CYAN}")
         # Create the report
         report.save(path=self.test_result_path)
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Created test report{colors.LIGHT_CYAN}")
 
     async def run_testsuite(self):
         """
@@ -174,22 +190,21 @@ class Runner:
         # Exit if the total testcases = 0
         if len(self.sync_tests) + len(self.async_tests) == 0:
             sys.exit(ErrorMsg.EMPTY_TESTS)
-        # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed test setup{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Started sorting synchronous tests{colors.LIGHT_CYAN}")
         # Sort the synchronous tests
         self.sync_tests.sort(key=lambda x: x.execution_order)
-        # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed sorting synchronous tests{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Creating aiohttp client session{colors.LIGHT_CYAN}")
         # Session should be created inside async function even if it itself not an async function
         # Also creation should happen inside the main event loop (Should not be in a separate event loop)
         session = aiohttp.ClientSession(json_serialize=json.dumps)
         # Create an aiohttp session for the whole run instead of creating a new session per request.
         AioHttpSession.set(session=session)
         # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Created aiohttp client session{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting sync test execution{colors.LIGHT_CYAN}")
+        test_rest_api_logger.info(f"{colors.WHITE}Created aiohttp client session{colors.LIGHT_BLUE}")
+        test_rest_api_logger.info(f"{colors.WHITE}Completed test setup{colors.LIGHT_BLUE}")
+        if len(self.sync_tests) > 0:
+            test_rest_api_logger.info(f"""{colors.LIGHT_PURPLE}
+                          =======================================================
+                        || ................  S Y N C - T E S T S ............... ||
+                          ======================================================={colors.LIGHT_BLUE}""")
         # Start the stopwatch / counter
         timer_start = perf_counter_ns()
         # Test start date time
@@ -198,8 +213,11 @@ class Runner:
         for sync_test in (sync_test for sync_test in self.sync_tests):
             await sync_test()
         # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed sync test execution{colors.LIGHT_CYAN}")
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Starting async test execution{colors.LIGHT_CYAN}")
+        if len(self.async_tests) > 0:
+            test_rest_api_logger.info(f"""{colors.LIGHT_PURPLE}
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          ======================================================={colors.LIGHT_BLUE}""")
         # Running Tasks Concurrently (Execute async functions concurrently)
         # Run all async functions from tests list in parallel
         await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
@@ -209,8 +227,6 @@ class Runner:
         timer_stop = perf_counter_ns()
         # Calculate the time duration of the test in seconds (note: duration is in nanoseconds)
         duration = f'{(timer_stop - timer_start) / 1000000000} seconds'
-        # Logging
-        test_rest_api_logger.info(f"{colors.LIGHT_PURPLE}Completed async test execution{colors.LIGHT_CYAN}")
         # Update report summary details
         report.summary.test.start = start
         report.summary.test.end = end
