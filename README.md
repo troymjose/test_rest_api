@@ -84,7 +84,9 @@ __Syntax__
 
 __Syntax__
 
-``` python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path" ```
+```
+python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path"
+```
 
 - We can __set variables__ with values, example Domain, Username, Password etc. in __.env file__
 - test_rest_api will __auto fetch__ all these values and save under __Global Variables__ as constants
@@ -100,7 +102,9 @@ __Syntax__
 
 __Syntax__
 
-``` python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path" -h #SMOKE```
+```
+python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path" -h #SMOKE#SANITY
+```
 
 - __Group__ your test by providing tags in test creation
 - This helps to __execute__ a group of testcases, example __smoke testing__, __regression testing__ etc.
@@ -148,7 +152,7 @@ Now let's __execute__ it from command line . . .
 - Create new python file (eg: __my_first_testsuite.py__) and paste the above code
 - Execute the test from the __command line__ using the test_rest_api module directly
 
-``` python -m test_rest_api -t "test file path" -r "result folder path"```
+``` python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" ```
 
 <h4 id="2-configure-my-test">2. Configure my test</h4>
 
@@ -355,6 +359,9 @@ async def my_second_bug():
 - We are adding custom __logging__ in this example to show how logger instance is __useful in Bug creation__
 - Logger instance variable can be passed to __steps_to_reproduce__ attribute during Bug creation
 
+```
+Bug(message='', priority='', actual_result='', expected_result='', steps_to_reproduce='')
+```
 
 - __message__
     - Mandatory: False
