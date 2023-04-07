@@ -56,12 +56,14 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Call the async test function
                         result = await func(*args, **kwargs)
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.LIGHT_GREEN}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.LIGHT_GREEN}{'PASS' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the test status and details
                         test_status, test_details = TestStatus.PASS, f'Success !\n\n{str(result) if result else ""}'
                     except RestApiCreationException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.REST_API
                         # Get the code traceback details
@@ -79,7 +81,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except RestApiSendException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.REST_API
                         # Get the code traceback details
@@ -95,7 +98,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugCreationException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.BUG
                         # Get the code traceback details
@@ -113,7 +117,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except GlobalVariablesException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.GLOBAL_VARIABLES
                         # Get the code traceback details
@@ -128,7 +133,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except LoggerException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.LOGGER
                         # Get the code traceback details
@@ -143,7 +149,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugException as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.LIGHT_RED}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.LIGHT_RED}{'FAIL' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the bug priority for reporting
                         bug_priority = exc.priority
                         # Get the code traceback details
@@ -159,7 +166,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.FAIL, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except AttributeError as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.UNEXPECTED
                         # Get the code traceback details
@@ -172,7 +180,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}\n\n{"Tip: This may be due to not using await keyword in function calls"}'
                     except Exception as exc:
                         # Log the result
-                        test_rest_api_logger.info(f"{colors.YELLOW}{testcase_name}{colors.LIGHT_CYAN}")
+                        test_rest_api_logger.info(
+                            f"{colors.YELLOW}{'ERROR' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the error type for reporting
                         error_type = ErrorType.UNEXPECTED
                         # Get the code traceback details
