@@ -1,4 +1,4 @@
-<img alt="test_rest_api" src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/test_rest_api.png"  width="50%" >
+<img alt="test_rest_api" src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.png"  width="50%" >
 
 # TEST REST API
 

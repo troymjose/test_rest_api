@@ -5,6 +5,8 @@ html_str = """
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>REPORT</title>
+    <!-- add icon link -->
+    <link rel = "icon" href = "https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" type = "image/x-icon">
     <style>
       html {
         scroll-behavior: smooth;
@@ -33,7 +35,7 @@ html_str = """
           <a class="navbar-brand" style="font-size: x-large;">T E S T -  R E S T - A P I </a>
           <form class="d-flex" role="search">
             <a class="text-light" type="submit" href="https://pypi.org/project/test-rest-api/" target="_blank">
-            <img src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/test_rest_api.ico" alt="" width="50" height="50" class="rounded-circle"></a>
+            <img src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" alt="" width="50" height="50" class="rounded-circle"></a>
             </a>
           </form>
         </div>
