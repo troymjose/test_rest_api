@@ -43,15 +43,15 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
 - Designed to be __easy__ to use & learn
 
 <h2 id="installation">Installation</h2>
+
 If you already have [Python](http://python.org/) with [pip](https://pip.pypa.io/) installed, you can simply run:
 
 ```pip install test_rest_api```
 
 <h2 id="usage">Usage</h2>
 
-
-- - -
 <h4 id="1-basic-usage">1. Basic usage</h4>
+
 - - -
 
 __Syntax__
@@ -64,8 +64,8 @@ __Syntax__
 - We can __organise__ folders, sub folders and python files in any __custom__ structure
 - test_rest_api will __autodetect__ python files and folders as __Test suites__
 
-- - -
 <h4 id="2-set-report-path">2. Set report path</h4>
+
 - - -
 
 __Syntax__
@@ -78,8 +78,8 @@ __Syntax__
 - test_rest_api __creates__ beautiful rich test report with summary dashboards
 - We can also add our __custom logs__ to each individual tests in the test report
 
-- - -
 <h4 id="3-set-env-path">3. Set .env path</h4>
+
 - - -
 
 __Syntax__
@@ -94,8 +94,8 @@ __Syntax__
 - We can __set__ the environment variables by providing __-e__ followed by path
 - __-e__ stands for Environment path
 
-- - -
 <h4 id="4-set-hashtags">4. Set hashtags</h4>
+
 - - -
 
 __Syntax__
@@ -117,8 +117,9 @@ __Syntax__
 - Tests like login, logout etc. are __perfect candidates__ for #ALL
 
 <h2 id="examples">Examples</h2>
-- - -
+
 <h4 id="1-my-first-test">1. My first test</h4>
+
 - - -
 
 ```python
@@ -149,8 +150,8 @@ Now let's __execute__ it from command line . . .
 
 ``` python -m test_rest_api -t "test file path" -r "result folder path"```
 
-- - -
 <h4 id="2-configure-my-test">2. Configure my test</h4>
+
 - - -
 
 ```python
@@ -198,8 +199,8 @@ async def my_second_test():
     - Expected: Custom text for ordering. This will work only when is_async = False
     - Default: 'zzzzz'
 
-- - -
 <h4 id="3-my-first-logger">3. My first logger</h4>
+
 - - -
 
 ```python
@@ -221,8 +222,8 @@ async def my_first_logger():
 - Return logger instance for rich test __reporting__ ```return logger```
 - It is __recommended__ to use logger for all your tests
 
-- - -
 <h4 id="4-set-global-variables-value">4. Set global variables value</h4>
+
 - - -
 
 ```python
@@ -251,8 +252,8 @@ async def set_global_variables_value():
     - Data Type: any
     - Expected: Any python data type can be stored as global variables value
 
-- - -
 <h4 id="5-set-global-variables-value-as-constant">5. Set global variables value as constant</h4>
+
 - - -
 
 ```python
@@ -286,8 +287,8 @@ async def set_global_variables_value_as_constant():
     - Expected: True or False. Provide True, to create constants
     - Default: False
 
-- - -
 <h4 id="6-get-global-variables-value">6. Get global variables value</h4>
+
 - - -
 
 ```python
@@ -312,8 +313,8 @@ async def get_global_variables_value():
     - Data Type: str
     - Expected: Valid name of any saved global variable
 
-- - -
 <h4 id="7-my-first-bug">7. My first bug</h4>
+
 - - -
 
 ```python
@@ -331,8 +332,8 @@ async def my_first_bug():
 - This will __terminate__ the current test function execution
 - Bug __details__ can be viewed in final html test __report__
 
-- - -
 <h4 id="8-configure-my-bug">8. Configure my bug</h4>
+
 - - -
 
 ```python
@@ -381,8 +382,8 @@ async def my_second_bug():
     - Expected: Logger instance can be used to auto-populate this field
     - Default: Empty string
 
-- - -
 <h4 id="9-my-first-rest-api">9. My first rest api</h4>
+
 - - -
 
 ```python
@@ -399,8 +400,8 @@ async def my_first_rest_api():
 - This example is only about creating rest api, no __send action__ is performed here
 - We will use this __instance variable__ for sending the request in upcoming examples
 
-- - -
 <h4 id="10-configure-my-rest-api">10. Configure my rest api</h4>
+
 - - -
 
 ```python
@@ -437,8 +438,8 @@ async def configure_my_rest_api():
     - Expected: Provide the json request payload
     - Default: {}
 
-- - -
 <h4 id="11-send-my-rest-api">11. Send my rest api</h4>
+
 - - -
 
 ```python
@@ -461,8 +462,8 @@ async def send_my_rest_api():
 - Because they perform the same functionality with __different syntax__
 - Similarly, __other http methods__ can be used, with your desired syntax
 
-- - -
 <h4 id="12-rest-api-response">12. Rest api response</h4>
+
 - - -
 
 ```python
@@ -503,8 +504,8 @@ async def send_my_rest_api():
     - Data Type: aiohttp.ClientResponse
     - Value: Python aiohttp ClientResponse object
 
-- - -
 <h4 id="13-demo">13. Demo with all the above features</h4>
+
 - - -
 
 ```
