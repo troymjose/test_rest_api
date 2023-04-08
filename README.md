@@ -638,7 +638,7 @@ async def demo():
 
 - Single basic test with __PASS__ status
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/my_first_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/my_first_report.html)
 
 Console output
 
@@ -706,7 +706,7 @@ Console output
 - 5 __async__ tests
 - Each tests takes __1 second__ to complete
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/async_tests_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/async_tests_report.html)
 
 Console output
 
@@ -778,7 +778,7 @@ Console output
 - 5 __sync__ tests
 - Each tests takes __1 second__ to complete
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/sync_tests_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/sync_tests_report.html)
 
 Console output
 
@@ -851,7 +851,7 @@ Console output
 - Total __10__ tests
 - Each tests takes __1 second__ to complete
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/sync_and_async_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/sync_and_async_report.html)
 
 Console output
 
@@ -932,7 +932,7 @@ Console output
 - 5 __async__ tests with different __status__ values
 - __Status list__: PASS, FAIL, ERROR, DISABLE & SKIP
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/multi_status_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/multi_status_report.html)
 
 Console output
 
@@ -1000,7 +1000,7 @@ Console output
 - 5 __async__ tests with different __bug priority__ values
 - __Priority list__: LOW, MINOR, MAJOR, CRITICAL, BLOCKER
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/multi_bug_report.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/multi_bug_report.html)
 
 Console output
 
@@ -1069,12 +1069,12 @@ Console output
 
 - - -
 
-- Developers can make __mistakes__ while coding
+- Developers can make __errors__ while coding
+- __General__ error exception __messages__ will increase the time to __find__ and __fix__ these issues
+- test_rest_api provides __short__ & __precise__ error's with exact __traceback__ info
 - Here we are __purposefully__ making errors in __RestApi__ functions
-- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
-- __Traceback info__ is short and precise to reduce turnover time
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/rest_api_errors.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/rest_api_errors.html)
 
 Console output
 
@@ -1150,12 +1150,12 @@ Console output
 
 - - -
 
-- Developers can make __mistakes__ while coding
+- Developers can make __errors__ while coding
+- __General__ error exception __messages__ will increase the time to __find__ and __fix__ these issues
+- test_rest_api provides __short__ & __precise__ error's with exact __traceback__ info
 - Here we are __purposefully__ making errors in __GlobalVariables__ functions
-- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
-- __Traceback info__ is short and precise to reduce turnover time
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/global_variables_errors.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/global_variables_errors.html)
 
 Console output
 
@@ -1232,12 +1232,12 @@ Console output
 
 - - -
 
-- Developers can make __mistakes__ while coding
+- Developers can make __errors__ while coding
+- __General__ error exception __messages__ will increase the time to __find__ and __fix__ these issues
+- test_rest_api provides __short__ & __precise__ error's with exact __traceback__ info
 - Here we are __purposefully__ making errors in __Bug__ functions
-- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
-- __Traceback info__ is short and precise to reduce turnover time
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/bug_errors.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/bug_errors.html)
 
 Console output
 
@@ -1308,12 +1308,12 @@ Console output
 
 - - -
 
-- Developers can make __mistakes__ while coding
+- Developers can make __errors__ while coding
+- __General__ error exception __messages__ will increase the time to __find__ and __fix__ these issues
+- test_rest_api provides __short__ & __precise__ error's with exact __traceback__ info
 - Here we are __purposefully__ making errors in __Logger__ functions
-- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
-- __Traceback info__ is short and precise to reduce turnover time
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/logger_errors.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/logger_errors.html)
 
 Console output
 
@@ -1385,12 +1385,12 @@ Console output
 - - -
 
 
-[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/unexpected_errors.html)
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/assets/reports/unexpected_errors.html)
 
-- Developers can make __mistakes__ while coding
+- Developers can make __errors__ while coding
+- __General__ error exception __messages__ will increase the time to __find__ and __fix__ these issues
+- test_rest_api provides __short__ & __precise__ error's with exact __traceback__ info
 - Here we are __purposefully__ making unexpected errors in tests
-- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
-- __Traceback info__ is short and precise to reduce turnover time
 
 Console output
 
