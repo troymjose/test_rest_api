@@ -24,9 +24,10 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
     - [Configure my bug](#8-configure-my-bug)
     - [My first rest api](#9-my-first-rest-api)
     - [Configure my rest api](#10-configure-my-rest-api)
-    - [Send my rest api](#11-send-my-rest-api)
-    - [Rest api response](#12-rest-api-response)
-    - [Demo with all the above features](#13-demo)
+    - [Reuse my rest api](#11-reuse-my-rest-api)
+    - [Send my rest api](#12-send-my-rest-api)
+    - [Rest api response](#13-rest-api-response)
+    - [Demo with all the above features](#14-demo)
 - [Author](#author)
 - [License](#license)
 
@@ -445,7 +446,35 @@ async def configure_my_rest_api():
     - Expected: Provide the json request payload
     - Default: {}
 
-<h4 id="11-send-my-rest-api">11. Send my rest api</h4>
+<h4 id="11-reuse-my-rest-api">11. Reuse my rest api</h4>
+
+- - -
+
+```python
+from test_rest_api import RestApi, GlobalVariables
+
+
+def login_api(username: str, password: str):
+    domain = GlobalVariables.get('DOMAIN')
+    url = f'https://{domain}/login'
+    body = {'username': username, 'password': password}
+    return RestApi(url=url, body=body)
+```
+
+- A rest api will be used for __multiple tests__
+- __Creation__ of rest api __inside__ test async functions will result in __code duplication__
+- Duplicate code makes your program __lengthy__ and decreases your code __quality__
+- __Updating__ & __maintaining__ this rest api creations in __multiple__ tests will be difficult
+- __New changes__ to rest api, will result in changing the __same code multiple times__
+- To avoid duplication, we can use a __separate folder__ for rest api files
+- Use python __functions__ to create a rest api which will avoid __code duplication__
+- You can __call__ a function __100__ times instead of __writing__ it __100__ times
+- In this example we have created a simple __login api__
+- All the __dynamic values__ for rest api creation can be passed as function __parameters__
+- This helps in calling the same api with __different inputs__
+- Return the __RestApi instance__ which can be used in test functions for __sending__
+
+<h4 id="12-send-my-rest-api">12. Send my rest api</h4>
 
 - - -
 
@@ -469,7 +498,7 @@ async def send_my_rest_api():
 - Because they perform the same functionality with __different syntax__
 - Similarly, __other http methods__ can be used, with your desired syntax
 
-<h4 id="12-rest-api-response">12. Rest api response</h4>
+<h4 id="13-rest-api-response">13. Rest api response</h4>
 
 - - -
 
@@ -511,7 +540,7 @@ async def send_my_rest_api():
     - Data Type: aiohttp.ClientResponse
     - Value: Python aiohttp ClientResponse object
 
-<h4 id="13-demo">13. Demo with all the above features</h4>
+<h4 id="14-demo">14. Demo with all the above features</h4>
 
 - - -
 
