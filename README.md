@@ -13,6 +13,7 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
     - [Set report path](#2-set-report-path)
     - [Set .env path](#3-set-env-path)
     - [Set hashtags](#4-set-hashtags)
+    - [Project structure](#5-project-structure)
 - [Examples](#examples)
     - [My first test](#1-my-first-test)
     - [Configure my test](#2-configure-my-test)
@@ -120,6 +121,39 @@ python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e 
 - To tackle this issue, we can use inbuilt __#ALL tag__
 - __#ALL__ tagged tests will always be executed. It will not be skipped
 - Tests like login, logout etc. are __perfect candidates__ for #ALL
+
+<h4 id="5-project-structure">5. Project structure</h4>
+
+- - -
+
+```
+.
+├── api                           # Store all your rest api files
+│   ├── auth                      # Custom structure for subfolders & files
+│   │   ├── login.py              # Python file to store rest_api code
+│   │   │   ├── def user_login()  # Python function to create rest_api
+│   │   │   ├── def admin_login()
+│   │   │   └── ...    
+│   │   └── ...
+│   └── ...
+├── testsuite                     # Root testsuite folder
+│   ├── auth                      # Custom structure for subfolders & files
+│   │   ├── login.py              # Python file as testsuite to store tests
+│   │   │   ├── async def t001()  # Python async function as testcases
+│   │   │   ├── async def t002()
+│   │   │   └── ...    
+│   │   └── ...
+│   └── ...
+└── ...
+```
+
+- 2 sub folders __api__ & __testsuite__
+- Any __custom names__ can be used instead of __api__ & __testsuite__
+- __api__ should store all the api creation python files
+- __testsuite__ should store all the test creation python files
+- Any __custom structure__ with multiple sub folders can be used to organise the files
+- __Separating__ api from tests will avoid __code duplication__ for rest_api creation
+- Root testsuite folder __path__ will be used in command line __execution__ value for __-t__
 
 <h2 id="examples">Examples</h2>
 
