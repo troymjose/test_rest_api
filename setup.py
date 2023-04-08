@@ -18,7 +18,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'READM
 
 # Setup
 setup(name='test_rest_api',
-      version='0.0.0.0.25',
+      version='0.0.0.0.26',
       author='Troy M Jose',
       author_email='',
       url='https://github.com/troymjose/test_rest_api',
