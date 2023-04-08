@@ -64,6 +64,9 @@ class GlobalVariables:
         # Check if name is of type string
         if not isinstance(name, str):
             raise Exception('Invalid data type for name. Please provide a valid string')
+        # Check if name not empty
+        if name.strip() == '':
+            raise Exception('Empty value for name. Please provide a valid string')
         # Check if is_constant is of type bool
         if not isinstance(is_constant, bool):
             raise Exception('Invalid data type for is_constant. Please provide a valid boolean')
