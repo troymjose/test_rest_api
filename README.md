@@ -29,6 +29,18 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
     - [Send my rest api](#12-send-my-rest-api)
     - [Rest api response](#13-rest-api-response)
     - [Demo with all the above features](#14-demo)
+- [Reports](#reports)
+    - [My first report](#1-my-first-report)
+    - [Async tests report](#2-async-tests-report)
+    - [Sync tests report](#3-sync-tests-report)
+    - [Sync & Async report](#4-sync-and-async-report)
+    - [Multi status report](#5-multi-status-report)
+    - [Multi bug report](#6-multi-bug-report)
+    - [Rest api errors](#7-rest-api-errors)
+    - [Global variables errors](#8-global-variables-errors)
+    - [Bug errors](#9-bug-errors)
+    - [Logger errors](#10-logger-errors)
+    - [Unexpected errors](#11-unexpected-errors)
 - [Author](#author)
 - [License](#license)
 
@@ -616,6 +628,832 @@ async def demo():
 
     logger.log('Successfully completed the test')
 
+```
+
+<h2 id="reports">Reports</h2>
+
+<h4 id="1-my-first-report">1. My first report</h4>
+
+- - -
+
+- Single basic test with __PASS__ status
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/my_first_report.html)
+
+Console output
+
+```bash
+2023-04-08 15:40:22,712: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 15:40:22,712: Starting test setup
+2023-04-08 15:40:22,712: Auto detecting test suites
+2023-04-08 15:40:22,712: Total test suites: 1
+2023-04-08 15:40:22,712: Auto detecting tests
+2023-04-08 15:40:22,713: Total synchronous tests: 0
+2023-04-08 15:40:22,714: Total asynchronous tests: 1
+2023-04-08 15:40:22,714: Total tests: 1
+2023-04-08 15:40:22,714: Created aiohttp client session
+2023-04-08 15:40:22,714: Completed test setup
+2023-04-08 15:40:22,714: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 15:40:22,714: PASS    my_first_test (root file) [1]
+2023-04-08 15:40:22,715: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             PASS
+                        Tests:              1
+                        Start:              2023-04-08 15-40-22
+                        End:                2023-04-08 15-40-22
+                        Duration:           0.000956233 seconds
+                        Tags:               []
+                        
+                        PASS:               1
+                        FAIL:               0
+                        ERROR:              0
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="2-async-tests-report">2. Async tests report</h4>
+
+- - -
+
+- 5 __async__ tests
+- Each tests takes __1 second__ to complete
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/async_tests_report.html)
+
+Console output
+
+```bash
+2023-04-08 15:52:05,062: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 15:52:05,062: Starting test setup
+2023-04-08 15:52:05,062: Auto detecting test suites
+2023-04-08 15:52:05,062: Total test suites: 1
+2023-04-08 15:52:05,062: Auto detecting tests
+2023-04-08 15:52:05,063: Total synchronous tests: 0
+2023-04-08 15:52:05,063: Total asynchronous tests: 5
+2023-04-08 15:52:05,063: Total tests: 5
+2023-04-08 15:52:05,063: Created aiohttp client session
+2023-04-08 15:52:05,063: Completed test setup
+2023-04-08 15:52:05,063: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 15:52:06,064: PASS    testcase_1 (root file) [1]
+2023-04-08 15:52:06,064: PASS    testcase_2 (root file) [2]
+2023-04-08 15:52:06,065: PASS    testcase_3 (root file) [3]
+2023-04-08 15:52:06,065: PASS    testcase_4 (root file) [4]
+2023-04-08 15:52:06,065: PASS    testcase_5 (root file) [5]
+2023-04-08 15:52:06,066: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             PASS
+                        Tests:              5
+                        Start:              2023-04-08 15-52-05
+                        End:                2023-04-08 15-52-06
+                        Duration:           1.002069748 seconds
+                        Tags:               []
+                        
+                        PASS:               5
+                        FAIL:               0
+                        ERROR:              0
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="3-sync-tests-report">3. Sync tests report</h4>
+
+- - -
+
+- 5 __sync__ tests
+- Each tests takes __1 second__ to complete
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/sync_tests_report.html)
+
+Console output
+
+```bash
+2023-04-08 15:56:19,128: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 15:56:19,129: Starting test setup
+2023-04-08 15:56:19,129: Auto detecting test suites
+2023-04-08 15:56:19,129: Total test suites: 1
+2023-04-08 15:56:19,129: Auto detecting tests
+2023-04-08 15:56:19,129: Total synchronous tests: 5
+2023-04-08 15:56:19,129: Total asynchronous tests: 0
+2023-04-08 15:56:19,129: Total tests: 5
+2023-04-08 15:56:19,129: Created aiohttp client session
+2023-04-08 15:56:19,129: Completed test setup
+2023-04-08 15:56:19,130: 
+                          =======================================================
+                        || ................  S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 15:56:20,131: PASS    testcase_1 (root file) [1]
+2023-04-08 15:56:21,132: PASS    testcase_2 (root file) [2]
+2023-04-08 15:56:22,132: PASS    testcase_3 (root file) [3]
+2023-04-08 15:56:23,134: PASS    testcase_4 (root file) [4]
+2023-04-08 15:56:24,135: PASS    testcase_5 (root file) [5]
+2023-04-08 15:56:24,137: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             PASS
+                        Tests:              5
+                        Start:              2023-04-08 15-56-19
+                        End:                2023-04-08 15-56-24
+                        Duration:           5.006235552 seconds
+                        Tags:               []
+                        
+                        PASS:               5
+                        FAIL:               0
+                        ERROR:              0
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="4-sync-and-async-report">4. Sync & Async report</h4>
+
+- - -
+
+- 5 __sync__ & __async__ tests each
+- Total __10__ tests
+- Each tests takes __1 second__ to complete
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/sync_and_async_report.html)
+
+Console output
+
+```bash
+2023-04-08 15:59:38,170: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 15:59:38,170: Starting test setup
+2023-04-08 15:59:38,170: Auto detecting test suites
+2023-04-08 15:59:38,170: Total test suites: 1
+2023-04-08 15:59:38,170: Auto detecting tests
+2023-04-08 15:59:38,172: Total synchronous tests: 5
+2023-04-08 15:59:38,172: Total asynchronous tests: 5
+2023-04-08 15:59:38,172: Total tests: 10
+2023-04-08 15:59:38,173: Created aiohttp client session
+2023-04-08 15:59:38,173: Completed test setup
+2023-04-08 15:59:38,173: 
+                          =======================================================
+                        || ................  S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 15:59:39,174: PASS    testcase_1 (root file) [1]
+2023-04-08 15:59:40,176: PASS    testcase_2 (root file) [2]
+2023-04-08 15:59:41,177: PASS    testcase_3 (root file) [3]
+2023-04-08 15:59:42,178: PASS    testcase_4 (root file) [4]
+2023-04-08 15:59:43,180: PASS    testcase_5 (root file) [5]
+2023-04-08 15:59:43,180: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 15:59:44,182: PASS    testcase_async_1 (root file) [6]
+2023-04-08 15:59:44,182: PASS    testcase_async_2 (root file) [7]
+2023-04-08 15:59:44,183: PASS    testcase_async_3 (root file) [8]
+2023-04-08 15:59:44,183: PASS    testcase_async_4 (root file) [9]
+2023-04-08 15:59:44,183: PASS    testcase_async_5 (root file) [10]
+2023-04-08 15:59:44,185: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             PASS
+                        Tests:              10
+                        Start:              2023-04-08 15-59-38
+                        End:                2023-04-08 15-59-44
+                        Duration:           6.01064299 seconds
+                        Tags:               []
+                        
+                        PASS:               10
+                        FAIL:               0
+                        ERROR:              0
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="5-multi-status-report">5. Multi status report</h4>
+
+- - -
+
+- 5 __async__ tests with different __status__ values
+- __Status list__: PASS, FAIL, ERROR, DISABLE & SKIP
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/multi_status_report.html)
+
+Console output
+
+```bash
+2023-04-08 16:17:44,328: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 16:17:44,329: Starting test setup
+2023-04-08 16:17:44,329: Auto detecting test suites
+2023-04-08 16:17:44,329: Total test suites: 1
+2023-04-08 16:17:44,329: Auto detecting tests
+2023-04-08 16:17:44,330: Total synchronous tests: 0
+2023-04-08 16:17:44,330: Total asynchronous tests: 5
+2023-04-08 16:17:44,330: Total tests: 5
+2023-04-08 16:17:44,330: Created aiohttp client session
+2023-04-08 16:17:44,330: Completed test setup
+2023-04-08 16:17:44,330: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 16:17:44,330: ERROR   t_error (root file) [2]
+2023-04-08 16:17:44,331: FAIL    t_fail (root file) [3]
+2023-04-08 16:17:44,331: PASS    t_pass (root file) [4]
+2023-04-08 16:17:44,332: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              5
+                        Start:              2023-04-08 16-17-44
+                        End:                2023-04-08 16-17-44
+                        Duration:           0.001355524 seconds
+                        Tags:               ['SMOKE']
+                        
+                        PASS:               1
+                        FAIL:               1
+                        ERROR:              1
+                        DISABLE:            1
+                        SKIP:               1
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              1
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         1
+```
+
+<h4 id="6-multi-bug-report">6. Multi bug report</h4>
+
+- 5 __async__ tests with different __bug priority__ values
+- __Priority list__: LOW, MINOR, MAJOR, CRITICAL, BLOCKER
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/multi_bug_report.html)
+
+Console output
+
+```bash
+2023-04-08 16:30:21,400: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 16:30:21,400: Starting test setup
+2023-04-08 16:30:21,400: Auto detecting test suites
+2023-04-08 16:30:21,400: Total test suites: 1
+2023-04-08 16:30:21,400: Auto detecting tests
+2023-04-08 16:30:21,401: Total synchronous tests: 0
+2023-04-08 16:30:21,401: Total asynchronous tests: 5
+2023-04-08 16:30:21,401: Total tests: 5
+2023-04-08 16:30:21,402: Created aiohttp client session
+2023-04-08 16:30:21,402: Completed test setup
+2023-04-08 16:30:21,402: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 16:30:21,402: FAIL    t_blocker (root file) [1]
+2023-04-08 16:30:21,404: FAIL    t_critical (root file) [2]
+2023-04-08 16:30:21,404: FAIL    t_low (root file) [3]
+2023-04-08 16:30:21,404: FAIL    t_major (root file) [4]
+2023-04-08 16:30:21,404: FAIL    t_minor (root file) [5]
+2023-04-08 16:30:21,406: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              5
+                        Start:              2023-04-08 16-30-21
+                        End:                2023-04-08 16-30-21
+                        Duration:           0.003122595 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               5
+                        ERROR:              0
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                1
+                        MINOR:              1
+                        MAJOR:              1
+                        CRITICAL:           1
+                        BLOCKER:            1
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="7-rest-api-errors">7. Rest api errors</h4>
+
+- - -
+
+- Developers can make __mistakes__ while coding
+- Here we are __purposefully__ making errors in __RestApi__ functions
+- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
+- __Traceback info__ is short and precise to reduce turnover time
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/rest_api_errors.html)
+
+Console output
+
+```bash
+2023-04-08 19:41:19,099: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 19:41:19,099: Starting test setup
+2023-04-08 19:41:19,099: Auto detecting test suites
+2023-04-08 19:41:19,099: Total test suites: 1
+2023-04-08 19:41:19,099: Auto detecting tests
+2023-04-08 19:41:19,099: Total synchronous tests: 0
+2023-04-08 19:41:19,099: Total asynchronous tests: 12
+2023-04-08 19:41:19,099: Total tests: 12
+2023-04-08 19:41:19,099: Created aiohttp client session
+2023-04-08 19:41:19,099: Completed test setup
+2023-04-08 19:41:19,099: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 19:41:19,100: ERROR   t1 (root file) [1]
+2023-04-08 19:41:19,101: ERROR   t10 (root file) [2]
+2023-04-08 19:41:19,110: ERROR   t2 (root file) [5]
+2023-04-08 19:41:19,110: ERROR   t3 (root file) [6]
+2023-04-08 19:41:19,110: ERROR   t4 (root file) [7]
+2023-04-08 19:41:19,110: ERROR   t5 (root file) [8]
+2023-04-08 19:41:19,110: ERROR   t6 (root file) [9]
+2023-04-08 19:41:19,111: ERROR   t7 (root file) [10]
+2023-04-08 19:41:19,111: ERROR   t8 (root file) [11]
+2023-04-08 19:41:19,111: ERROR   t9 (root file) [12]
+2023-04-08 19:41:19,115: ERROR   t11 (root file) [3]
+2023-04-08 19:41:19,285: ERROR   t12 (root file) [4]
+2023-04-08 19:41:19,288: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              12
+                        Start:              2023-04-08 19-41-19
+                        End:                2023-04-08 19-41-19
+                        Duration:           0.18714125 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               0
+                        ERROR:              12
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           12
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="8-global-variables-errors">8. Global variables errors</h4>
+
+- - -
+
+- Developers can make __mistakes__ while coding
+- Here we are __purposefully__ making errors in __GlobalVariables__ functions
+- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
+- __Traceback info__ is short and precise to reduce turnover time
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/global_variables_errors.html)
+
+Console output
+
+```bash
+2023-04-08 18:38:05,825: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 18:38:05,825: Starting test setup
+2023-04-08 18:38:05,825: Auto detecting test suites
+2023-04-08 18:38:05,826: Total test suites: 1
+2023-04-08 18:38:05,826: Auto detecting tests
+2023-04-08 18:38:05,827: Total synchronous tests: 0
+2023-04-08 18:38:05,827: Total asynchronous tests: 13
+2023-04-08 18:38:05,827: Total tests: 13
+2023-04-08 18:38:05,827: Created aiohttp client session
+2023-04-08 18:38:05,827: Completed test setup
+2023-04-08 18:38:05,827: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 18:38:05,827: ERROR   t_1 (root file) [1]
+2023-04-08 18:38:05,828: ERROR   t_10 (root file) [2]
+2023-04-08 18:38:05,828: ERROR   t_11 (root file) [3]
+2023-04-08 18:38:05,828: ERROR   t_12 (root file) [4]
+2023-04-08 18:38:05,829: ERROR   t_13 (root file) [5]
+2023-04-08 18:38:05,829: ERROR   t_2 (root file) [6]
+2023-04-08 18:38:05,829: ERROR   t_3 (root file) [7]
+2023-04-08 18:38:05,829: ERROR   t_4 (root file) [8]
+2023-04-08 18:38:05,829: ERROR   t_5 (root file) [9]
+2023-04-08 18:38:05,830: ERROR   t_6 (root file) [10]
+2023-04-08 18:38:05,830: ERROR   t_7 (root file) [11]
+2023-04-08 18:38:05,830: ERROR   t_8 (root file) [12]
+2023-04-08 18:38:05,830: ERROR   t_9 (root file) [13]
+2023-04-08 18:38:05,831: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              13
+                        Start:              2023-04-08 18-38-05
+                        End:                2023-04-08 18-38-05
+                        Duration:           0.003679225 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               0
+                        ERROR:              13
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   13
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="9-bug-errors">9. Bug errors</h4>
+
+- - -
+
+- Developers can make __mistakes__ while coding
+- Here we are __purposefully__ making errors in __Bug__ functions
+- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
+- __Traceback info__ is short and precise to reduce turnover time
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/bug_errors.html)
+
+Console output
+
+```bash
+2023-04-08 19:55:51,870: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 19:55:51,871: Starting test setup
+2023-04-08 19:55:51,871: Auto detecting test suites
+2023-04-08 19:55:51,871: Total test suites: 1
+2023-04-08 19:55:51,871: Auto detecting tests
+2023-04-08 19:55:51,872: Total synchronous tests: 0
+2023-04-08 19:55:51,872: Total asynchronous tests: 7
+2023-04-08 19:55:51,872: Total tests: 7
+2023-04-08 19:55:51,872: Created aiohttp client session
+2023-04-08 19:55:51,872: Completed test setup
+2023-04-08 19:55:51,872: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 19:55:51,872: ERROR   t1 (root file) [1]
+2023-04-08 19:55:51,874: ERROR   t2 (root file) [2]
+2023-04-08 19:55:51,875: ERROR   t3 (root file) [3]
+2023-04-08 19:55:51,875: ERROR   t4 (root file) [4]
+2023-04-08 19:55:51,875: ERROR   t5 (root file) [5]
+2023-04-08 19:55:51,875: ERROR   t6 (root file) [6]
+2023-04-08 19:55:51,876: ERROR   t7 (root file) [7]
+2023-04-08 19:55:51,877: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              7
+                        Start:              2023-04-08 19-55-51
+                        End:                2023-04-08 19-55-51
+                        Duration:           0.003555115 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               0
+                        ERROR:              7
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                7
+                        LOGGER:             0
+                        UNEXPECTED:         0
+```
+
+<h4 id="10-logger-errors">10. Logger errors</h4>
+
+- - -
+
+- Developers can make __mistakes__ while coding
+- Here we are __purposefully__ making errors in __Logger__ functions
+- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
+- __Traceback info__ is short and precise to reduce turnover time
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/logger_errors.html)
+
+Console output
+
+```bash
+2023-04-08 21:54:56,023: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 21:54:56,023: Starting test setup
+2023-04-08 21:54:56,023: Auto detecting test suites
+2023-04-08 21:54:56,023: Total test suites: 1
+2023-04-08 21:54:56,023: Auto detecting tests
+2023-04-08 21:54:56,023: Total synchronous tests: 0
+2023-04-08 21:54:56,023: Total asynchronous tests: 7
+2023-04-08 21:54:56,023: Total tests: 7
+2023-04-08 21:54:56,023: Created aiohttp client session
+2023-04-08 21:54:56,023: Completed test setup
+2023-04-08 21:54:56,023: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 21:54:56,023: ERROR   t1 (root file) [1]
+2023-04-08 21:54:56,025: ERROR   t2 (root file) [2]
+2023-04-08 21:54:56,025: ERROR   t3 (root file) [3]
+2023-04-08 21:54:56,026: ERROR   t4 (root file) [4]
+2023-04-08 21:54:56,026: ERROR   t5 (root file) [5]
+2023-04-08 21:54:56,026: ERROR   t6 (root file) [6]
+2023-04-08 21:54:56,026: ERROR   t7 (root file) [7]
+2023-04-08 21:54:56,027: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              7
+                        Start:              2023-04-08 21-54-56
+                        End:                2023-04-08 21-54-56
+                        Duration:           0.003578533 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               0
+                        ERROR:              7
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             7
+                        UNEXPECTED:         0
+```
+
+<h4 id="11-unexpected-errors">11. Unexpected errors</h4>
+
+- - -
+
+
+[Click here to view the html report](https://raw.githack.com/troymjose/test_rest_api/main/test_rest_api/assets/reports/unexpected_errors.html)
+
+- Developers can make __mistakes__ while coding
+- Here we are __purposefully__ making unexpected errors in tests
+- This will showcase how __easy__ it is to __fix errors__ in test_rest_api
+- __Traceback info__ is short and precise to reduce turnover time
+
+Console output
+
+```bash
+2023-04-08 21:58:04,529: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ..................................................... ||
+                        || ...........  T E S T - R E S T - A P I   ............ ||
+                        || ..................................................... ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+2023-04-08 21:58:04,529: Starting test setup
+2023-04-08 21:58:04,530: Auto detecting test suites
+2023-04-08 21:58:04,530: Total test suites: 1
+2023-04-08 21:58:04,530: Auto detecting tests
+2023-04-08 21:58:04,530: Total synchronous tests: 0
+2023-04-08 21:58:04,530: Total asynchronous tests: 6
+2023-04-08 21:58:04,530: Total tests: 6
+2023-04-08 21:58:04,531: Created aiohttp client session
+2023-04-08 21:58:04,531: Completed test setup
+2023-04-08 21:58:04,531: 
+                          =======================================================
+                        || ............... A S Y N C - T E S T S ............... ||
+                          =======================================================
+2023-04-08 21:58:04,531: ERROR   t1 (root file) [1]
+2023-04-08 21:58:04,532: ERROR   t2 (root file) [2]
+2023-04-08 21:58:04,533: ERROR   t3 (root file) [3]
+2023-04-08 21:58:04,534: ERROR   t4 (root file) [4]
+2023-04-08 21:58:04,534: ERROR   t5 (root file) [5]
+2023-04-08 21:58:04,534: ERROR   t6 (root file) [6]
+2023-04-08 21:58:04,535: 
+                          =======================================================
+                        || ..................................................... ||
+                        || ............  T E S T - S U M M A R Y   ............. ||
+                        || ..................................................... ||
+                          =======================================================
+                        
+                        Status:             FAIL
+                        Tests:              6
+                        Start:              2023-04-08 21-58-04
+                        End:                2023-04-08 21-58-04
+                        Duration:           0.003570664 seconds
+                        Tags:               []
+                        
+                        PASS:               0
+                        FAIL:               0
+                        ERROR:              6
+                        DISABLE:            0
+                        SKIP:               0
+                        
+                        LOW:                0
+                        MINOR:              0
+                        MAJOR:              0
+                        CRITICAL:           0
+                        BLOCKER:            0
+                        
+                        REST API:           0
+                        GLOBAL VARIABLES:   0
+                        BUG:                0
+                        LOGGER:             0
+                        UNEXPECTED:         6
 ```
 
 <h2 id="author">Author</h2>

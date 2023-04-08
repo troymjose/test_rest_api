@@ -1,0 +1,2671 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>REPORT</title>
+    <!-- add icon link -->
+    <link rel="icon" href="https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" type="image/x-icon">
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="root-div" style="text-align: center">
+      <!-- Top Nav bar -->
+      <nav
+        class="navbar fixed-top bg-dark-subtle shadow-lg p-3 mb-5 bg-body-tertiary"
+        data-bs-theme="dark"
+      >
+        <div class="container-fluid">
+          <a class="navbar-brand" style="font-size: x-large;">T E S T -  R E S T - A P I </a>
+          <form class="d-flex" role="search">
+            <a class="text-light" type="submit" href="https://pypi.org/project/test-rest-api/" target="_blank">
+            <img src="https://raw.githubusercontent.com/troymjose/test_rest_api/main/assets/test_rest_api.ico" alt="" width="50" height="50" class="rounded-circle"></a>
+            </a>
+          </form>
+        </div>
+      </nav>
+      <!-- Summary Results -->
+      <div id="summary-div" style="padding: 30px; text-align: left">
+        <br />
+        <br />
+        <br />
+        <br />
+        <h4 class="text-body-secondary">
+          <i class="bi bi-clipboard2-data-fill"></i>&nbsp;&nbsp;Summary
+        </h4>
+        <hr class="border border-secondary border-2 opacity-50" />
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+          <div class="col">
+            <!-- Run Results -->
+            <div class="card h-100">
+              <div class="card-header">
+                <h5 class="card-title text-body-secondary">
+                  <i class="bi bi-speedometer"></i>&nbsp;&nbsp;Run
+                </h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Status</td>
+                      
+                      <td>
+                        <span
+                          class="badge text-bg-light rounded-pill"
+                          style="color: #ff6384 !important"
+                          >FAIL</span
+                        >
+                      </td>
+                      
+                    </tr>
+                    <tr>
+                      <td>Tests</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >13</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.003679225 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <canvas id="runDoughnutChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- Status Results -->
+            <div class="card h-100">
+              <div class="card-header">
+                <h5 class="card-title text-body-secondary">
+                  <i class="bi bi-ui-checks-grid"></i>&nbsp;&nbsp;Status
+                </h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Total</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >13</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Pass</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Fail</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >13</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Disable</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Skip</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <canvas id="statusDoughnutChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- Status Bugs -->
+            <div class="card h-100">
+              <div class="card-header">
+                <h5 class="card-title text-body-secondary">
+                  <i class="bi bi-bug-fill"></i>&nbsp;&nbsp;Bugs
+                </h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Total</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Low</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Minor</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Major</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Critical</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Blocker</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <canvas id="bugDoughnutChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <!-- Status Errors -->
+            <div class="card h-100">
+              <div class="card-header">
+                <h5 class="card-title text-body-secondary">
+                  <i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;Errors
+                </h5>
+              </div>
+              <div class="card-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Total</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >13</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Rest Api</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Global Variables</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >13</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Logger</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Unexpected</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer">
+                <canvas id="errorDoughnutChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <!-- Asynchronous Tests -->
+      <div id="async-div" style="padding: 30px; text-align: left">
+        <br />
+        <br />
+        <br />
+        <nav
+          class="navbar bg-body-tertiary"
+          style="background-color: white !important"
+        >
+          <div class="container-fluid">
+            <h4 class="text-body-secondary">
+              <i class="bi bi-list-stars"></i>&nbsp;&nbsp;Asynchronous Tests
+            </h4>
+            <form class="d-flex" role="search">
+              <input
+                id="async_test_search"
+                class="form-control me-4"
+                type="search"
+                placeholder="Search"
+              />
+              <div
+                class="btn-group"
+                role="group"
+                aria-label="Basic outlined example"
+              >
+                <button
+                  id="async_test_open_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-down-circle-fill"></i>
+                </button>
+                <button
+                  id="async_test_close_all"
+                  type="button"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="bi bi-arrow-up-circle-fill"></i>
+                </button>
+              </div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </form>
+          </div>
+        </nav>
+        <hr class="border border-secondary border-2 opacity-50" />
+        <!-- Asynchronous Test Result Accordion -->
+        <div class="accordion" id="asyncTestResultAccordion">
+          
+          <div
+            class="accordion-item"
+            id="t_1rootfile1"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_1-root-file-1"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_1-root-file-1"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_1 (root file) [1]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_1-root-file-1"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_1 (root file) [1]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000759389 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 6, in t_1
+    GlobalVariables.set()
+
+EXCEPTION
+---------
+GlobalVariables.set() missing 2 required positional arguments: 'name' and 'value'
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_10rootfile2"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_10-root-file-2"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_10-root-file-2"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_10 (root file) [2]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_10-root-file-2"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_10 (root file) [2]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.00017689 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 52, in t_10
+    GlobalVariables.get(1, 2, 3, 4, 5, 6, 7, 8)
+
+EXCEPTION
+---------
+GlobalVariables.get() takes 2 positional arguments but 9 were given
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_11rootfile3"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_11-root-file-3"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_11-root-file-3"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_11 (root file) [3]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_11-root-file-3"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_11 (root file) [3]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000156845 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 57, in t_11
+    GlobalVariables.get(name1="name")
+
+EXCEPTION
+---------
+GlobalVariables.get() got an unexpected keyword argument 'name1'
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_12rootfile4"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_12-root-file-4"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_12-root-file-4"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_12 (root file) [4]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_12-root-file-4"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_12 (root file) [4]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000275704 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 62, in t_12
+    GlobalVariables.get(name=True)
+
+EXCEPTION
+---------
+Invalid data type for name. Please provide a valid string
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_13rootfile5"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_13-root-file-5"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_13-root-file-5"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_13 (root file) [5]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_13-root-file-5"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_13 (root file) [5]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000208953 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 67, in t_13
+    GlobalVariables.get(name='INVALID NAME')
+
+EXCEPTION
+---------
+Global variable "INVALID NAME" not found
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_2rootfile6"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_2-root-file-6"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_2-root-file-6"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_2 (root file) [6]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_2-root-file-6"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_2 (root file) [6]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000154331 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 11, in t_2
+    GlobalVariables.set(1, 2, 3, 4, 5, 6, 7, 8)
+
+EXCEPTION
+---------
+GlobalVariables.set() takes from 3 to 4 positional arguments but 9 were given
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_3rootfile7"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_3-root-file-7"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_3-root-file-7"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_3 (root file) [7]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_3-root-file-7"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_3 (root file) [7]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000150531 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 16, in t_3
+    GlobalVariables.set(name1="name")
+
+EXCEPTION
+---------
+GlobalVariables.set() got an unexpected keyword argument 'name1'
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_4rootfile8"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_4-root-file-8"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_4-root-file-8"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_4 (root file) [8]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_4-root-file-8"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_4 (root file) [8]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.00015497 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 21, in t_4
+    GlobalVariables.set(name=True)
+
+EXCEPTION
+---------
+GlobalVariables.set() missing 1 required positional argument: 'value'
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_5rootfile9"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_5-root-file-9"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_5-root-file-9"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_5 (root file) [9]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_5-root-file-9"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_5 (root file) [9]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000162 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 26, in t_5
+    GlobalVariables.set(name=True, value=[])
+
+EXCEPTION
+---------
+Invalid data type for name. Please provide a valid string
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_6rootfile10"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_6-root-file-10"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_6-root-file-10"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_6 (root file) [10]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_6-root-file-10"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_6 (root file) [10]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000162482 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 31, in t_6
+    GlobalVariables.set(name='', value='')
+
+EXCEPTION
+---------
+Empty value for name. Please provide a valid string
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_7rootfile11"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_7-root-file-11"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_7-root-file-11"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_7 (root file) [11]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_7-root-file-11"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_7 (root file) [11]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000160318 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 36, in t_7
+    GlobalVariables.set(name='n', value='', is_constant="C O N S T A N T")
+
+EXCEPTION
+---------
+Invalid data type for is_constant. Please provide a valid boolean
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_8rootfile12"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_8-root-file-12"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_8-root-file-12"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_8 (root file) [12]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_8-root-file-12"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_8 (root file) [12]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000167971 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 42, in t_8
+    GlobalVariables.set(name='const_var', value='100', is_constant=True)
+
+EXCEPTION
+---------
+Constant global variable "const_var" cannot be updated
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div
+            class="accordion-item"
+            id="t_9rootfile13"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-t_9-root-file-13"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-t_9-root-file-13"
+              >
+                
+                <span class="badge" style="background-color: #ffcd56"
+                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
+                    >ERROR</b
+                  ></span
+                >&nbsp;&nbsp;  t_9 (root file) [13]
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-t_9-root-file-13"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >t_9 (root file) [13]</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Asynchronous</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >True</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testsuite</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >root file</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Tags</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >#ALL</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Start</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>End</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >2023-04-08 18-38-05</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Duration</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >0.000148646 seconds</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bug Priority</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          ></span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Error Type</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >Global Variables</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="card">
+                  <div class="card-body">
+                    <pre>
+TRACEBACKS
+----------
+File "/Users/test_rest_api/_errors/1. global_variables.py", line 47, in t_9
+    GlobalVariables.get()
+
+EXCEPTION
+---------
+GlobalVariables.get() missing 1 required positional argument: 'name'
+
+ERROR MESSAGE
+-------------
+Global Variables Error
+
+Example Code
+------------
+(Example 1)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set("variable_name", variable_value)
+
+variable = GlobalVariables.get("variable_name")
+
+(Example 2)
+
+from test_rest_api import GlobalVariables
+
+GlobalVariables.set(name= "variable_name", value= "variable_value", is_constant= False)
+
+variable: str = GlobalVariables.get(name= "variable_name")
+
+Note: Both the above 2 examples does the same functionality but with different syntax
+
+Set is_constant = True, for constant values
+is_constant is an optional attribute
+Default is_constant: False
+
+We can store value of any datatypes in global variables including dict, list, set, tuple, str, int etc
+GlobalVariables.set(name= "my_list", value= [1, 2, 3])
+</pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+    <!-- Floating button for navigating summary, sync & async sections -->
+    <div
+      class="btn-group-vertical"
+      role="group"
+      aria-label="Vertical button group"
+      style="
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background-color: #ffffff;
+        opacity: 0.5;
+        z-index: 50;
+        border-radius: 50px;
+      "
+    >
+      <a
+        role="button"
+        class="btn btn-link btn-lg"
+        href="#root-div"
+        style="text-decoration: none; color: black"
+        ><b
+          ><i
+            class="bi bi-clipboard2-data-fill"
+            style="font-size: xx-large"
+          ></i></b
+      ></a>
+      <a
+        role="button"
+        class="btn btn-link btn-lg"
+        href="#sync-div"
+        style="text-decoration: none; color: black"
+        ><b><i class="bi bi-list-ol" style="font-size: xx-large"></i></b
+      ></a>
+      <a
+        role="button"
+        class="btn btn-link btn-lg"
+        href="#async-div"
+        style="text-decoration: none; color: black"
+        ><b><i class="bi bi-list-stars" style="font-size: xx-large"></i></b
+      ></a>
+    </div>
+    <!-- Bootstrap cdn -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Chart.js cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Summary Run Doughnut Chart -->
+    <script>
+      const runDoughnutChart = document.getElementById("runDoughnutChart");
+      new Chart(runDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Synchronous", "Asynchronous"],
+          datasets: [
+            {
+              label: "Tests",
+              data: [0, 13],
+              backgroundColor: [
+                "rgba(54, 162, 235, 0.5)",
+                "rgba(153, 102, 255, 0.5)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+    </script>
+    <!-- Summary Status Doughnut Chart -->
+    <script>
+      const statusDoughnutChart = document.getElementById(
+        "statusDoughnutChart"
+      );
+      new Chart(statusDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Pass", "Fail", "Error", "Disable", "Skip"],
+          datasets: [
+            {
+              label: "Status",
+              data: [0, 0, 13, 0, 0],
+              backgroundColor: [
+                "rgba(75, 192, 192,0.8)",
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(255, 205, 86, 0.8)",
+                "rgba(201, 203, 207, 0.8)",
+                "rgba(54, 162, 235, 0.8)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+    </script>
+    <!-- Summary Bug Doughnut Chart -->
+    <script>
+      const bugDoughnutChart = document.getElementById("bugDoughnutChart");
+      new Chart(bugDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Low", "Minor", "Major", "Critical", "Blocker"],
+          datasets: [
+            {
+              label: "Priority",
+              data: [0, 0, 0, 0, 0],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.1)",
+                "rgba(255, 99, 132, 0.3)",
+                "rgba(255, 99, 132, 0.55)",
+                "rgba(255, 99, 132, 0.8)",
+                "rgba(255, 99, 132, 1)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+    </script>
+    <!-- Summary Error Doughnut Chart -->
+    <script>
+      const errorDoughnutChart = document.getElementById("errorDoughnutChart");
+      new Chart(errorDoughnutChart, {
+        type: "doughnut",
+        data: {
+          labels: ["Rest Api", "Global Variables", "Bug", "Logger", "Unexpected"],
+          datasets: [
+            {
+              label: "Type",
+              data: [0, 13, 0, 0, 0],
+              backgroundColor: [
+                "rgba(255, 205, 86, 0.1)",
+                "rgba(255, 205, 86, 0.3)",
+                "rgba(255, 205, 86, 0.5)",
+                "rgba(255, 205, 86, 0.7)",
+                "rgba(255, 205, 86, 1)"
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+    </script>
+    <!-- Search sync tests -->
+    <script>
+      (function () {
+        var searchTerm, panelContainerId;
+        // Create a new contains that is case insensitive
+        $.expr[":"].containsCaseInsensitive = function (n, i, m) {
+          return (
+            jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0
+          );
+        };
+        $("#sync_test_search").on("change keyup paste click", function () {
+          searchTerm = $(this).val();
+          $("#syncTestResultAccordion > .accordion-item").each(function () {
+            panelContainerId = "#" + $(this).attr("id");
+            $(
+              panelContainerId +
+                ":not(:containsCaseInsensitive(" +
+                searchTerm +
+                "))"
+            ).hide();
+            $(
+              panelContainerId + ":containsCaseInsensitive(" + searchTerm + ")"
+            ).show();
+          });
+        });
+      })();
+    </script>
+    <!-- Search async tests -->
+    <script>
+      (function () {
+        var searchTerm, panelContainerId;
+        // Create a new contains that is case insensitive
+        $.expr[":"].containsCaseInsensitive = function (n, i, m) {
+          return (
+            jQuery(n).text().toUpperCase().indexOf(m[3].toUpperCase()) >= 0
+          );
+        };
+        $("#async_test_search").on("change keyup paste click", function () {
+          searchTerm = $(this).val();
+          $("#asyncTestResultAccordion > .accordion-item").each(function () {
+            panelContainerId = "#" + $(this).attr("id");
+            $(
+              panelContainerId +
+                ":not(:containsCaseInsensitive(" +
+                searchTerm +
+                "))"
+            ).hide();
+            $(
+              panelContainerId + ":containsCaseInsensitive(" + searchTerm + ")"
+            ).show();
+          });
+        });
+      })();
+    </script>
+    <!-- Open All & Close All for Accordion -->
+    <script>
+      $("#sync_test_open_all").on("click", function () {
+        $(
+          "#syncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("show");
+      });
+      $("#sync_test_close_all").on("click", function () {
+        $(
+          "#syncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("hide");
+      });
+      $("#async_test_open_all").on("click", function () {
+        $(
+          "#asyncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("show");
+      });
+      $("#async_test_close_all").on("click", function () {
+        $(
+          "#asyncTestResultAccordion .accordion-item .accordion-collapse"
+        ).collapse("hide");
+      });
+    </script>
+  </body>
+</html>

@@ -95,6 +95,9 @@ Body:       {self.body}
         Send the rest api by providing the request method
         """
         try:
+            # Check if method is of type string
+            if not isinstance(method, str):
+                raise Exception('Invalid data type for method. Please provide a valid string')
             # Convert to lowercase
             method = method.lower()
             # Check if the method is valid
