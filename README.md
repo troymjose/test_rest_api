@@ -139,8 +139,10 @@ python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e 
 - - -
 
 ```
-.
+my_project
+│── __init__.py                   # Python module
 ├── api                           # Store all your rest api files
+│   │── __init__.py               # Python module
 │   ├── auth                      # Custom structure for subfolders & files
 │   │   ├── login.py              # Python file to store rest_api code
 │   │   │   ├── def user_login()  # Python function to create rest_api
@@ -149,6 +151,7 @@ python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e 
 │   │   └── ...
 │   └── ...
 ├── testsuite                     # Root testsuite folder
+│   │── __init__.py               # Python module
 │   ├── auth                      # Custom structure for subfolders & files
 │   │   ├── login.py              # Python file as testsuite to store tests
 │   │   │   ├── async def t001()  # Python async function as testcases
@@ -247,7 +250,9 @@ async def my_second_test():
 - __execution_order__
     - Mandatory: False
     - Data Type: str
-    - Expected: Custom text for ordering. This will work only when is_async = False
+    - Expected: Custom text for ordering. This will work only when is_async = False. Execution order '14' will run
+      before '2' even though the number 2 is less than 14. This is because execution_order uses alphabetic string
+      ordering & not number ordering
     - Default: 'zzzzz'
 
 <h4 id="3-my-first-logger">3. My first logger</h4>

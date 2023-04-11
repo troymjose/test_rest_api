@@ -83,12 +83,11 @@ class RestApi(metaclass=RestApiMeta):
         self._session = AioHttpSession()
 
     def __str__(self):
-        return f"""
-Url:        {self.url}
-Headers:    {self.headers}
-Parameters: {self.parameters}
-Body:       {self.body}
-"""
+        return f"""Rest Api Info
+          Url:        {self.url}
+          Headers:    {self.headers}
+          Parameters: {self.parameters}
+          Body:       {self.body}"""
 
     async def send(self, method: str):
         """

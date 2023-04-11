@@ -79,13 +79,13 @@ class Bug(metaclass=BugMeta):
     def __init__(self,
                  message: str = "",
                  priority: str = BugPriority.LOW,
-                 actual_result: str = "",
                  expected_result: str = "",
+                 actual_result: str = "",
                  steps_to_reproduce: str = ""):
         self.message = message
         self.priority = priority
-        self.actual_result = actual_result
         self.expected_result = expected_result
+        self.actual_result = actual_result
         self.steps_to_reproduce = steps_to_reproduce
 
 
@@ -106,13 +106,13 @@ PRIORITY
 ---------
 {bug.priority.strip() if bug.priority else self._no_data_to_display}
 
-ACTUAL RESULT
----------
-{bug.actual_result.strip() if bug.actual_result else self._no_data_to_display}
-
 EXPECTED RESULT
 ---------
 {bug.expected_result.strip() if bug.expected_result else self._no_data_to_display}
+
+ACTUAL RESULT
+---------
+{bug.actual_result.strip() if bug.actual_result else self._no_data_to_display}
 
 STEPS TO REPRODUCE
 -------------
