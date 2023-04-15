@@ -508,6 +508,18 @@ html_str = """
                   </tbody>
                 </table>
                 <div class="card">
+                  <div class="card-header">
+                    Logs
+                  </div>
+                  <div class="card-body">
+                    <pre>{{ sync_test.logs }}</pre>
+                  </div>
+                </div>
+                <br />
+                <div class="card">
+                  <div class="card-header">
+                    Details
+                  </div>
                   <div class="card-body">
                     <pre>{{ sync_test.details }}</pre>
                   </div>
@@ -693,6 +705,18 @@ html_str = """
                   </tbody>
                 </table>
                 <div class="card">
+                  <div class="card-header">
+                    Logs
+                  </div>
+                  <div class="card-body">
+                    <pre>{{ async_test.logs }}</pre>
+                  </div>
+                </div>
+                <br />
+                <div class="card">
+                  <div class="card-header">
+                    Details
+                  </div>
                   <div class="card-body">
                     <pre>{{ async_test.details }}</pre>
                   </div>

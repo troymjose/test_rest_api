@@ -1,9 +1,11 @@
 import re
 import traceback
 import functools
+from io import StringIO
 from itertools import count
 from datetime import datetime
 from time import perf_counter_ns
+from contextlib import redirect_stdout
 from inspect import iscoroutinefunction
 from .bug import BugException
 from ..utils.colors import colors
@@ -32,8 +34,8 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
             timer_start = perf_counter_ns()
             # Get the start date time of the test
             start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-            # Initialise test status and test details
-            test_status, test_details = TestStatus.SKIP, 'Testcase is skipped'
+            # Initialise test status, test details and test logs
+            test_status, test_details, test_logs = TestStatus.SKIP, 'Testcase is skipped', 'No data to display'
             # Initialise bug priority and error type which will be used for reporting
             bug_priority, error_type = '', ''
             # Initialise skip as false
@@ -52,14 +54,19 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                 test_status, test_details = TestStatus.DISABLE, 'Testcase is disabled'
                 # Only execute enabled testcases
                 if enabled:
+                    # In-memory file-like object
+                    string_io = StringIO()
                     try:
-                        # Call the async test function
-                        result = await func(*args, **kwargs)
+                        # Redirect standard output to string_io
+                        # In python, print() function prints values to standard out
+                        with redirect_stdout(string_io):
+                            # Call the async test function
+                            await func(*args, **kwargs)
                         # Log the result
                         test_rest_api_logger.info(
                             f"{colors.LIGHT_GREEN}{'PASS' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the test status and details
-                        test_status, test_details = TestStatus.PASS, f'Success !\n\n{str(result) if result else ""}'
+                        test_status, test_details = TestStatus.PASS, 'Success'
                     except RestApiCreationException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -192,6 +199,11 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[start_res.start() + 98:]
                         # Update the test status and details
                         test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                    finally:
+                        # Get standard out messages from all the print() statements
+                        stdout_data = string_io.getvalue()
+                        # Update the test logs
+                        test_logs = f'Started the test\n{stdout_data}Completed the test'
             # Set the end time of the test
             end = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
             # Stop the stopwatch / counter
@@ -205,6 +217,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                                            testsuite=testsuite,
                                            status=test_status,
                                            details=test_details,
+                                           logs=test_logs,
                                            tags=tags,
                                            start=start,
                                            end=end,

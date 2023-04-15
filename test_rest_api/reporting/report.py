@@ -33,6 +33,7 @@ class ReportTestResult:
     testsuite: str
     status: str
     details: str
+    logs: str
     tags: tuple
     start: str
     end: str
