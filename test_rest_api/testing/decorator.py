@@ -35,7 +35,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
             # Get the start date time of the test
             start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
             # Initialise test status, test details and test logs
-            test_status, test_details, test_logs = TestStatus.SKIP, 'Testcase is skipped', 'No data to display'
+            status, details, logs = TestStatus.SKIP, 'Testcase is skipped', 'No data to display'
             # Initialise bug priority and error type which will be used for reporting
             bug_priority, error_type = '', ''
             # Initialise skip as false
@@ -51,7 +51,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         skip = True
             if not skip:
                 # Initialise test status and test details
-                test_status, test_details = TestStatus.DISABLE, 'Testcase is disabled'
+                status, details = TestStatus.DISABLE, 'Testcase is disabled'
                 # Only execute enabled testcases
                 if enabled:
                     # In-memory file-like object
@@ -66,7 +66,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         test_rest_api_logger.info(
                             f"{colors.LIGHT_GREEN}{'PASS' : <8}{colors.LIGHT_CYAN}{testcase_name}{colors.LIGHT_BLUE}")
                         # Update the test status and details
-                        test_status, test_details = TestStatus.PASS, 'Success'
+                        status, details = TestStatus.PASS, 'Success'
                     except RestApiCreationException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -85,7 +85,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except RestApiSendException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -102,7 +102,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugCreationException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -121,7 +121,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                             traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except GlobalVariablesException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -137,7 +137,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except LoggerException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -153,7 +153,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[start_res.start() + 98:end_res.end()]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except BugException as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -170,7 +170,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         traceback_data = traceback_data[:traceback_data.rfind('File "') - 3]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.FAIL, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.FAIL, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     except AttributeError as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -184,7 +184,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                                               traceback_data)
                         traceback_data = traceback_data[start_res.start() + 98:]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}\n\n{"Tip: This may be due to not using await keyword in function calls"}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}\n\n{"Tip: This may be due to not using await keyword in function calls"}'
                     except Exception as exc:
                         # Log the result
                         test_rest_api_logger.info(
@@ -198,12 +198,12 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                                               traceback_data)
                         traceback_data = traceback_data[start_res.start() + 98:]
                         # Update the test status and details
-                        test_status, test_details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
+                        status, details = TestStatus.ERROR, f'\nTRACEBACKS\n----------\n{traceback_data}\n{exc}'
                     finally:
                         # Get standard out messages from all the print() statements
                         stdout_data = string_io.getvalue()
                         # Update the test logs
-                        test_logs = f'Started the test\n{stdout_data}Completed the test'
+                        logs = f'Started the test\n{stdout_data}Completed the test'
             # Set the end time of the test
             end = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
             # Stop the stopwatch / counter
@@ -215,9 +215,9 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                                            desc=desc,
                                            is_async=is_async,
                                            testsuite=testsuite,
-                                           status=test_status,
-                                           details=test_details,
-                                           logs=test_logs,
+                                           status=status,
+                                           details=details,
+                                           logs=logs,
                                            tags=tags,
                                            start=start,
                                            end=end,
