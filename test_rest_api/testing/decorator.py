@@ -203,7 +203,14 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Get standard out messages from all the print() statements
                         stdout_data = string_io.getvalue()
                         # Update the test logs
-                        logs = f'Started the test\n{stdout_data}Completed the test'
+                        logs = f'Started the test\n{stdout_data}'
+                        # Dynamic log msg for different test status
+                        if status == TestStatus.PASS:
+                            logs += 'Completed the test'
+                        elif status == TestStatus.FAIL:
+                            logs += 'Bug\nTest exited without ending'
+                        elif status == TestStatus.ERROR:
+                            logs += 'Error\nTest exited without ending'
             # Set the end time of the test
             end = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
             # Stop the stopwatch / counter
