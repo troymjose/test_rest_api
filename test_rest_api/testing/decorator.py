@@ -10,7 +10,6 @@ from inspect import iscoroutinefunction
 from .bug import BugException
 from ..utils.colors import colors
 from .exception import BugCreationException
-from ..logger.exception import LoggerException
 from ..utils.logger import test_rest_api_logger
 from ..global_variables.exception import GlobalVariablesException
 from ..reporting.report import report, ReportTestResult, TestStatus, ErrorType

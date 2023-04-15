@@ -1,5 +1,4 @@
 from dataclasses import dataclass, asdict
-from ..logger.logger import Logger
 from .exception import BugCreationException
 
 
@@ -51,9 +50,6 @@ class BugMeta(type):
         for item in ('message', 'priority', 'actual_result', 'expected_result', 'steps_to_reproduce'):
             # Get item value
             value = getattr(self._instance, item)
-            # If value is Logger instance, convert it to string and set the value
-            if isinstance(value, Logger):
-                setattr(self._instance, item, str(value))
             if not isinstance(getattr(self._instance, item), str):
                 raise BugCreationException(msg=f'Invalid data type for {item}. Please provide a valid string')
 
