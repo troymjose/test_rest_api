@@ -1,5 +1,7 @@
 from dotenv import dotenv_values
 from dataclasses import dataclass
+from inspect import getframeinfo, stack
+from ..settings import settings
 from ..utils.exception import catch_exc
 from .exception import GlobalVariablesException
 
@@ -52,6 +54,18 @@ class GlobalVariables:
             raise Exception('Invalid data type for name. Please provide a valid string')
         # Get variable obj
         variable_obj = cls._get_variable_obj(name=name)
+        # Get the caller object to retrieve the caller code
+        caller = getframeinfo(stack()[2][0])
+        # Get the caller code
+        caller_code = caller.code_context[0].strip()
+        # Logging
+        print(f"""
+Get Global Variable
+-------------------
+ {settings.logging.sub_point} Code {settings.logging.key_val_sep} {caller.code_context[0].strip()}
+ {settings.logging.sub_point} Get  {settings.logging.key_val_sep} {name} = {variable_obj.value}
+ {settings.logging.sub_point} Data {settings.logging.key_val_sep} {'Constant' if variable_obj.is_constant else 'Changeable'}
+""")
         # Return variable obj value
         return variable_obj.value
 
@@ -79,3 +93,17 @@ class GlobalVariables:
             raise Exception(f'Constant global variable "{name}" cannot be updated')
         # Set the class attribute
         setattr(cls, name, Variable(value=value, is_constant=is_constant))
+        # Get the caller object to retrieve the caller code
+        caller = getframeinfo(stack()[2][0])
+        # Get the caller code
+        caller_code = caller.code_context[0].strip()
+        # Dont print .env Global Variables Set
+        if caller_code.startswith('GlobalVariables.'):
+            # Logging
+            print(f"""
+Set Global Variable
+-------------------
+ {settings.logging.sub_point} Code {settings.logging.key_val_sep} {caller.code_context[0].strip()}
+ {settings.logging.sub_point} Set  {settings.logging.key_val_sep} {name} = {value}
+ {settings.logging.sub_point} Data {settings.logging.key_val_sep} {'Constant' if is_constant else 'Changeable'}
+""")

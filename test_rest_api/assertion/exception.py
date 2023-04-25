@@ -1,5 +1,5 @@
-from ..utils.exception import TestRestApiException
 from ..settings import Settings
+from ..utils.exception import TestRestApiException
 
 
 class AssertException(TestRestApiException):
