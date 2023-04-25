@@ -1,7 +1,7 @@
 from dotenv import dotenv_values
 from dataclasses import dataclass
 from inspect import getframeinfo, stack
-from ..settings import settings
+from .. import settings
 from ..utils.exception import catch_exc
 from .exception import GlobalVariablesException
 

@@ -1,6 +1,6 @@
 from inspect import getframeinfo, stack
+from .. import settings
 from ..testing.bug import Bug
-from ..settings import settings
 from .exception import AssertException
 
 

@@ -1,5 +1,5 @@
+from .. import settings
 from ..utils.exception import TestRestApiException
-from ..settings import Settings
 
 
 class GlobalVariablesException(TestRestApiException):
@@ -8,5 +8,5 @@ class GlobalVariablesException(TestRestApiException):
     """
 
     def __init__(self, *, msg: str):
-        self.msg = self.format(msg=msg, doc=Settings.docs.global_variables)
+        self.msg = self.format(msg=msg, doc=settings.docs.global_variables)
         super().__init__(self.msg)

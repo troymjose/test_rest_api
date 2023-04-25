@@ -1,4 +1,4 @@
-from ..settings import Settings
+from .. import settings
 from ..utils.exception import TestRestApiException
 
 
@@ -8,5 +8,5 @@ class AssertException(TestRestApiException):
     """
 
     def __init__(self, *, msg: str):
-        self.msg = self.format(msg=msg, doc=Settings.docs.assertion)
+        self.msg = self.format(msg=msg, doc=settings.docs.assertion)
         super().__init__(self.msg)
