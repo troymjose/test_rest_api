@@ -1,4 +1,5 @@
-from test_rest_api.utils.decorator_hints import decorated_func_param_hints
+from .. import settings
+from ..utils.decorator_hints import decorated_func_param_hints
 
 
 class TestRestApiException(Exception):
@@ -6,24 +7,26 @@ class TestRestApiException(Exception):
     Base Exception class
     """
 
-    def format(self, exc, error_msg):
+    def _format(self, *, msg):
         """
-        Format of reporting
+        Convert the message to Html reporting format
         """
         _no_data_to_display = 'No data to display'
         return f"""
 EXCEPTION
 ---------
-{exc.strip() if exc.strip() else _no_data_to_display}
-
-ERROR MESSAGE
--------------
-{error_msg.strip() if error_msg.strip() else _no_data_to_display}
+ {settings.logging.sub_point} Message {settings.logging.key_val_sep} {msg.strip() if msg.strip() else _no_data_to_display}
 """
+
+    def __init__(self, *, msg: str):
+        # Convert the msg to reporting format
+        self.msg = self._format(msg=msg)
+        # Call Exception __init__ method
+        super().__init__(self.msg)
 
 
 @decorated_func_param_hints
-def catch_exc(test_rest_api_exception: TestRestApiException):
+def catch_exc(*, test_rest_api_exception: TestRestApiException):
     """
     Decorator used for catching python code exceptions for functions
     Example: Function calls with empty params, invalid params etc
@@ -41,3 +44,24 @@ def catch_exc(test_rest_api_exception: TestRestApiException):
         return inner
 
     return catch_exc_dec
+
+
+@decorated_func_param_hints
+def catch_exc_async(*, test_rest_api_exception: TestRestApiException):
+    """
+    Decorator used for catching python code exceptions for async functions
+    Example: Async function calls with empty params, invalid params etc
+
+    Developers can raise python Exceptions inside async function body which will be auto converted to TestRestApiExceptions
+    """
+
+    def catch_exc_async_dec(func):
+        async def inner(*args, **kwargs):
+            try:
+                return await func(*args, **kwargs)
+            except Exception as exc:
+                raise test_rest_api_exception(msg=str(exc))
+
+        return inner
+
+    return catch_exc_async_dec
