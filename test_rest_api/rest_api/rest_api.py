@@ -1,28 +1,20 @@
 from dataclasses import asdict
 from aiohttp.client_exceptions import ClientConnectorError, InvalidURL, ContentTypeError
+from .. import settings
 from .method import RestApiMethod
 from ..utils.error_msg import ErrorMsg
 from ..utils.aiohttp_session import AioHttpSession
 from .response import RestApiResponse, ClientResponse
+from ..utils.exception import catch_exc, catch_exc_async
 from .exception import RestApiSendException, RestApiCreationException
 
 
-class RestApiMeta(type):
+class RestApi:
     """
-    Meta class for raising RestApiCreationException
+    Class for creating rest api instances
     """
-
-    # Calls for each instance creation
-    def __call__(cls, *args, **kwargs):
-        try:
-            cls._instance = super().__call__(*args, **kwargs)
-        except Exception as e:
-            # Catch python class instance creation exceptions
-            raise RestApiCreationException(msg=str(e).replace('RestApi.__init__()', '').strip().capitalize())
-        # Validate _instance url, parameters, headers and body
-        cls._validate()
-        # Return the instance
-        return cls._instance
+    # Create a frozen instance of RestApiMethod, so that it can be used as a constant in code
+    METHODS = RestApiMethod()
 
     def _validate(self):
         """
@@ -38,8 +30,8 @@ class RestApiMeta(type):
         ------
         1. Valid string
         """
-        if not isinstance(self._instance.url, str):
-            raise RestApiCreationException(msg='Invalid data type for url. Please provide a valid string')
+        if not isinstance(self.url, str):
+            raise Exception('Invalid data type for url. Please provide a valid string')
 
     def _validate_parameters_and_headers(self):
         """
@@ -50,11 +42,11 @@ class RestApiMeta(type):
         """
         error = 'Please provide a valid dictionary, with both dictionary key and dictionary value as string type'
         for item in ('parameters', 'headers'):
-            if not isinstance(getattr(self._instance, item), dict):
-                raise RestApiCreationException(msg=f'Invalid data type for {item}. {error}')
+            if not isinstance(getattr(self, item), dict):
+                raise Exception(f'Invalid data type for {item}. {error}')
             if not all([isinstance(key, str) and isinstance(key, str) for key, value in
-                        getattr(self._instance, item).items()]):
-                raise RestApiCreationException(msg=f'Invalid dictionary for {item}. {error}')
+                        getattr(self, item).items()]):
+                raise Exception(f'Invalid dictionary for {item}. {error}')
 
     def _validate_body(self):
         """
@@ -62,39 +54,57 @@ class RestApiMeta(type):
         ------
         1. Valid dictionary
         """
-        if not isinstance(self._instance.body, dict):
-            raise RestApiCreationException(msg='Invalid data type for body. Please provide a valid dictionary')
+        if not isinstance(self.body, dict):
+            raise Exception('Invalid data type for body. Please provide a valid dictionary')
 
-
-class RestApi(metaclass=RestApiMeta):
-    """
-    Class for creating rest api instances
-    """
-    # Create a frozen instance of RestApiMethod, so that it can be used as a constant in code
-    METHODS = RestApiMethod()
-
+    @catch_exc(test_rest_api_exception=RestApiCreationException)
     def __init__(self, url: str, parameters: dict = {}, headers: dict = {}, body: dict = {}):
         # Rest api variables
         self.url = url
         self.parameters = parameters
         self.headers = headers
         self.body = body
-        # Aiohttp variables
+        # Validate url, parameters, headers and body
+        self._validate()
+        # Aiohttp session
         self._session = AioHttpSession()
+        # Logging
+        print(f'\nRest Api Created\n----------------{self}')
 
     def __str__(self):
         return f"""
-Url:        {self.url}
-Headers:    {self.headers}
-Parameters: {self.parameters}
-Body:       {self.body}
+ {settings.logging.sub_point} Url        {settings.logging.key_val_sep} {self.url}
+ {settings.logging.sub_point} Headers    {settings.logging.key_val_sep} {self.headers}
+ {settings.logging.sub_point} Parameters {settings.logging.key_val_sep} {self.parameters}
+ {settings.logging.sub_point} Body       {settings.logging.key_val_sep} {self.body}
 """
 
-    async def send(self, method: str):
+    async def _create_response(self, response: ClientResponse) -> RestApiResponse:
+        """
+        Create response instance object from aiohttp async response
+        """
+        # Retrieve the response body in JSON
+        body = await response.json()
+        # Get the other response parameters
+        status_code, headers, content_type = response.status, dict(response.headers), response.content_type
+        # Create and return the RestApiResponse instance object
+        rest_api_response = RestApiResponse(status_code=status_code,
+                                            content_type=content_type,
+                                            body=body,
+                                            headers=headers,
+                                            obj=response)
+        # Logging
+        print(f'Rest Api Response\n-----------------{rest_api_response} ')
+        return rest_api_response
+
+    async def _send(self, method: str):
         """
         Send the rest api by providing the request method
         """
         try:
+            # Logging
+            print(
+                f'Rest Api Send\n-------------\n {settings.logging.sub_point} Method     {settings.logging.key_val_sep} {method.upper()}\n')
             # Check if method is of type string
             if not isinstance(method, str):
                 raise Exception('Invalid data type for method. Please provide a valid string')
@@ -109,68 +119,61 @@ Body:       {self.body}
                                                       headers=self.headers,
                                                       json=self.body) as response:
                 return await self._create_response(response=response)
-        except ClientConnectorError as exc:
-            raise RestApiSendException(msg=str(exc))
-        except InvalidURL as exc:
-            raise RestApiSendException(msg='Invalid ULR')
-        except ContentTypeError as exc:
-            raise RestApiSendException(msg=str(exc))
+        except ClientConnectorError:
+            raise Exception(ErrorMsg.CLIENT_CONNECTOR_ERROR)
+        except InvalidURL:
+            raise Exception(ErrorMsg.INVALID_URL)
+        except ContentTypeError:
+            raise Exception(ErrorMsg.INVALID_JSON_RESPONSE)
         except Exception as exc:
-            raise RestApiSendException(msg=str(exc))
+            raise exc
 
-    async def _create_response(self, response: ClientResponse) -> RestApiResponse:
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
+    async def send(self, method: str):
         """
-        Create response instance object from aiohttp async response
+        Send the rest api by providing the request method
         """
-        # Retrieve the response body in JSON
-        body = await response.json()
-        # Get the other response parameters
-        status_code, headers, content_type = response.status, dict(response.headers), response.content_type
-        # Create and return the RestApiResponse instance object
-        return RestApiResponse(status_code=status_code,
-                               content_type=content_type,
-                               body=body,
-                               headers=headers,
-                               obj=response)
+        return await self._send(method=method)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def get(self):
         """
         Send HTTP GET Request
         """
-        return await self.send(method=self.METHODS.GET)
+        return await self._send(method=self.METHODS.GET)
 
     async def post(self):
         """
         Send HTTP POST Request
         """
-        return await self.send(method=self.METHODS.POST)
+        return await self._send(method=self.METHODS.POST)
 
     async def put(self):
         """
         Send HTTP PUT Request
         """
-        return await self.send(method=self.METHODS.PUT)
+        return await self._send(method=self.METHODS.PUT)
 
     async def patch(self):
         """
         Send HTTP PATCH Request
         """
-        return await self.send(method=self.METHODS.PATCH)
+        return await self._send(method=self.METHODS.PATCH)
 
     async def delete(self):
         """
         Send HTTP DELETE Request
         """
-        return await self.send(method=self.METHODS.DELETE)
+        return await self._send(method=self.METHODS.DELETE)
 
     async def head(self):
         """
         Send HTTP HEAD Request
         """
-        return await self.send(method=self.METHODS.HEAD)
+        return await self._send(method=self.METHODS.HEAD)
 
     async def options(self):
         """
         Send HTTP OPTIONS Request
         """
-        return await self.send(method=self.METHODS.OPTIONS)
+        return await self._send(method=self.METHODS.OPTIONS)
