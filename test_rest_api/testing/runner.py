@@ -9,9 +9,9 @@ import importlib.machinery
 from datetime import datetime
 from time import perf_counter_ns
 from inspect import getmembers, iscoroutinefunction
-from ..utils.colors import colors
 from ..reporting.report import report
 from ..utils.error_msg import ErrorMsg
+from ..utils.string_color import str_color
 from ..utils.logger import test_rest_api_logger
 from ..utils.aiohttp_session import AioHttpSession
 
@@ -105,27 +105,26 @@ class Runner:
         - Load all the @test decorated functions from the list of python files
         """
         # Logging
-        test_rest_api_logger.info(f"{colors.WHITE}Starting test setup{colors.LIGHT_BLUE}")
-        test_rest_api_logger.info(f'{colors.WHITE}Auto detecting test suites{colors.LIGHT_BLUE}')
+        test_rest_api_logger.info(str_color.info('Starting test setup'))
+        test_rest_api_logger.info(str_color.info('Auto detecting test suites'))
         # Load python files
         self.load_test_files(self.test_suite_path)
         # Logging
-        test_rest_api_logger.info(f'{colors.WHITE}Total test suites: {len(self.test_files)}{colors.LIGHT_BLUE}')
-        test_rest_api_logger.info(f'{colors.WHITE}Auto detecting tests{colors.LIGHT_BLUE}')
+        test_rest_api_logger.info(str_color.info(f'Total test suites: {len(self.test_files)}'))
+        test_rest_api_logger.info(str_color.info('Auto detecting tests'))
         # Load @test decorated functions from the loaded python files
         self.load_tests()
         # Logging
-        test_rest_api_logger.info(f'{colors.WHITE}Total synchronous tests: {len(self.sync_tests)}{colors.LIGHT_BLUE}')
-        test_rest_api_logger.info(f'{colors.WHITE}Total asynchronous tests: {len(self.async_tests)}{colors.LIGHT_BLUE}')
-        test_rest_api_logger.info(
-            f'{colors.WHITE}Total tests: {len(self.sync_tests) + len(self.async_tests)}{colors.LIGHT_BLUE}')
+        test_rest_api_logger.info(str_color.info(f'Total synchronous tests: {len(self.sync_tests)}'))
+        test_rest_api_logger.info(str_color.info(f'Total asynchronous tests: {len(self.async_tests)}'))
+        test_rest_api_logger.info(str_color.info(f'Total tests: {len(self.sync_tests) + len(self.async_tests)}'))
 
     @staticmethod
     def console_branding():
         """
         Package branding in Console
         """
-        test_rest_api_logger.info(f'''{colors.LIGHT_PURPLE}
+        test_rest_api_logger.info(str_color.brand(f'''
                           =======================================================
                         || ..................................................... ||
                         || ..................................................... ||
@@ -133,44 +132,44 @@ class Runner:
                         || ..................................................... ||
                         || ..................................................... ||
                           =======================================================
-                        {colors.LIGHT_BLUE}''')
+                        '''))
 
     @staticmethod
     def console_summary():
         """
         Test Summary in Console
         """
-        test_rest_api_logger.info(f'''{colors.LIGHT_PURPLE}
+        test_rest_api_logger.info(str_color.brand('''
                           =======================================================
                         || ..................................................... ||
                         || ............  T E S T - S U M M A R Y   ............. ||
                         || ..................................................... ||
-                          =======================================================
-                        
-                        {colors.WHITE}{'Status:' : <20}{colors.LIGHT_CYAN}{'PASS' if report.summary.test.status else 'FAIL'}
-                        {colors.WHITE}{'Tests:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.total}
-                        {colors.WHITE}{'Start:' : <20}{colors.LIGHT_CYAN}{report.summary.test.start}
-                        {colors.WHITE}{'End:' : <20}{colors.LIGHT_CYAN}{report.summary.test.end}
-                        {colors.WHITE}{'Duration:' : <20}{colors.LIGHT_CYAN}{report.summary.test.duration}
-                        {colors.WHITE}{'Tags:' : <20}{colors.LIGHT_CYAN}{report.summary.test.tags}
-                        
-                        {colors.WHITE}{'PASS:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.success}
-                        {colors.WHITE}{'FAIL:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.fail}
-                        {colors.WHITE}{'ERROR:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.error}
-                        {colors.WHITE}{'DISABLE:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.disable}
-                        {colors.WHITE}{'SKIP:' : <20}{colors.LIGHT_CYAN}{report.summary.tests.skip}
-                        
-                        {colors.WHITE}{'LOW:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.low}
-                        {colors.WHITE}{'MINOR:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.minor}
-                        {colors.WHITE}{'MAJOR:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.major}
-                        {colors.WHITE}{'CRITICAL:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.critical}
-                        {colors.WHITE}{'BLOCKER:' : <20}{colors.LIGHT_CYAN}{report.summary.bugs.blocker}
-                        
-                        {colors.WHITE}{'REST API:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.rest_api}
-                        {colors.WHITE}{'GLOBAL VARIABLES:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.global_variables}
-                        {colors.WHITE}{'BUG:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.bug}
-                        {colors.WHITE}{'LOGGER:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.logger}
-                        {colors.WHITE}{'UNEXPECTED:' : <20}{colors.LIGHT_CYAN}{report.summary.errors.unexpected}''')
+                          ======================================================='''))
+        test_rest_api_logger.info(str_color.info(f'''
+                         {'Status:' : <20}{'PASS' if report.summary.test.status else 'FAIL'}
+                         {'Tests:' : <20}{report.summary.tests.total}
+                         {'Start:' : <20}{report.summary.test.start}
+                         {'End:' : <20}{report.summary.test.end}
+                         {'Duration:' : <20}{report.summary.test.duration}
+                         {'Tags:' : <20}{report.summary.test.tags}
+                         
+                         {'PASS:' : <20}{report.summary.tests.success}
+                         {'FAIL:' : <20}{report.summary.tests.fail}
+                         {'ERROR:' : <20}{report.summary.tests.error}
+                         {'DISABLE:' : <20}{report.summary.tests.disable}
+                         {'SKIP:' : <20}{report.summary.tests.skip}
+                         
+                         {'LOW:' : <20}{report.summary.bugs.low}
+                         {'MINOR:' : <20}{report.summary.bugs.minor}
+                         {'MAJOR:' : <20}{report.summary.bugs.major}
+                         {'CRITICAL:' : <20}{report.summary.bugs.critical}
+                         {'BLOCKER:' : <20}{report.summary.bugs.blocker}
+                         
+                         {'REST API:' : <20}{report.summary.errors.rest_api}
+                         {'GLOBAL VARIABLES:' : <20}{report.summary.errors.global_variables}
+                         {'BUG:' : <20}{report.summary.errors.bug}
+                         {'LOGGER:' : <20}{report.summary.errors.logger}
+                         {'UNEXPECTED:' : <20}{report.summary.errors.unexpected}'''))
 
     def create_test_report(self):
         """
@@ -198,13 +197,13 @@ class Runner:
         # Create an aiohttp session for the whole run instead of creating a new session per request.
         AioHttpSession.set(session=session)
         # Logging
-        test_rest_api_logger.info(f"{colors.WHITE}Created aiohttp client session{colors.LIGHT_BLUE}")
-        test_rest_api_logger.info(f"{colors.WHITE}Completed test setup{colors.LIGHT_BLUE}")
+        test_rest_api_logger.info(str_color.info('Created aiohttp client session'))
+        test_rest_api_logger.info(str_color.info('Completed test setup'))
         if len(self.sync_tests) > 0:
-            test_rest_api_logger.info(f"""{colors.LIGHT_PURPLE}
+            test_rest_api_logger.info(str_color.brand("""
                           =======================================================
                         || ................  S Y N C - T E S T S ............... ||
-                          ======================================================={colors.LIGHT_BLUE}""")
+                          ======================================================="""))
         # Start the stopwatch / counter
         timer_start = perf_counter_ns()
         # Test start date time
@@ -214,10 +213,10 @@ class Runner:
             await sync_test()
         # Logging
         if len(self.async_tests) > 0:
-            test_rest_api_logger.info(f"""{colors.LIGHT_PURPLE}
+            test_rest_api_logger.info(str_color.brand("""
                           =======================================================
                         || ............... A S Y N C - T E S T S ............... ||
-                          ======================================================={colors.LIGHT_BLUE}""")
+                          ======================================================="""))
         # Running Tasks Concurrently (Execute async functions concurrently)
         # Run all async functions from tests list in parallel
         await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)

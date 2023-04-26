@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from test_rest_api.utils.colors import colors
 
 
 @dataclass(frozen=True)
@@ -9,7 +8,7 @@ class Docs:
 Commands
 --------
 -> Run Test Suite
-Syntax : {colors.LIGHT_BLUE}python -m test_rest_api -t "{colors.LIGHT_CYAN}<Path to test suite folder/file>{colors.LIGHT_BLUE}" -r "{colors.LIGHT_CYAN}<Path to test result folder>{colors.LIGHT_BLUE}" -h "{colors.LIGHT_CYAN}<#smoke>{colors.LIGHT_BLUE}"{colors.RESET}
+Syntax : python -m test_rest_api -t "<Path to test suite folder/file>" -r "<Path to test result folder>" -h "<#smoke>"
 Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite" -r "/Users/user/Documents/TestResult" -h #smoke#sanity
 """
 
@@ -65,4 +64,16 @@ Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
 """
     UNKNOWN_EXCEPTION: str = f"""
 Sorry Something went wrong
+"""
+    INVALID_URL: str = f"""
+Invalid ULR
+Please provide a valid url
+"""
+    CLIENT_CONNECTOR_ERROR: str = f"""
+Cannot connect to URL host
+Please provide a valid url host
+"""
+    INVALID_JSON_RESPONSE: str = f"""
+Invalid Response Type
+Supports only Json type (application/json)
 """
