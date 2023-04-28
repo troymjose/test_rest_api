@@ -21,7 +21,7 @@ class ErrorType:
     REST_API: str = 'rest_api'
     GLOBAL_VARIABLES: str = 'global_variables'
     BUG: str = 'bug'
-    LOGGER: str = 'logger'
+    ASSERTION: str = 'assertion'
     UNEXPECTED: str = 'unexpected'
 
 
@@ -80,7 +80,7 @@ class ReportTestSummaryErrors:
     rest_api: int = 0
     global_variables: int = 0
     bug: int = 0
-    logger: int = 0
+    assertion: int = 0
     unexpected: int = 0
 
 

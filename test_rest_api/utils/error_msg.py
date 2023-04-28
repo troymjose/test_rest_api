@@ -15,65 +15,13 @@ Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite" -r "/Users
 
 @dataclass(frozen=True)
 class ErrorMsg:
-    INVALID_TEST_SUITE_PATH: str = f"""
-ERROR! Please provide a valid path for the test suite
-{Docs.commands}
-"""
-    INVALID_ENV_PATH: str = f"""
-ERROR! Please provide a valid path for .env file
-{Docs.commands}
-"""
-    INVALID_TEST_RESULT_PATH: str = f"""
-ERROR! Please provide a valid path for the test result
-{Docs.commands}
-"""
-    INVALID_TEST_TAG: str = f"""
-ERROR! Please provide a valid tag list
-{Docs.commands}
-"""
-    INVALID_COMMAND: str = f"""
-ERROR! Please provide a valid command
-{Docs.commands}
-"""
-    EMPTY_TESTS: str = f"""
-No Tests Found!
-"""
-    INVALID_REST_API: str = """
-Invalid Rest Api
-Please create proper rest api functions
-Tip: Refer the example below !
-
-Example Code:
-from test_rest_api import rest_api
-@rest_api
-def login_api(username: str, password: str) -> dict:
-    return {
-            'url': 'https://my_domain.com/login',
-            'parameters': {'param1': 'value1', 'param2': 'value2'},
-            'headers': {'content-type': 'application/json'},
-            'body': {'name':username,'password':password}
-            }
-"""
-    INVALID_REST_API_CONFIG: str = f"""
-Invalid Rest Api
-Please return a valid dictionary/json from @rest_api decorated api functions
-"""
-    INVALID_METHOD: str = f"""
-Invalid Request Method
-Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'
-"""
-    UNKNOWN_EXCEPTION: str = f"""
-Sorry Something went wrong
-"""
-    INVALID_URL: str = f"""
-Invalid ULR
-Please provide a valid url
-"""
-    CLIENT_CONNECTOR_ERROR: str = f"""
-Cannot connect to URL host
-Please provide a valid url host
-"""
-    INVALID_JSON_RESPONSE: str = f"""
-Invalid Response Type
-Supports only Json type (application/json)
-"""
+    INVALID_TEST_SUITE_PATH: str = f"ERROR! Please provide a valid path for the test suite\n{Docs.commands}"
+    INVALID_ENV_PATH: str = f"ERROR! Please provide a valid path for .env file\n{Docs.commands}"
+    INVALID_TEST_RESULT_PATH: str = f"ERROR! Please provide a valid path for the test result\n{Docs.commands}"
+    INVALID_TEST_TAG: str = f"ERROR! Please provide a valid tag list\n{Docs.commands}"
+    EMPTY_TESTS: str = "No Tests Found!"
+    INVALID_METHOD: str = "Invalid Request Method. Supported methods: 'get', 'post', 'put', 'patch', 'delete', 'head', 'options'"
+    UNKNOWN_EXCEPTION: str = "Sorry Something went wrong"
+    INVALID_URL: str = "Invalid ULR. Please provide a valid url in rest api creation"
+    CLIENT_CONNECTOR_ERROR: str = "Cannot connect to URL host. Please provide a valid url host in rest api creation"
+    INVALID_JSON_RESPONSE: str = "Invalid Response Type. Supports only Json type (application/json)"

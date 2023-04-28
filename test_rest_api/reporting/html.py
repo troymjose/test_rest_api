@@ -309,10 +309,10 @@ html_str = """
                       </td>
                     </tr>
                     <tr>
-                      <td>Logger</td>
+                      <td>Assert</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.logger }}</span
+                          >{{ summary.errors.assertion }}</span
                         >
                       </td>
                     </tr>
@@ -855,11 +855,11 @@ html_str = """
       new Chart(errorDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Rest Api", "Global Variables", "Bug", "Logger", "Unexpected"],
+          labels: ["Rest Api", "Global Variables", "Bug", "Assertion", "Unexpected"],
           datasets: [
             {
               label: "Type",
-              data: [{{ summary.errors.rest_api }}, {{ summary.errors.global_variables }}, {{ summary.errors.bug }}, {{ summary.errors.logger }}, {{ summary.errors.unexpected }}],
+              data: [{{ summary.errors.rest_api }}, {{ summary.errors.global_variables }}, {{ summary.errors.bug }}, {{ summary.errors.assertion }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
                 "rgba(255, 205, 86, 0.1)",
                 "rgba(255, 205, 86, 0.3)",

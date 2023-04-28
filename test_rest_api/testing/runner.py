@@ -168,7 +168,7 @@ class Runner:
                          {'REST API:' : <20}{report.summary.errors.rest_api}
                          {'GLOBAL VARIABLES:' : <20}{report.summary.errors.global_variables}
                          {'BUG:' : <20}{report.summary.errors.bug}
-                         {'LOGGER:' : <20}{report.summary.errors.logger}
+                         {'ASSERTION:' : <20}{report.summary.errors.assertion}
                          {'UNEXPECTED:' : <20}{report.summary.errors.unexpected}'''))
 
     def create_test_report(self):

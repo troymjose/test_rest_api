@@ -2,8 +2,10 @@ from inspect import getframeinfo, stack
 from .. import settings
 from ..testing.bug import Bug
 from .exception import AssertException
+from ..utils.decorator_hints import decorated_func_param_hints
 
 
+@decorated_func_param_hints
 def catch_exc(func):
     """
     Catch the exceptions and raise new exception

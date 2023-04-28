@@ -68,18 +68,20 @@ class Bug(Exception):
         # Default data for empty data
         self._no_data_to_display = 'No data to display'
         # Save all attributes to the instance
-        self.priority = priority.lower()
+        self.priority = priority
         self.message = message
         self.expected_result = expected_result
         self.actual_result = actual_result
         self.steps_to_reproduce = steps_to_reproduce
         # Validate message, priority, actual_result, expected_result and steps_to_reproduce
         self._validate()
+        # Convert the priority to lower case and also perform trim
+        self.priority = self.priority.lower().strip()
         # Exception message
         self.exc_message = f"""
 BUG
 ---
- {settings.logging.sub_point} Priority           {settings.logging.key_val_sep} {self.priority.strip() if self.priority else self._no_data_to_display}
+ {settings.logging.sub_point} Priority           {settings.logging.key_val_sep} {self.priority if self.priority else self._no_data_to_display}
  {settings.logging.sub_point} Message            {settings.logging.key_val_sep} {self.message.strip() if self.message else self._no_data_to_display}
  {settings.logging.sub_point} Expected result    {settings.logging.key_val_sep} {self.expected_result.strip() if self.expected_result else self._no_data_to_display}
  {settings.logging.sub_point} Actual result      {settings.logging.key_val_sep} {self.actual_result.strip() if self.actual_result else self._no_data_to_display}
