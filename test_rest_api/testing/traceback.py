@@ -27,7 +27,7 @@ class FormatTraceback:
         end_res = re.search(re_search_end, traceback)
         traceback = traceback[start_res.end():end_res.end()]
         traceback = traceback[:traceback.rfind('File "') - 3]
-        if re.search(r'test_rest_api[//\\]rest_api[//\\]rest_api.py", line [1-9]+, in __call__', traceback):
+        if re.search(r'test_rest_api[//\\]rest_api[//\\]rest_api.py", line (.*?), in __call__', traceback):
             traceback = traceback[:traceback.rfind('File "') - 3]
             traceback = traceback[:traceback.rfind('File "') - 3]
         return f'{self.header}{traceback}'
