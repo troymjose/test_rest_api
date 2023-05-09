@@ -84,7 +84,8 @@ class RestApi:
         Create response instance object from aiohttp async response
         """
         # Retrieve the response body in JSON
-        body = await response.json()
+        # Only supports application/json content type
+        body = await response.json() if response.content_type == 'application/json' else {}
         # Get the other response parameters
         status_code, headers, content_type = response.status, dict(response.headers), response.content_type
         # Create and return the RestApiResponse instance object
