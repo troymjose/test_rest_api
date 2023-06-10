@@ -93,7 +93,7 @@ class TestData:
 Get Test Data
 -------------------
  {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {caller_code}
- {settings.logging.sub_point} Result {settings.logging.key_val_sep} {caller_code[:caller_code.find('=')]} = {value}
+ {settings.logging.sub_point} Result {settings.logging.key_val_sep} {caller_code[:caller_code.find('=')]}= {value}
  {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {name} = {value}
  {settings.logging.sub_point} Type   {settings.logging.key_val_sep} Immutable
 """)

@@ -51,5 +51,8 @@ class StrColor:
     def error(self, msg):
         return f"{self.colors.YELLOW}{'ERROR' : <8}{self.colors.LIGHT_CYAN}{msg}{self.reset}"
 
+    def exception(self, msg):
+        return f"{self.colors.RED}{msg}{self.reset}"
+
 
 str_color = StrColor()
