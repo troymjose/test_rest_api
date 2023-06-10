@@ -13,13 +13,18 @@ from ..utils.string_color import str_color
 from .exception import BugCreationException
 from ..utils.logger import test_rest_api_logger
 from ..assertion.exception import AssertException
+from ..variable.exception import VariableException
+from ..constant.exception import ConstantException
 from ..utils.exception import TestRestApiException
-from ..global_variables.exception import GlobalVariablesException
-from ..reporting.report import report, ReportTestResult, TestStatus, ErrorType
+from ..test_data.exception import TestDataException
+from ..environment.exception import EnvironmentException
+from ..reporting.report import ReportTestResult, TestStatus, ErrorType
 from ..rest_api.exception import RestApiCreationException, RestApiSendException
 
 # Iter for creating id for testcase name
 iter_test_name = count(start=1)
+# Initialise report object as None
+report = None
 
 
 def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_order='z'):
@@ -100,13 +105,52 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         traceback_data = format_traceback.test_rest_api_exc(traceback=traceback_data)
                         # Update the test status and details
                         status, details = TestStatus.ERROR, traceback_data
-                    except GlobalVariablesException as exc:
+                    except EnvironmentException as exc:
                         # Log the result to the console
                         test_rest_api_logger.info(str_color.error(testcase_name))
                         # Update the logs, which has to be added after stdout (eg: error, bug etc)
                         logs_end = str(exc)
                         # Update the error type for reporting
-                        error_type = ErrorType.GLOBAL_VARIABLES
+                        error_type = ErrorType.ENVIRONMENT
+                        # Get the code traceback details
+                        traceback_data = traceback.format_exc()
+                        # Format the traceback data to remove unwanted info
+                        traceback_data = format_traceback.test_rest_api_exc(traceback=traceback_data)
+                        # Update the test status and details
+                        status, details = TestStatus.ERROR, traceback_data
+                    except TestDataException as exc:
+                        # Log the result to the console
+                        test_rest_api_logger.info(str_color.error(testcase_name))
+                        # Update the logs, which has to be added after stdout (eg: error, bug etc)
+                        logs_end = str(exc)
+                        # Update the error type for reporting
+                        error_type = ErrorType.TEST_DATA
+                        # Get the code traceback details
+                        traceback_data = traceback.format_exc()
+                        # Format the traceback data to remove unwanted info
+                        traceback_data = format_traceback.test_rest_api_exc(traceback=traceback_data)
+                        # Update the test status and details
+                        status, details = TestStatus.ERROR, traceback_data
+                    except VariableException as exc:
+                        # Log the result to the console
+                        test_rest_api_logger.info(str_color.error(testcase_name))
+                        # Update the logs, which has to be added after stdout (eg: error, bug etc)
+                        logs_end = str(exc)
+                        # Update the error type for reporting
+                        error_type = ErrorType.VARIABLE
+                        # Get the code traceback details
+                        traceback_data = traceback.format_exc()
+                        # Format the traceback data to remove unwanted info
+                        traceback_data = format_traceback.test_rest_api_exc(traceback=traceback_data)
+                        # Update the test status and details
+                        status, details = TestStatus.ERROR, traceback_data
+                    except ConstantException as exc:
+                        # Log the result to the console
+                        test_rest_api_logger.info(str_color.error(testcase_name))
+                        # Update the logs, which has to be added after stdout (eg: error, bug etc)
+                        logs_end = str(exc)
+                        # Update the error type for reporting
+                        error_type = ErrorType.CONSTANT
                         # Get the code traceback details
                         traceback_data = traceback.format_exc()
                         # Format the traceback data to remove unwanted info
