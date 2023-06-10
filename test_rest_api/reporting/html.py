@@ -293,10 +293,10 @@ html_str = """
                       </td>
                     </tr>
                     <tr>
-                      <td>Global Variables</td>
+                      <td>Variable</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.global_variables }}</span
+                          >{{ summary.errors.variable }}</span
                         >
                       </td>
                     </tr>
@@ -317,10 +317,10 @@ html_str = """
                       </td>
                     </tr>
                     <tr>
-                      <td>Unexpected</td>
+                      <td>Others</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ summary.errors.unexpected }}</span
+                          >{{ summary.errors.unexpected + summary.errors.environment + summary.errors.test_data + summary.errors.constant }}</span
                         >
                       </td>
                     </tr>
@@ -855,16 +855,19 @@ html_str = """
       new Chart(errorDoughnutChart, {
         type: "doughnut",
         data: {
-          labels: ["Rest Api", "Global Variables", "Bug", "Assertion", "Unexpected"],
+          labels: ["Rest Api", "Environment", "Test Data", "Variable", "Constant", "Bug", "Assertion", "Unexpected"],
           datasets: [
             {
               label: "Type",
-              data: [{{ summary.errors.rest_api }}, {{ summary.errors.global_variables }}, {{ summary.errors.bug }}, {{ summary.errors.assertion }}, {{ summary.errors.unexpected }}],
+              data: [{{ summary.errors.rest_api }}, {{ summary.errors.environment }}, {{ summary.errors.test_data }}, {{ summary.errors.variable }}, {{ summary.errors.constant }}, {{ summary.errors.bug }}, {{ summary.errors.assertion }}, {{ summary.errors.unexpected }}],
               backgroundColor: [
-                "rgba(255, 205, 86, 0.1)",
-                "rgba(255, 205, 86, 0.3)",
-                "rgba(255, 205, 86, 0.5)",
-                "rgba(255, 205, 86, 0.7)",
+                "rgba(255, 205, 86, 0.125)",
+                "rgba(255, 205, 86, 0.250)",
+                "rgba(255, 205, 86, 0.375)",
+                "rgba(255, 205, 86, 0.500)",
+                "rgba(255, 205, 86, 0.625)",
+                "rgba(255, 205, 86, 0.750)",
+                "rgba(255, 205, 86, 0.875)",
                 "rgba(255, 205, 86, 1)"
               ],
               hoverOffset: 4,
