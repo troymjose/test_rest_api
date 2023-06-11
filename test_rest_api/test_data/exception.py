@@ -1,5 +1,5 @@
 from ..utils.exception import TestRestApiException
 
 
-class BugCreationException(TestRestApiException):
+class TestDataException(TestRestApiException):
     pass

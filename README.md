@@ -17,18 +17,19 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
 - [Examples](#examples)
     - [My first test](#1-my-first-test)
     - [Configure my test](#2-configure-my-test)
-    - [My first logger](#3-my-first-logger)
-    - [Set global variables value](#4-set-global-variables-value)
-    - [Set global variables value as constant](#5-set-global-variables-value-as-constant)
-    - [Get global variables value](#6-get-global-variables-value)
-    - [My first bug](#7-my-first-bug)
-    - [Configure my bug](#8-configure-my-bug)
-    - [My first rest api](#9-my-first-rest-api)
-    - [Configure my rest api](#10-configure-my-rest-api)
-    - [Reuse my rest api](#11-reuse-my-rest-api)
-    - [Send my rest api](#12-send-my-rest-api)
-    - [Rest api response](#13-rest-api-response)
-    - [Demo with all the above features](#14-demo)
+    - [Replace inbuilt assert](#3-replace-inbuilt-assert)
+    - [My first log](#4-my-first-log)
+    - [Set global variables value](#5-set-global-variables-value)
+    - [Set global variables value as constant](#6-set-global-variables-value-as-constant)
+    - [Get global variables value](#7-get-global-variables-value)
+    - [My first bug](#8-my-first-bug)
+    - [Configure my bug](#9-configure-my-bug)
+    - [My first rest api](#10-my-first-rest-api)
+    - [Configure my rest api](#11-configure-my-rest-api)
+    - [Reuse my rest api](#12-reuse-my-rest-api)
+    - [Send my rest api](#13-send-my-rest-api)
+    - [Rest api response](#14-rest-api-response)
+    - [Demo with all the above features](#15-demo)
 - [Reports](#reports)
     - [My first report](#1-my-first-report)
     - [Async tests report](#2-async-tests-report)
@@ -179,7 +180,7 @@ from test_rest_api import test
 
 @test()
 async def my_first_test():
-    return None
+    assert 4 == 5
 ```   
 
 - Create an __async__ python function with any __custom__ name
@@ -211,7 +212,7 @@ from test_rest_api import test
 
 @test(name='Custom Name', desc='Description', enabled=True, tags=['SMOKE', 'ABC'], is_async=True, execution_order='1')
 async def my_second_test():
-    return None
+    assert 4 == 5
 ```
 
 - In our first example, we used @test() decorator with __empty parameters__
@@ -250,30 +251,47 @@ async def my_second_test():
     - Expected: Custom text for ordering. This will work only when is_async = False
     - Default: 'zzzzz'
 
-<h4 id="3-my-first-logger">3. My first logger</h4>
+<h4 id="3-replace-inbuilt-assert">3. Replace inbuilt assert</h4>
 
 - - -
 
 ```python
-from test_rest_api import test, Logger
+from test_rest_api import test, Assert
 
 
 @test()
 async def my_first_logger():
-    logger = Logger()
-    logger.log("my 1st log")
-    logger.log("my 2nd log")
-    return logger 
+    # assert 4 == 5
+    Assert.equal(4, 5)
 ```
 
-- Loggers are used to add __custom messages__ to the final html test report
-- Create a new Logger __instance__ inside your test function```logger = Logger()```
-- Logger instance __name__ can be any custom text. Here we have used __logger__
-- Add any number of log messages using __log method__ ```logger.log("my 1st log")```
-- Return logger instance for rich test __reporting__ ```return logger```
-- It is __recommended__ to use logger for all your tests
+- Assert is same as inbuilt python assert statement
+- Using test rest api Assert class improves logging
+- Assertions done using Assert will be automatically logged in final html report
+- It is __recommended__ to use Assert instead of inbuilt assert statement for all your tests
 
-<h4 id="4-set-global-variables-value">4. Set global variables value</h4>
+<h4 id="4-my-first-log">4. My first log</h4>
+
+- - -
+
+```python
+from test_rest_api import test
+
+
+@test()
+async def my_first_logger():
+    print('My 1st log')
+    print('My 2nd log')
+    assert 4 == 5
+```
+
+- Python inbuilt ```print()``` function is used to add __custom messages__ to the final html test report
+- Add print() functions inside your __test function__
+- Add any number of log messages without any limit
+- It is __recommended__ to add logs for all your tests
+- Note: ```print()``` statements will not be printed to console
+
+<h4 id="5-set-global-variables-value">5. Set global variables value</h4>
 
 - - -
 
@@ -303,7 +321,7 @@ async def set_global_variables_value():
     - Data Type: any
     - Expected: Any python data type can be stored as global variables value
 
-<h4 id="5-set-global-variables-value-as-constant">5. Set global variables value as constant</h4>
+<h4 id="6-set-global-variables-value-as-constant">6. Set global variables value as constant</h4>
 
 - - -
 
@@ -338,7 +356,7 @@ async def set_global_variables_value_as_constant():
     - Expected: True or False. Provide True, to create constants
     - Default: False
 
-<h4 id="6-get-global-variables-value">6. Get global variables value</h4>
+<h4 id="7-get-global-variables-value">7. Get global variables value</h4>
 
 - - -
 
@@ -364,7 +382,7 @@ async def get_global_variables_value():
     - Data Type: str
     - Expected: Valid name of any saved global variable
 
-<h4 id="7-my-first-bug">7. My first bug</h4>
+<h4 id="8-my-first-bug">8. My first bug</h4>
 
 - - -
 
@@ -383,7 +401,7 @@ async def my_first_bug():
 - This will __terminate__ the current test function execution
 - Bug __details__ can be viewed in final html test __report__
 
-<h4 id="8-configure-my-bug">8. Configure my bug</h4>
+<h4 id="9-configure-my-bug">9. Configure my bug</h4>
 
 - - -
 
@@ -436,7 +454,7 @@ Bug(message='', priority='', actual_result='', expected_result='', steps_to_repr
     - Expected: Logger instance can be used to auto-populate this field
     - Default: Empty string
 
-<h4 id="9-my-first-rest-api">9. My first rest api</h4>
+<h4 id="10-my-first-rest-api">10. My first rest api</h4>
 
 - - -
 
@@ -454,7 +472,7 @@ async def my_first_rest_api():
 - This example is only about creating rest api, no __send action__ is performed here
 - We will use this __instance variable__ for sending the request in upcoming examples
 
-<h4 id="10-configure-my-rest-api">10. Configure my rest api</h4>
+<h4 id="11-configure-my-rest-api">11. Configure my rest api</h4>
 
 - - -
 
@@ -492,7 +510,7 @@ async def configure_my_rest_api():
     - Expected: Provide the json request payload
     - Default: {}
 
-<h4 id="11-reuse-my-rest-api">11. Reuse my rest api</h4>
+<h4 id="12-reuse-my-rest-api">12. Reuse my rest api</h4>
 
 - - -
 
@@ -520,7 +538,7 @@ def login_api(username: str, password: str):
 - This helps in calling the same api with __different inputs__
 - Return the __RestApi instance__ which can be used in test functions for __sending__
 
-<h4 id="12-send-my-rest-api">12. Send my rest api</h4>
+<h4 id="13-send-my-rest-api">13. Send my rest api</h4>
 
 - - -
 
@@ -544,7 +562,7 @@ async def send_my_rest_api():
 - Because they perform the same functionality with __different syntax__
 - Similarly, __other http methods__ can be used, with your desired syntax
 
-<h4 id="13-rest-api-response">13. Rest api response</h4>
+<h4 id="14-rest-api-response">14. Rest api response</h4>
 
 - - -
 
@@ -586,7 +604,7 @@ async def send_my_rest_api():
     - Data Type: aiohttp.ClientResponse
     - Value: Python aiohttp ClientResponse object
 
-<h4 id="14-demo">14. Demo with all the above features</h4>
+<h4 id="15-demo">15. Demo with all the above features</h4>
 
 - - -
 

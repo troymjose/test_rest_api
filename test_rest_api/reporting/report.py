@@ -18,11 +18,14 @@ class TestStatus:
 
 @dataclass
 class ErrorType:
-    REST_API: str = 'rest_api'
-    GLOBAL_VARIABLES: str = 'global_variables'
     BUG: str = 'bug'
-    LOGGER: str = 'logger'
+    REST_API: str = 'rest_api'
+    VARIABLE: str = 'variable'
+    CONSTANT: str = 'constant'
+    TEST_DATA: str = 'test_data'
+    ASSERTION: str = 'assertion'
     UNEXPECTED: str = 'unexpected'
+    ENVIRONMENT: str = 'environment'
 
 
 @dataclass
@@ -33,6 +36,7 @@ class ReportTestResult:
     testsuite: str
     status: str
     details: str
+    logs: str
     tags: tuple
     start: str
     end: str
@@ -76,11 +80,14 @@ class ReportTestSummaryBugs:
 @dataclass
 class ReportTestSummaryErrors:
     total: int = 0
-    rest_api: int = 0
-    global_variables: int = 0
     bug: int = 0
-    logger: int = 0
+    rest_api: int = 0
+    variable: int = 0
+    constant: int = 0
+    test_data: int = 0
+    assertion: int = 0
     unexpected: int = 0
+    environment: int = 0
 
 
 @dataclass
@@ -163,6 +170,3 @@ class Report:
         template = environment.from_string(html_str)
         # Return the template object
         return template
-
-
-report = Report()
