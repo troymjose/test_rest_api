@@ -1,6 +1,5 @@
 from inspect import getframeinfo, stack
 from .. import settings
-from ..utils.error_msg import ErrorMsg
 from ..utils.exception import catch_exc
 from .exception import VariableException
 
@@ -10,74 +9,51 @@ class Variable:
     Variable can be used for correlations in tests
     """
 
-    @classmethod
-    def _set(cls, *, name: str, value: any) -> None:
-        """
-        Set the class attribute
-        """
-        # Check if name is of type string
-        if not isinstance(name, str):
-            raise Exception(ErrorMsg.VARIABLE_NAME_INVALID_DATA_TYPE)
-        # Check if name not empty
-        if name.strip() == '':
-            raise Exception(ErrorMsg.VARIABLE_EMPTY_STRING)
-        # Set class level attribute
-        setattr(cls, f'_{name}', value)
-
-    @classmethod
-    def _get(cls, *, name: str) -> any:
-        """
-        Get the class attribute
-        """
-        # Check if name is of type string
-        if not isinstance(name, str):
-            raise Exception(ErrorMsg.VARIABLE_NAME_INVALID_DATA_TYPE)
-        if value := getattr(cls, f'_{name}', None):
-            return value
-        raise Exception(f'{ErrorMsg.TEST_DATA_NOT_FOUND} "{name}"')
-
-    @classmethod
     @catch_exc(test_rest_api_exception=VariableException)
-    def get(cls, name: str) -> any:
-        """
-        Get test data value using the testdata name
-        """
-        # Get variable obj
-        value = cls._get(name=name)
-        # Get the caller object to retrieve the caller code
-        caller = getframeinfo(stack()[2][0])
-        # Get the caller code
-        caller_code = caller.code_context[0].strip()
-        # Logging
-        print(f"""
+    def __getattribute__(self, attribute: str) -> any:
+        try:
+            # Get the class attribute value
+            value = super().__getattribute__(attribute)
+            # Get the caller object to retrieve the caller code
+            caller = getframeinfo(stack()[2][0])
+            # Get the caller code
+            caller_code = caller.code_context[0].strip()
+            # Only log for one condition. Example: my_value = variable.attribute
+            if caller_code.strip().endswith(f'.{attribute}'):
+                # Logging
+                print(f"""
 Get Variable
 ------------
  {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {caller_code}
  {settings.logging.sub_point} Result {settings.logging.key_val_sep} {caller_code[:caller_code.find('=')]}= {value}
- {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {name} = {value}
+ {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {attribute} = {value}
  {settings.logging.sub_point} Type   {settings.logging.key_val_sep} Mutable
 """)
-        # Return the test data value
-        return value
+            return value
+        except Exception as exc:
+            raise Exception(exc)
 
-    @classmethod
     @catch_exc(test_rest_api_exception=VariableException)
-    def set(cls, name: str, value: any) -> None:
-        """
-        Set the variable value
-        """
-
-        # Set the class attribute
-        cls._set(name=name, value=value)
-        # Get the caller object to retrieve the caller code
-        caller = getframeinfo(stack()[2][0])
-        # Get the caller code
-        caller_code = caller.code_context[0].strip()
-        # Logging
-        print(f"""
+    def __setattr__(self, attr_name: str, attr_value: any):
+        try:
+            # Set the class attribute
+            super().__setattr__(attr_name, attr_value)
+            # Get the caller object to retrieve the caller code
+            caller = getframeinfo(stack()[2][0])
+            # Get the caller code
+            caller_code = caller.code_context[0].strip()
+            # Only log for one condition. Example: variable.attr_name = attr_value
+            if caller_code.strip().replace(' ', '').endswith(f'{attr_name}={attr_value}'):
+                # Logging
+                print(f"""
 Set Variable
 ------------
  {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {caller_code}
- {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {name} = {value}
+ {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {attr_name} = {attr_value}
  {settings.logging.sub_point} Type   {settings.logging.key_val_sep} Mutable
 """)
+        except Exception as exc:
+            raise Exception(f'Exception: {exc}')
+
+
+variable = Variable()
