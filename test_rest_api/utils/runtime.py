@@ -43,7 +43,7 @@ class Runtime:
             # Get the caller code
             caller_code = caller.code_context[0].strip()
             # Only log for one condition. Example: variable.attr_name = attr_value
-            if caller_code.strip().replace(' ', '').endswith(f'{attr_name}={attr_value}'):
+            if f'.{attr_name}=' in caller_code.replace(' ', ''):
                 # Logging
                 self._log(title=f'Set {self._create_title()}',
                           code=caller_code,

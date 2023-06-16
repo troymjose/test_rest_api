@@ -29,6 +29,9 @@ class TestData(Runtime):
         """
         Set test data from file/folder path. Supported file extensions: [json, ]
         """
+        # Return if test data path list is empty
+        if not path:
+            return
         # Logging
         test_rest_api_logger.info(str_color.info('Auto detecting test data files'))
         # Set test data from json files
