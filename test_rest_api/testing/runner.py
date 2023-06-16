@@ -190,7 +190,6 @@ class BaseRunner(metaclass=BaseRunnerMeta):
         From test file load all the @test decorated sync function objects in a list
         Conditions: Is sync Function & Decorated with @test
         """
-        a =getmembers(module)
         return [obj for _, obj in getmembers(module) if
                 iscoroutinefunction(obj) and obj.__dict__.get('is_testcase', False) and not obj.__dict__.get(
                     'is_async_testcase', False)]

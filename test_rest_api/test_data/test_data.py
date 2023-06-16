@@ -1,15 +1,15 @@
 import os
 import sys
 import json
+from ..utils.runtime import Runtime
 from ..utils.error_msg import ErrorMsg
 from ..utils.exception import catch_exc
 from .exception import TestDataException
-from ..variable.variable import Variable
 from ..utils.string_color import str_color
 from ..utils.logger import test_rest_api_logger
 
 
-class TestData(Variable):
+class TestData(Runtime):
     """
     Test data can be used for parameterization in tests
     """
@@ -19,15 +19,15 @@ class TestData(Variable):
 
     @catch_exc(test_rest_api_exception=TestDataException)
     def __getattribute__(self, attribute: str) -> any:
-        return super().__getattribute__(attribute)
+        return super(TestData, self).__getattribute__(attribute)
 
     @catch_exc(test_rest_api_exception=TestDataException)
-    def __setattr__(self, attr_name: str, attr_value: any):
+    def __setattr__(self, attr_name: str, attr_value: any) -> None:
         raise Exception(ErrorMsg.TEST_DATA_RUNTIME_SET)
 
     def _set(self, *, path: str) -> None:
         """
-        Set test data from file/folder path. Supported file extensions: josn
+        Set test data from file/folder path. Supported file extensions: [json, ]
         """
         # Logging
         test_rest_api_logger.info(str_color.info('Auto detecting test data files'))
@@ -61,7 +61,7 @@ class TestData(Variable):
                     # Iterating through the json data
                     for name, value in data.items():
                         # Set test data attribute
-                        self._set_attr(name=name, value=value)
+                        self._set_attr(attr_name=name, attr_value=value)
         except Exception as exc:
             sys.exit(str_color.exception(f'{exc}\nFile : {os.path.basename(file)}\nPath : {file}'))
         # Logging
@@ -82,27 +82,29 @@ class TestData(Variable):
             for nested_path in os.listdir(path):
                 self._get_json_file_paths(path=path + "/" + nested_path)
 
-    def _set_attr(self, *, name: str, value: any) -> None:
+    def _set_attr(self, *, attr_name: str, attr_value: any) -> None:
         """
         Set the class attribute
         """
         # String representation of name & value for exception messages
-        input_details = f'\nKey  : {name}\nValue: {value}'
+        input_details = f'\nKey  : {attr_name}\nValue: {attr_value}'
         # Check if name is of type string
-        if not isinstance(name, str):
+        if not isinstance(attr_name, str):
             raise Exception(f'{ErrorMsg.TEST_DATA_INVALID_DATA_TYPE}{input_details}')
         # Check if name not empty
-        if name.strip() == '':
+        if attr_name.strip() == '':
             raise Exception(f'{ErrorMsg.TEST_DATA_EMPTY_STRING}{input_details}')
         # Check for duplicates
         try:
-            if value := getattr(self, name):
-                raise Exception(f'{ErrorMsg.TEST_DATA_DUPLICATE}{input_details}')
+            value = super(TestData, self).__getattribute__(attr_name)
         except Exception as exc:
-            pass
+            value = None
+        finally:
+            if value:
+                raise Exception(f'{ErrorMsg.TEST_DATA_DUPLICATE}{input_details}')
         # Set class level attribute
         # Call the base version of __setattr__ you avoid the infinite recursive error
-        super().__setattr__(name, value)
+        super(TestData, self).__setattr__(attr_name, attr_value)
 
 
 testdata = TestData()

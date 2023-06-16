@@ -73,10 +73,10 @@ class RestApi:
 
     def __str__(self):
         return f"""
- {settings.logging.sub_point} Url        {settings.logging.key_val_sep} {self.url}
- {settings.logging.sub_point} Headers    {settings.logging.key_val_sep} {self.headers}
- {settings.logging.sub_point} Parameters {settings.logging.key_val_sep} {self.parameters}
- {settings.logging.sub_point} Body       {settings.logging.key_val_sep} {self.body}
+ {settings.logging.sub_point} Url         {settings.logging.key_val_sep} {self.url}
+ {settings.logging.sub_point} Headers     {settings.logging.key_val_sep} {self.headers}
+ {settings.logging.sub_point} Parameters  {settings.logging.key_val_sep} {self.parameters}
+ {settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
 """
 
     async def _create_response(self, response: ClientResponse) -> RestApiResponse:
@@ -105,7 +105,7 @@ class RestApi:
         try:
             # Logging
             print(
-                f'Rest Api Send\n-------------\n {settings.logging.sub_point} Method     {settings.logging.key_val_sep} {method.upper()}\n')
+                f'Rest Api Send\n-------------\n {settings.logging.sub_point} Method      {settings.logging.key_val_sep} {method.upper()}\n')
             # Check if method is of type string
             if not isinstance(method, str):
                 raise Exception('Invalid data type for method. Please provide a valid string')

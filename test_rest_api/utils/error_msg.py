@@ -26,18 +26,12 @@ class ErrorMsg:
     INVALID_URL: str = "Invalid ULR. Please provide a valid url in rest api creation"
     CLIENT_CONNECTOR_ERROR: str = "Cannot connect to URL host. Please provide a valid url host in rest api creation"
     INVALID_JSON_RESPONSE: str = "Invalid Response Type. Supports only Json type (application/json)"
-
+    CONSTANT_DUPLICATE: str = "Constant cannot be altered at runtime"
     TEST_DATA_DUPLICATE: str = "ERROR! Test Data Duplication. Please provide unique name for the keys in test data json files"
     TEST_DATA_EMPTY_STRING: str = "ERROR! Empty String. Please provide a valid string for the keys in test data json files"
     TEST_DATA_INVALID_DATA_TYPE: str = "ERROR! Invalid Data Type. Please provide a valid string for the keys in test data json files"
-    TEST_DATA_RUNTIME_SET = 'Test Data cannot be initialised or altered at run time'
-
+    TEST_DATA_RUNTIME_SET = 'Test Data cannot be initialised or altered at runtime'
     ENVIRONMENT_DUPLICATE: str = "ERROR! Environment Duplication. Please provide unique name for the keys in .env file"
     ENVIRONMENT_EMPTY_STRING: str = "ERROR! Empty String. Please provide a valid string for variable name in .env file"
     ENVIRONMENT_INVALID_DATA_TYPE: str = "ERROR! Invalid Data Type. Please provide a valid string for variable name in .env file"
-    ENVIRONMENT_RUNTIME_SET = 'Environment cannot be initialised or altered at run time'
-
-    CONSTANT_DUPLICATE: str = "Duplicate Name. Please provide unique value for name"
-    CONSTANT_EMPTY_STRING: str = "Empty String. Please provide a valid string for name"
-    CONSTANT_NOT_FOUND: str = "Not Found. Constant not found for the given name"
-    CONSTANT_NAME_INVALID_DATA_TYPE: str = "Invalid Data Type. Please provide a valid string for name"
+    ENVIRONMENT_RUNTIME_SET = 'Environment cannot be initialised or altered at runtime'
