@@ -56,7 +56,7 @@ class TestData(Runtime):
             # Iterate through each json file path
             for file in self.json_file_paths:
                 # Open json file
-                with open(file) as f:
+                with open(file, encoding="utf-8", ) as f:
                     # Load Json data
                     data = json.load(f)
                     # Count the total keys in this file & update the total count

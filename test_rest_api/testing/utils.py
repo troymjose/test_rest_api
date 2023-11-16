@@ -12,8 +12,8 @@ def skip_test(*, tags: str) -> bool:
         return False
     # Format current test tags by removing '#' from the starting of the string
     tags = [tag[1:] if tag.startswith("#") else tag for tag in tags]
-    # Check for #ALL (This will run for all tag cases, eg: login api)
-    if 'ALL' in tags:
+    # Check for #ALWAYS (This will run for all tag cases, eg: login api)
+    if 'ALWAYS' in tags:
         return False
     # Check if any of the runner test tag is present in the current test else skip the test
     if any(test_tag in tags for test_tag in test_tags):

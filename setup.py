@@ -2,6 +2,7 @@
 Steps for packaging
 -------------------
 
+Delete build & dist folders
 python3 setup.py sdist bdist_wheel
 python3 -m twine upload dist/*
 Enter your username: __token__
@@ -18,7 +19,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'READM
 
 # Setup
 setup(name='test_rest_api',
-      version='0.0.0.0.34',
+      version='0.0.0.0.35',
       author='Troy M Jose',
       author_email='',
       url='https://github.com/troymjose/test_rest_api',
