@@ -2,6 +2,7 @@
 Steps for packaging
 -------------------
 
+Delete build & dist folders
 python3 setup.py sdist bdist_wheel
 python3 -m twine upload dist/*
 Enter your username: __token__
@@ -18,7 +19,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'READM
 
 # Setup
 setup(name='test_rest_api',
-      version='0.0.0.0.32',
+      version='0.0.0.0.35',
       author='Troy M Jose',
       author_email='',
       url='https://github.com/troymjose/test_rest_api',
@@ -34,9 +35,9 @@ setup(name='test_rest_api',
                 'restapitest', 'restapitesting', 'restapiunittest', 'restapiunittesting', 'restapiautomation',
                 'restapiautomationtest', 'restapiautomationtesting', 'apitest', 'apitesting', 'apiunittest',
                 'apiunittesting', 'apiautomation', 'apiautomationtest', 'apiautomationtesting'],
-      packages=['test_rest_api', 'test_rest_api.environment', 'test_rest_api.test_data', 'test_rest_api.variable',
-                'test_rest_api.constant', 'test_rest_api.reporting', 'test_rest_api.rest_api',
-                'test_rest_api.testing', 'test_rest_api.utils', 'test_rest_api.assertion', 'test_rest_api.settings'],
+      packages=['test_rest_api', 'test_rest_api.assertion', 'test_rest_api.constant', 'test_rest_api.environment',
+                'test_rest_api.reporting', 'test_rest_api.rest_api', 'test_rest_api.settings',
+                'test_rest_api.test_data', 'test_rest_api.testing', 'test_rest_api.utils', 'test_rest_api.variable'],
       install_requires=['aiohttp', 'Jinja2', 'python-dotenv'],
       long_description_content_type='text/markdown',
       long_description=long_description,

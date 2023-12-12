@@ -14,9 +14,9 @@ from . import decorator
 from ..reporting.report import Report
 from ..utils.error_msg import ErrorMsg
 from ..utils.string_color import str_color
-from ..test_data.test_data import TestData
+from ..test_data.test_data import testdata
 from ..utils.logger import test_rest_api_logger
-from ..environment.environment import Environment
+from ..environment.environment import environment
 from ..utils.aiohttp_session import AioHttpSession
 
 
@@ -237,8 +237,10 @@ class Runner(BaseRunner):
         test_file_generator = (test_file for test_file in self.test_files)
         # For each file path in list of python files from testsuite folder
         for test_file in test_file_generator:
-            # Get the python file name
-            name = test_file.replace(self.test_suite_path, '').replace('/', '.')[1:-3]
+            # Get file name with extension
+            name_with_ext = os.path.basename(self.test_suite_path)
+            # Get file name without extension
+            name = os.path.splitext(name_with_ext)[0]
             # Load the module in runtime from file paths
             module = Runner.load_module(name=name, path=test_file)
             # Load the @test decorated sync functions as a list from the module
@@ -263,19 +265,6 @@ class Runner(BaseRunner):
             for nested_path in os.listdir(path):
                 self.load_test_files(path + "/" + nested_path)
 
-    def load_test_data_files(self, path):
-        """
-        Auto-detect json files from a test data folder/file path to a list
-        Files can be under any nested folder
-        """
-        if path.endswith("__pycache__") or path.endswith('.py'):
-            return
-        if os.path.isfile(path) and path.endswith('.json'):
-            self.test_data_files.append(path)
-        elif os.path.isdir(path):
-            for nested_path in os.listdir(path):
-                self.load_test_data_files(path + "/" + nested_path)
-
     def setup_testsuite(self):
         """
         Run before test suite execution
@@ -298,15 +287,10 @@ class Runner(BaseRunner):
         test_rest_api_logger.info(str_color.info(f'Total synchronous tests: {len(self.sync_tests)}'))
         test_rest_api_logger.info(str_color.info(f'Total asynchronous tests: {len(self.async_tests)}'))
         test_rest_api_logger.info(str_color.info(f'Total tests: {len(self.sync_tests) + len(self.async_tests)}'))
-        test_rest_api_logger.info(str_color.info('Adding .env data to GlobalVariables as constants'))
-        # Add env data to global variables as constants
-        Environment._set_from_env_file(path=self.env_path)
-        # Logging
-        test_rest_api_logger.info(str_color.info('Auto detecting test data files'))
-        # Load json files
-        self.load_test_data_files(self.test_data_path)
-        # Add test data to global variables as constants
-        TestData._set_from_json_files(files=self.test_data_files)
+        # Sen environment
+        environment._set(path=self.env_path)
+        # Set test data
+        testdata._set(path=self.test_data_path)
 
     async def run_testsuite(self):
         """

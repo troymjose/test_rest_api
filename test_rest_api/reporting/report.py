@@ -156,7 +156,7 @@ class Report:
         # Create html report file name using current datetime details
         file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.html"
         # Save to html file
-        with open(os.path.join(path, file_name), 'w') as f:
+        with open(os.path.join(path, file_name), 'w', encoding="utf-8") as f:
             f.write(rendered_html)
 
     @staticmethod

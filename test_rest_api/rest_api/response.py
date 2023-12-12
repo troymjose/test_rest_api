@@ -17,6 +17,6 @@ class RestApiResponse:
 
     def __str__(self):
         return f"""
- {settings.logging.sub_point} Satus Code {settings.logging.key_val_sep} {self.status_code}
- {settings.logging.sub_point} Body       {settings.logging.key_val_sep} {self.body}
+ {settings.logging.sub_point} Status Code {settings.logging.key_val_sep} {self.status_code}
+ {settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
 """

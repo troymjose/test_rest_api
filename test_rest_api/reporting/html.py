@@ -709,7 +709,7 @@ html_str = """
                     Logs
                   </div>
                   <div class="card-body">
-                    <pre>{{ async_test.logs }}</pre>
+                    <pre>Logs are common for all asynchronous tests. Click <a href="#asyncTestLogsAccordion" class="badge" style="background-color: #36a2eb;text-decoration: none"><i class="bi bi-file-text-fill"></i>&nbsp;<b>LOGS</b></a> to view</pre>
                   </div>
                 </div>
                 <br />
@@ -725,6 +725,49 @@ html_str = """
             </div>
           </div>
           {% endfor %}
+        </div>
+        <hr class="border border-secondary border-1 opacity-80"/>
+        <!-- Asynchronous Test Logs Accordion -->
+        <div class="accordion" id="asyncTestLogsAccordion">
+          <div
+            class="accordion-item"
+            id="async-logs-accordion-item"
+          >
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-async-logs-accordion-item"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-async-logs-accordion-item"
+              >
+                <span class="badge" style="background-color: #36a2eb"
+                  ><i class="bi bi-file-text-fill"></i>&nbsp;&nbsp;<b
+                    >LOGS</b
+                  ></span
+                >&nbsp;&nbsp;
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-async-logs-accordion-item"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <div class="card">
+                  <div class="card-header">
+                    Common Logs
+                  </div>
+                  <div class="card-body">
+                    {% for async_test in async_tests %}
+                        <pre>{{ async_test.logs }}</pre>
+                        <br></br>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       {% endif %}

@@ -25,6 +25,14 @@ from ..rest_api.exception import RestApiCreationException, RestApiSendException
 iter_test_name = count(start=1)
 # Initialise report object as None
 report = None
+# color mapper for test status
+test_status_colors = {TestStatus.PASS: '#4bc0c0',
+                      TestStatus.FAIL: '#ff6384',
+                      TestStatus.ERROR: '#ffcd56'}
+# icon mapper for test status
+test_status_icons = {TestStatus.PASS: 'bi bi-check-circle-fill',
+                     TestStatus.FAIL: 'bi bi-bug-fill',
+                     TestStatus.ERROR: 'bi bi-x-octagon-fill'}
 
 
 def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_order='z'):
@@ -47,7 +55,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                 # Only execute enabled testcases
                 if enabled:
                     # Update the logs
-                    logs = 'Started the test\n'
+                    logs = f'<span style="font-weight: bolder">{testcase_name} <span class="badge" style="background-color: #212529bf"><i class="bi bi-rocket-takeoff-fill"></i>&nbsp;<b>START</b></span></span>\n'
                     # In-memory file-like object
                     string_io = StringIO()
                     try:
@@ -63,7 +71,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Log the result to the console
                         test_rest_api_logger.info(str_color.passed(testcase_name))
                         # Update the logs, which has to be added after stdout (eg: error, bug etc)
-                        logs_end = 'Completed the test'
+                        logs_end = ''
                         # Update the test status and details
                         status, details = TestStatus.PASS, 'Success'
                     except RestApiCreationException as exc:
@@ -242,7 +250,7 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         # Update the test log's with all the print messages
                         logs += stdout_data
                         # Update the end logs for adding details of exception, bug etc.
-                        logs += logs_end
+                        logs += f'<span style="color: {test_status_colors[status]}; font-weight: bolder">{logs_end}<span style="font-weight: bolder; color: #000000">{testcase_name} </span><span class="badge" style="background-color: {test_status_colors[status]}" ><i class="{test_status_icons[status]}"></i>&nbsp;<b>{status.upper()}</b></span</span>'
 
             # Create Report test result object instance
             test_result = ReportTestResult(name=testcase_name,
