@@ -25,14 +25,6 @@ from ..rest_api.exception import RestApiCreationException, RestApiSendException
 iter_test_name = count(start=1)
 # Initialise report object as None
 report = None
-# color mapper for test status
-test_status_colors = {TestStatus.PASS: '#4bc0c0',
-                      TestStatus.FAIL: '#ff6384',
-                      TestStatus.ERROR: '#ffcd56'}
-# icon mapper for test status
-test_status_icons = {TestStatus.PASS: 'bi bi-check-circle-fill',
-                     TestStatus.FAIL: 'bi bi-bug-fill',
-                     TestStatus.ERROR: 'bi bi-x-octagon-fill'}
 
 
 def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_order='z'):
@@ -54,8 +46,6 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                 status, details = TestStatus.DISABLE, 'Testcase is disabled'
                 # Only execute enabled testcases
                 if enabled:
-                    # Update the logs
-                    logs = f'<span style="font-weight: bolder">{testcase_name} <span class="badge" style="background-color: #212529bf"><i class="bi bi-rocket-takeoff-fill"></i>&nbsp;<b>START</b></span></span>\n'
                     # In-memory file-like object
                     string_io = StringIO()
                     try:
@@ -63,10 +53,16 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         timer_start = perf_counter_ns()
                         # Get the start date time of the test
                         start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-                        # Redirect standard output to string_io
-                        # In python, print() function prints values to standard out
-                        with redirect_stdout(string_io):
-                            # Call the async test function
+                        # Only use stdout redirect for sync tests
+                        if not is_async:
+                            # Redirect standard output to string_io
+                            # In python, print() function prints values to standard out
+                            with redirect_stdout(string_io):
+                                # Call the async test function
+                                await func(*args, **kwargs)
+                        # Async tests have issue with stdout redirect, so use console logs
+                        else:
+                            # Call the async test function without stdout redirect
                             await func(*args, **kwargs)
                         # Log the result to the console
                         test_rest_api_logger.info(str_color.passed(testcase_name))
@@ -245,12 +241,18 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         timer_stop = perf_counter_ns()
                         # Calculate the time duration of the test in seconds (note: duration is in nanoseconds)
                         duration = f'{(timer_stop - timer_start) / 1000000000} seconds'
-                        # Get standard out messages from all the print() statements
-                        stdout_data = string_io.getvalue()
-                        # Update the test log's with all the print messages
-                        logs += stdout_data
-                        # Update the end logs for adding details of exception, bug etc.
-                        logs += f'<span style="color: {test_status_colors[status]}; font-weight: bolder">{logs_end}<span style="font-weight: bolder; color: #000000">{testcase_name} </span><span class="badge" style="background-color: {test_status_colors[status]}" ><i class="{test_status_icons[status]}"></i>&nbsp;<b>{status.upper()}</b></span</span>'
+                        if not is_async:
+                            # Get standard out messages from all the print() statements
+                            stdout_data = string_io.getvalue()
+                            # Update the test log's with all the print messages
+                            logs += stdout_data
+                            # Update the end logs for adding details of exception, bug etc.
+                            logs += logs_end
+                        else:
+                            # Update the console output logs
+                            print(logs_end)
+                            # Default message in html report for async tests
+                            logs = 'Check the console output logs. Logs are common for all asynchronous tests.'
 
             # Create Report test result object instance
             test_result = ReportTestResult(name=testcase_name,
