@@ -28,7 +28,7 @@ html_str = """
     <div id="root-div" style="text-align: center">
       <!-- Top Nav bar -->
       <nav
-        class="navbar fixed-top bg-dark-subtle shadow-lg p-3 mb-5 bg-body-tertiary"
+        class="navbar fixed-top bg-dark-subtle shadow-lg p-2 mb-5 bg-body-tertiary"
         data-bs-theme="dark"
       >
         <div class="container-fluid">
@@ -728,6 +728,27 @@ html_str = """
         </div>
       </div>
       {% endif %}
+      {% if async_tests or sync_tests %}
+      <!-- Logs -->
+      <div id="logs-div" style="padding: 30px; text-align: left">
+        <br />
+        <br />
+        <br />
+        <nav
+          class="navbar bg-body-tertiary"
+          style="background-color: white !important"
+        >
+          <div class="container-fluid">
+            <h4 class="text-body-secondary">
+              <i class="bi bi-journal-text"></i>&nbsp;&nbsp;Test Logs
+            </h4>
+          </div>
+        </nav>
+        <hr class="border border-secondary border-2 opacity-50" />
+        <!-- Logs Card -->
+        {{ logs }}
+      </div>
+      {% endif %}
     </div>
     <!-- Floating button for navigating summary, sync & async sections -->
     <div
@@ -768,6 +789,13 @@ html_str = """
         href="#async-div"
         style="text-decoration: none; color: black"
         ><b><i class="bi bi-list-stars" style="font-size: xx-large"></i></b
+      ></a>
+      <a
+        role="button"
+        class="btn btn-link btn-lg"
+        href="#logs-div"
+        style="text-decoration: none; color: black"
+        ><b><i class="bi bi-journal-text" style="font-size: xx-large"></i></b
       ></a>
     </div>
     <!-- Bootstrap cdn -->
