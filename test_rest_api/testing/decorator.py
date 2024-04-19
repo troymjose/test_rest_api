@@ -1,10 +1,8 @@
 import traceback
 import functools
-from io import StringIO
 from itertools import count
 from datetime import datetime
 from time import perf_counter_ns
-from contextlib import redirect_stdout
 from inspect import iscoroutinefunction
 from .bug import Bug
 from .utils import skip_test
@@ -54,20 +52,15 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                 status, details = TestStatus.DISABLE, 'Testcase is disabled'
                 # Only execute enabled testcases
                 if enabled:
-                    # Update the logs
-                    logs = f'<span style="font-weight: bolder">{testcase_name} <span class="badge" style="background-color: #212529bf"><i class="bi bi-rocket-takeoff-fill"></i>&nbsp;<b>START</b></span></span>\n'
-                    # In-memory file-like object
-                    string_io = StringIO()
+                    print(
+                        f'<br id="logs-start-{testcase_name.replace(" ", "-").replace("(", "").replace(")", "").replace("[", "").replace("]", "")}"></br><br></br><span style="font-weight: bolder">{testcase_name} <span class="badge" style="background-color: #212529bf"><i class="bi bi-rocket-takeoff-fill"></i>&nbsp;<b>START</b></span></span><br></br><br></br>')
                     try:
                         # Start the stopwatch / counter
                         timer_start = perf_counter_ns()
                         # Get the start date time of the test
                         start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-                        # Redirect standard output to string_io
-                        # In python, print() function prints values to standard out
-                        with redirect_stdout(string_io):
-                            # Call the async test function
-                            await func(*args, **kwargs)
+                        # Call the async test function
+                        await func(*args, **kwargs)
                         # Log the result to the console
                         test_rest_api_logger.info(str_color.passed(testcase_name))
                         # Update the logs, which has to be added after stdout (eg: error, bug etc)
@@ -245,12 +238,13 @@ def test(*, name="", desc="", enabled=True, tags=[], is_async=True, execution_or
                         timer_stop = perf_counter_ns()
                         # Calculate the time duration of the test in seconds (note: duration is in nanoseconds)
                         duration = f'{(timer_stop - timer_start) / 1000000000} seconds'
-                        # Get standard out messages from all the print() statements
-                        stdout_data = string_io.getvalue()
-                        # Update the test log's with all the print messages
-                        logs += stdout_data
-                        # Update the end logs for adding details of exception, bug etc.
-                        logs += f'<span style="color: {test_status_colors[status]}; font-weight: bolder">{logs_end}<span style="font-weight: bolder; color: #000000">{testcase_name} </span><span class="badge" style="background-color: {test_status_colors[status]}" ><i class="{test_status_icons[status]}"></i>&nbsp;<b>{status.upper()}</b></span</span>'
+                        # Format logs_end
+                        logs_end = f'<span style="color: {test_status_colors[status]}; font-weight: bolder">{logs_end}</span><span style="font-weight: bolder; color: #000000">{testcase_name} </span><span class="badge" style="background-color: {test_status_colors[status]}" ><i class="{test_status_icons[status]}"></i>&nbsp;<b>{status.upper()}</b></span>'
+                        # Update the console output logs
+                        print(
+                            f'<br id="logs-end-{testcase_name.replace(" ", "-").replace("(", "").replace(")", "").replace("[", "").replace("]", "")}"></br><br></br>{logs_end}\n')
+                        # Default message in html report with start and end navigation buttons
+                        logs = f'Click to view <a href="#logs-start-{testcase_name.replace(" ", "-").replace("(", "").replace(")", "").replace("[", "").replace("]", "")}" class="badge" style="background-color: #36a2eb;text-decoration: none"><i class="bi bi-file-text-fill"></i>&nbsp;<b>START</b></a>&nbsp;<a href="#logs-end-{testcase_name.replace(" ", "-").replace("(", "").replace(")", "").replace("[", "").replace("]", "")}" class="badge" style="background-color: #36a2eb;text-decoration: none"><i class="bi bi-file-text-fill"></i>&nbsp;<b>END</b></a>'
 
             # Create Report test result object instance
             test_result = ReportTestResult(name=testcase_name,

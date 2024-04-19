@@ -5,9 +5,11 @@ import types
 import aiohttp
 import asyncio
 import traceback
+from io import StringIO
 import importlib.machinery
 from datetime import datetime
 from time import perf_counter_ns
+from contextlib import redirect_stdout
 from inspect import getmembers, iscoroutinefunction
 from . import utils
 from . import decorator
@@ -315,22 +317,43 @@ class Runner(BaseRunner):
         # Logging
         test_rest_api_logger.info(str_color.info('Created aiohttp client session'))
         test_rest_api_logger.info(str_color.info('Completed test setup'))
-        if len(self.sync_tests) > 0:
-            Runner.console_sync_test_title()
         # Start the stopwatch / counter
         timer_start = perf_counter_ns()
         # Test start date time
         start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
-        # Create a generator of synchronous tests
-        sync_test_generator = (sync_test for sync_test in self.sync_tests)
-        # Run synchronous tests before async tests
-        for sync_test in sync_test_generator:
-            await sync_test()
-        # Logging
-        if len(self.async_tests) > 0:
-            Runner.console_async_test_title()
-        # Running Tasks Concurrently (Execute async functions concurrently)
-        await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
+        # In-memory file-like object
+        string_io = StringIO()
+        # Redirect all print messages for all tests
+        with redirect_stdout(string_io):
+            if len(self.sync_tests) > 0:
+                Runner.console_sync_test_title()
+                print("""   <div class="card">
+                            <div class="card-header">
+                            <b>Synchronous Test Logs</b>
+                            </div>
+                            <div class="card-body">
+                            <pre>""")
+                # Create a generator of synchronous tests
+                sync_test_generator = (sync_test for sync_test in self.sync_tests)
+                # Run synchronous tests before async tests
+                for sync_test in sync_test_generator:
+                    await sync_test()
+                print("""</pre></div></div><br></br>""")
+            if len(self.async_tests) > 0:
+                Runner.console_async_test_title()
+                print("""   <div class="card">
+                            <div class="card-header">
+                            <b>Asynchronous Test Logs</b>
+                            </div>
+                            <div class="card-body">
+                            <pre>""")
+                # Running Tasks Concurrently (Execute async functions concurrently)
+                await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
+                print("""</pre></div></div>""")
+        # Get standard out messages from all the print() statements
+        stdout_data = string_io.getvalue()
+        # Update report with logs data
+        self.report.logs = stdout_data
         # Test end time
         end = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
         # Stop the stopwatch / counter

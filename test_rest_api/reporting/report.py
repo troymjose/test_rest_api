@@ -102,6 +102,7 @@ class Report:
     def __init__(self):
         self.sync_tests: List[ReportTestResult] = []
         self.async_tests: List[ReportTestResult] = []
+        self.logs: str = ''
         self.summary: ReportTestSummary = ReportTestSummary()
         self.template = self.create_jija2_template()
 
@@ -152,7 +153,8 @@ class Report:
         # Render the jinja report template html file
         rendered_html = self.template.render(summary=self.summary,
                                              sync_tests=self.sync_tests,
-                                             async_tests=self.async_tests)
+                                             async_tests=self.async_tests,
+                                             logs=self.logs)
         # Create html report file name using current datetime details
         file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.html"
         # Save to html file

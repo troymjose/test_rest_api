@@ -28,7 +28,7 @@ html_str = """
     <div id="root-div" style="text-align: center">
       <!-- Top Nav bar -->
       <nav
-        class="navbar fixed-top bg-dark-subtle shadow-lg p-3 mb-5 bg-body-tertiary"
+        class="navbar fixed-top bg-dark-subtle shadow-lg p-2 mb-5 bg-body-tertiary"
         data-bs-theme="dark"
       >
         <div class="container-fluid">
@@ -334,7 +334,7 @@ html_str = """
           </div>
         </div>
       </div>
-      {% if summary.tests.sync_tests > 0 %}
+      {% if sync_tests %}
       <!-- Synchronous Tests -->
       <div id="sync-div" style="padding: 30px; text-align: left">
         <br />
@@ -531,7 +531,7 @@ html_str = """
         </div>
       </div>
       {% endif %}
-      {% if summary.tests.async_tests > 0 %}
+      {% if async_tests %}
       <!-- Asynchronous Tests -->
       <div id="async-div" style="padding: 30px; text-align: left">
         <br />
@@ -709,7 +709,7 @@ html_str = """
                     Logs
                   </div>
                   <div class="card-body">
-                    <pre>Logs are common for all asynchronous tests. Click <a href="#asyncTestLogsAccordion" class="badge" style="background-color: #36a2eb;text-decoration: none"><i class="bi bi-file-text-fill"></i>&nbsp;<b>LOGS</b></a> to view</pre>
+                    <pre>{{ async_test.logs }}</pre>
                   </div>
                 </div>
                 <br />
@@ -726,49 +726,27 @@ html_str = """
           </div>
           {% endfor %}
         </div>
-        <hr class="border border-secondary border-1 opacity-80"/>
-        <!-- Asynchronous Test Logs Accordion -->
-        <div class="accordion" id="asyncTestLogsAccordion">
-          <div
-            class="accordion-item"
-            id="async-logs-accordion-item"
-          >
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-async-logs-accordion-item"
-                aria-expanded="false"
-                aria-controls="panelsStayOpen-async-logs-accordion-item"
-              >
-                <span class="badge" style="background-color: #36a2eb"
-                  ><i class="bi bi-file-text-fill"></i>&nbsp;&nbsp;<b
-                    >LOGS</b
-                  ></span
-                >&nbsp;&nbsp;
-              </button>
-            </h2>
-            <div
-              id="panelsStayOpen-async-logs-accordion-item"
-              class="accordion-collapse collapse"
-            >
-              <div class="accordion-body">
-                <div class="card">
-                  <div class="card-header">
-                    Common Logs
-                  </div>
-                  <div class="card-body">
-                    {% for async_test in async_tests %}
-                        <pre>{{ async_test.logs }}</pre>
-                        <br></br>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
+      </div>
+      {% endif %}
+      {% if async_tests or sync_tests %}
+      <!-- Logs -->
+      <div id="logs-div" style="padding: 30px; text-align: left">
+        <br />
+        <br />
+        <br />
+        <nav
+          class="navbar bg-body-tertiary"
+          style="background-color: white !important"
+        >
+          <div class="container-fluid">
+            <h4 class="text-body-secondary">
+              <i class="bi bi-journal-text"></i>&nbsp;&nbsp;Test Logs
+            </h4>
           </div>
-        </div>
+        </nav>
+        <hr class="border border-secondary border-2 opacity-50" />
+        <!-- Logs Card -->
+        {{ logs }}
       </div>
       {% endif %}
     </div>
@@ -811,6 +789,13 @@ html_str = """
         href="#async-div"
         style="text-decoration: none; color: black"
         ><b><i class="bi bi-list-stars" style="font-size: xx-large"></i></b
+      ></a>
+      <a
+        role="button"
+        class="btn btn-link btn-lg"
+        href="#logs-div"
+        style="text-decoration: none; color: black"
+        ><b><i class="bi bi-journal-text" style="font-size: xx-large"></i></b
       ></a>
     </div>
     <!-- Bootstrap cdn -->
