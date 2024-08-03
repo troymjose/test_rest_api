@@ -16,7 +16,8 @@ class RestApiResponse:
     obj: ClientResponse
 
     def __str__(self):
+        """ String representation of the RestApiResponse instance """
         return f"""
- {settings.logging.sub_point} Status Code {settings.logging.key_val_sep} {self.status_code}
- {settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
+{settings.logging.sub_point} Status Code {settings.logging.key_val_sep} {self.status_code}
+{settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
 """

@@ -1,29 +1,5 @@
-from .. import settings
+from .base_exception import TestRestApiException
 from ..utils.decorator_hints import decorated_func_param_hints
-
-
-class TestRestApiException(Exception):
-    """
-    Base Exception class
-    """
-
-    def _format(self):
-        """
-        Convert the message to Html reporting format
-        """
-        _no_data_to_display = 'No data to display'
-        self.msg = f"""
-EXCEPTION
----------
- {settings.logging.sub_point} Message {settings.logging.key_val_sep} {self.msg.strip() if self.msg.strip() else _no_data_to_display}
-"""
-
-    def __init__(self, *, msg: str):
-        self.msg = msg
-        # Convert the msg to reporting format
-        self._format()
-        # Call Exception __init__ method
-        super().__init__(self.msg)
 
 
 @decorated_func_param_hints

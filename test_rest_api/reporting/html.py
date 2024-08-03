@@ -118,8 +118,64 @@ html_str = """
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ '#' + '#'.join(summary.test.tags) if
+                          >{{ '#' + ' #'.join(summary.test.tags) if
                           summary.test.tags else '#ALL' }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Environment Variables</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.environment_variables }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testdata Variables</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.testdata_variables }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Testdata Files</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.testdata_files }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Logs</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.logs }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Assertions</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.assertions }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Requests</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.requests }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Responses</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ summary.test.responses }}</span
                         >
                       </td>
                     </tr>
@@ -460,7 +516,7 @@ html_str = """
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ '#' + '#'.join(sync_test.tags) if sync_test.tags
+                          >{{ sync_test.tags if sync_test.tags
                           else '#ALL' }}</span
                         >
                       </td>
@@ -505,6 +561,30 @@ html_str = """
                         >
                       </td>
                     </tr>
+                    <tr>
+                      <td>Assertions</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.assertions.get(sync_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Requests</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.requests.get(sync_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Responses</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.responses.get(sync_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <div class="card">
@@ -512,7 +592,7 @@ html_str = """
                     Logs
                   </div>
                   <div class="card-body">
-                    <pre>{{ sync_test.logs }}</pre>
+                    <pre>{{ extras.logs.get(sync_test.asyncio_task,'') }}</pre>
                   </div>
                 </div>
                 <br />
@@ -657,7 +737,7 @@ html_str = """
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ '#' + '#'.join(async_test.tags) if async_test.tags
+                          >{{ async_test.tags if async_test.tags
                           else '#ALL' }}</span
                         >
                       </td>
@@ -702,6 +782,30 @@ html_str = """
                         >
                       </td>
                     </tr>
+                    <tr>
+                      <td>Total Assertions</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.assertions.get(async_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Requests</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.requests.get(async_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Responses</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ extras.responses.get(async_test.asyncio_task, 0) }}</span
+                        >
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <div class="card">
@@ -709,7 +813,7 @@ html_str = """
                     Logs
                   </div>
                   <div class="card-body">
-                    <pre>{{ async_test.logs }}</pre>
+                    <pre>{{ extras.logs.get(async_test.asyncio_task,'') }}</pre>
                   </div>
                 </div>
                 <br />
@@ -726,27 +830,6 @@ html_str = """
           </div>
           {% endfor %}
         </div>
-      </div>
-      {% endif %}
-      {% if async_tests or sync_tests %}
-      <!-- Logs -->
-      <div id="logs-div" style="padding: 30px; text-align: left">
-        <br />
-        <br />
-        <br />
-        <nav
-          class="navbar bg-body-tertiary"
-          style="background-color: white !important"
-        >
-          <div class="container-fluid">
-            <h4 class="text-body-secondary">
-              <i class="bi bi-journal-text"></i>&nbsp;&nbsp;Test Logs
-            </h4>
-          </div>
-        </nav>
-        <hr class="border border-secondary border-2 opacity-50" />
-        <!-- Logs Card -->
-        {{ logs }}
       </div>
       {% endif %}
     </div>

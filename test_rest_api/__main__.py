@@ -1,5 +1,5 @@
 import sys
-from .testing.runner import Runner
+from .runner.runner import Runner
 from .settings import command_line_execution
 
 if __name__ == "__main__":

@@ -1,25 +1,40 @@
 from inspect import getframeinfo, stack
 from .. import settings
-from ..testing.bug import Bug
-from .exception import AssertException
+from ..bug.bug import Bug
+from ..exceptions.assertion_exception import AssertException
 from ..utils.decorator_hints import decorated_func_param_hints
+from ..loggers.test_rest_api_report_logger import test_rest_api_report_logger
 
 
 @decorated_func_param_hints
 def catch_exc(func):
     """
-    Catch the exceptions and raise new exception
-    AssertionError exception will be re raised using the bug obj passed
-    Rest all errors will be raised as AssertException to make the test status as ERROR
-    NOTE: We are using a custom catch_exc, because we need raise assert with bug params which will be dynamic value
+    Custom decorator just for Assert class methods
+
+    Conditions
+    ----------
+    1. If an exception is raised, it should be Re-raised with AssertException.
+       AssertException are raised when any unexpected exception occurs.
+    2. If an AssertionError is raised, which happens when assert statement fails.
+       This should NOT be treated as an exception and should NOT be Re-raised with AssertException
+       Instead, it should be again asserted with FALSE and Bug obj passed
+       This is done to raise the custom Bug obj passed in the assertion
+
+    Assert class is created similar to python inbuilt assert statement
+    Expectation is to raise python inbuilt AssertionError when the assertion fails with custom Bug obj
     """
 
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
+        # AssertionError is raised, when assert statement failed
         except AssertionError as exc:
+            # Perform the assertion again with FALSE and Bug obj passed
+            # This is done to raise the custom Bug obj with AssertionError
             assert False, exc.args[0]
+        # Any other exception is re raised as AssertException
         except Exception as exc:
+            # Raise AssertException
             raise AssertException(msg=str(exc))
 
     return inner
@@ -32,16 +47,22 @@ class Assert:
     """
 
     @staticmethod
-    def _log(*, code, assertion):
-        print(f"""
-Assertion
----------
- {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {code}
- {settings.logging.sub_point} Assert {settings.logging.key_val_sep} {assertion}
-""")
+    def _log(*, code: str, assertion: str) -> None:
+        """ Lof the assertion to the report """
+        # Logging
+        # Note: We are passing extra
+        #       This is to auto update the report with the assertion counts
+        #       This will update both summary level and individual test level assertion counts
+        test_rest_api_report_logger.info(f"""
+<b>Assertion</b>
+^^^^^^^^^
+{settings.logging.sub_point} Code   {settings.logging.key_val_sep} {code}
+{settings.logging.sub_point} Assert {settings.logging.key_val_sep} {assertion}
+""", extra={'update_report_extras': 'assertions'})
 
     @staticmethod
-    def _assert(*, assertion, bug):
+    def _assert(*, assertion, bug) -> None:
+        """ Perform the assertion and log the assertion to the report """
         # Logging
         Assert._log(code=getframeinfo(stack()[4][0]).code_context[0].strip(), assertion=assertion)
         # Perform the assertion using python inbuilt assert statement
@@ -52,8 +73,11 @@ Assertion
         def inner(*args, **kwargs):
             """
             This is done to avoid error caused by strings, in exec() function
+            Convert string values to 'VALUE' by adding single quotes to the value
             """
+            # Format the args
             args = [f"'{arg}'" if isinstance(arg, str) else arg for arg in args]
+            # Format the kwargs
             kwargs = {key: f"'{value}'" if isinstance(value, str) else value for key, value in kwargs.items()}
             func(*args, **kwargs)
 
@@ -62,7 +86,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def equal(arg1, arg2, bug=Bug()):
+    def equal(arg1: any, arg2: any, bug: Bug = Bug()) -> None:
         """
         Check if arg1 == arg2
         Raise your custom Bug if needed
@@ -72,7 +96,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def not_equal(arg1, arg2, bug=Bug()):
+    def not_equal(arg1: any, arg2: any, bug: Bug = Bug()) -> None:
         """
         Check if arg1 != arg2
         Raise your custom Bug if needed
@@ -82,7 +106,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def true(arg, bug=Bug()):
+    def true(arg: any, bug: Bug = Bug()):
         """
         Check if arg == True
         Raise your custom Bug if needed
@@ -92,7 +116,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def false(arg, bug=Bug()):
+    def false(arg: any, bug: Bug = Bug()):
         """
         Check if arg == False
         Raise your custom Bug if needed
@@ -102,7 +126,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def greater(arg1, arg2, bug=Bug()):
+    def greater(arg1: any, arg2: any, bug: Bug = Bug()):
         """
         Check if arg1 > arg2
         Raise your custom Bug if needed
@@ -112,7 +136,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def lesser(arg1, arg2, bug=Bug()):
+    def lesser(arg1: any, arg2: any, bug: Bug = Bug()):
         """
         Check if arg1 < arg2
         Raise your custom Bug if needed
@@ -122,7 +146,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def greater_equal(arg1, arg2, bug=Bug()):
+    def greater_equal(arg1: any, arg2: any, bug: Bug = Bug()):
         """
         Check if arg1 >= arg2
         Raise your custom Bug if needed
@@ -132,7 +156,7 @@ Assertion
     @staticmethod
     @catch_exc
     @_format_args
-    def lesser_equal(arg1, arg2, bug=Bug()):
+    def lesser_equal(arg1: any, arg2: any, bug: Bug = Bug()):
         """
         Check if arg1 <= arg2
         Raise your custom Bug if needed

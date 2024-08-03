@@ -34,4 +34,11 @@ class ErrorMsg:
     ENVIRONMENT_DUPLICATE: str = "ERROR! Environment Duplication. Please provide unique name for the keys in .env file"
     ENVIRONMENT_EMPTY_STRING: str = "ERROR! Empty String. Please provide a valid string for variable name in .env file"
     ENVIRONMENT_INVALID_DATA_TYPE: str = "ERROR! Invalid Data Type. Please provide a valid string for variable name in .env file"
-    ENVIRONMENT_RUNTIME_SET = 'Environment cannot be initialised or altered at runtime'
+    ENVIRONMENT_RUNTIME_SET: str = 'Environment cannot be initialised or altered at runtime'
+    INVALID_BUG_PRIORITY: str = 'Invalid bug priority value. Supported bug priorities: '
+    INVALID_BUG_ATTR_DATA_TYPE: str = 'Invalid data type. Please provide a valid string for '
+    AWAIT_KEY_WORD_MISSING: str = '\n\nTip: This may be due to not using await keyword in async Rest api send function calls'
+    INVALID_URL_DATA_TYPE: str = 'Invalid data type for url. Please provide a valid string'
+    INVALID_PARAM_DATA_TYPE: str = 'Please provide a valid dictionary, with both dictionary key and dictionary value as string type'
+    INVALID_BODY_DATA_TYPE: str = 'Invalid data type for body. Please provide a valid dictionary'
+    INVALID_METHOD_DATA_TYPE: str = 'Invalid data type for method. Please provide a valid string'

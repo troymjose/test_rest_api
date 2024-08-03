@@ -1,6 +1,6 @@
-from ..utils.runtime import Runtime
-from ..utils.exception import catch_exc
-from .exception import VariableException
+from ..runtime.runtime import Runtime
+from ..exceptions.decorators import catch_exc
+from ..exceptions.variable_exception import VariableException
 
 
 class Variable(Runtime):
