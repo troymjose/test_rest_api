@@ -1,5 +1,6 @@
-from .loggers.test_rest_api_report_logger import test_rest_api_report_logger as logger
+# from .loggers.test_rest_api_report_logger import test_rest_api_report_logger as logger
 from .runner.runner import Runner
+from .loggers.test_rest_api_report_logger import test_rest_api_report_logger as logger
 from .decorator.decorator import test
 from .rest_api.rest_api import RestApi
 from .assertion.assertion import Assert

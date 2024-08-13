@@ -105,7 +105,7 @@ class RestApi:
 <b>Rest Api Response</b>
 ^^^^^^^^^^^^^^^^^
 {rest_api_response}
-""", extra={'update_report_extras': 'responses'})
+""", extra={'_increment_test_result_counts': 'responses'})
         return rest_api_response
 
     async def _send(self, method: str):
@@ -124,7 +124,7 @@ class RestApi:
 <b>Rest Api Send</b>
 ^^^^^^^^^^^^^
 {settings.logging.sub_point} Method {settings.logging.key_val_sep} {method.upper()}
-""", extra={'update_report_extras': 'requests'})
+""", extra={'_increment_test_result_counts': 'requests'})
             # Send the request
             async with getattr(self._session, method)(url=self.url,
                                                       params=self.parameters,

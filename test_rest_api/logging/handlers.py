@@ -1,6 +1,6 @@
 import logging
 from typing import override
-from ..reporting.report import report
+from ..reporting.report import report, ReportTestResultLog
 
 
 class TestRestApiReportHandler(logging.Handler):
@@ -12,14 +12,13 @@ class TestRestApiReportHandler(logging.Handler):
     @override
     def emit(self, record):
         """ Override emit method of logging.Handler class to add log record message to test rest api report """
-        # Get log record message after formatting
-        message = self.format(record)
-        # Get asyncio task name from log record
-        asyncio_task = record.taskName
-        # Add log record message to test rest api report
-        report.add_message_to_logs(asyncio_task=asyncio_task, message=message)
-        # Update the test report extras based on the log record
-        if (item_to_be_updated := getattr(record, 'update_report_extras', None)) is not None:
-            # Call the respective method to update the extras based on the log record
-            # Example: update_extras_assertions, update_extras_requests, update_extras_responses etc
-            getattr(report, f'update_extras_{item_to_be_updated}', None)(asyncio_task=asyncio_task)
+        # Get the test case name from log record using taskName attribute
+        testcase_name = record.taskName
+        # Get ReportTestResultLog instance by formatting record
+        log: ReportTestResultLog = self.format(record)
+        # Add log record to the test case logs
+        report._add_to_testcase_logs(testcase_name=testcase_name, log=log)
+        # Update the test report with test result counts based on the log record
+        if (test_result_counts_item := getattr(record, '_increment_test_result_counts', None)) is not None:
+            report._increment_test_result_counts(testcase_name=testcase_name,
+                                                 test_result_counts_item=test_result_counts_item)

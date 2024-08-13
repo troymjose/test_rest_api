@@ -29,15 +29,11 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
             # Get the test file path
             testsuite: str = func.__module__ if func.__module__ else 'root file'
             # Create the test name & also add unique id at the end (Users can provide same name for multiple testcases)
-            testcase_name: str = f'{name} ({testsuite})' if name else f'{func.__name__} ({testsuite})' + f' [{next(iter_test_name)}]'
+            testcase_name: str = f'{name} ({testsuite}) [{next(iter_test_name)}]' if name else f'{func.__name__} ({testsuite}) [{next(iter_test_name)}]'
             # Create the test description. Capitalize if already provided else provide default No description msg
-            testcase_desc: str = desc.capitalize() if desc.strip() else f'No description provided for {testcase_name}'
-            # get the current task name from asyncio
-            asyncio_task: str = asyncio.current_task().get_name()
-            # Set the current task name to the testcase name
+            testcase_desc: str = desc.capitalize() if desc.strip() else 'No description provided'
+            # Set the current task name to testcase name
             asyncio.current_task().set_name(testcase_name)
-            # get the current task name from asyncio
-            asyncio_task: str = asyncio.current_task().get_name()
             # Initialise start and end time of the test
             start = end = 'Test not started'
             # Initialise the bug priority with default value
@@ -48,6 +44,13 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
             duration: str = '0 seconds'
             # Set Disable details
             status, details = TestStatus.DISABLE, 'Testcase is disabled'
+            # Update the test result in the report before the test execution
+            report._update_testcase_result_before_testcase_execution(testcase_name=testcase_name,
+                                                                     desc=testcase_desc,
+                                                                     testsuite=testsuite,
+                                                                     is_async=is_async,
+                                                                     tags=tags,
+                                                                     execution_order=execution_order)
             # Only execute enabled testcases
             if enabled:
                 # Set Skip details
@@ -149,22 +152,14 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
                             test_rest_api_report_logger.error(details)
                             test_rest_api_console_logger.info(f"{'🟡ERROR' : <8}{testcase_name}")
 
-            # Create Report test result object instance
-            test_result: ReportTestResult = ReportTestResult(name=testcase_name,
-                                                             desc=testcase_desc,
-                                                             is_async=is_async,
-                                                             testsuite=testsuite,
-                                                             status=status,
-                                                             details=details,
-                                                             tags=tags,
-                                                             start=start,
-                                                             end=end,
-                                                             duration=duration,
-                                                             bug_priority=bug_priority,
-                                                             error_type=error_type,
-                                                             asyncio_task=asyncio_task)
-            # Add the test result to the report
-            report.add_test_result(test_result)
+            report._update_testcase_result_after_testcase_execution(testcase_name=testcase_name,
+                                                                    status=status,
+                                                                    details=details,
+                                                                    start=start,
+                                                                    end=end,
+                                                                    duration=duration,
+                                                                    bug_priority=bug_priority,
+                                                                    error_type=error_type)
 
         # Only async functions can be decorated with @test
         inner.is_testcase = True if iscoroutinefunction(func) else False

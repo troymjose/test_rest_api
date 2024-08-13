@@ -390,7 +390,7 @@ html_str = """
           </div>
         </div>
       </div>
-      {% if sync_tests %}
+      {% if tests %}
       <!-- Synchronous Tests -->
       <div id="sync-div" style="padding: 30px; text-align: left">
         <br />
@@ -438,29 +438,29 @@ html_str = """
         <hr class="border border-secondary border-2 opacity-50" />
         <!-- Synchronous Test Result Accordion -->
         <div class="accordion" id="syncTestResultAccordion">
-          {% for sync_test in sync_tests %}
+          {% for test in tests.values() %}
           <div
             class="accordion-item"
-            id="{{ sync_test.name.replace(' ','').replace('(','').replace(')','').replace('[','').replace(']','') }}"
+            id="{{ test['name'].replace(' ','').replace('(','').replace(')','').replace('[','').replace(']','') }}"
           >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
+                data-bs-target="#panelsStayOpen-{{ test['name'].replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
                 aria-expanded="false"
-                aria-controls="panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
+                aria-controls="panelsStayOpen-{{ test['name'].replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               >
-                {% if sync_test.status == "pass" %}
+                {% if test['status'] == "pass" %}
                 <span class="badge" style="background-color: #4bc0c0"
                   ><i class="bi bi-check-circle-fill"></i>&nbsp;&nbsp;<b
                     >PASS</b
                   ></span
-                >&nbsp;&nbsp; {% elif sync_test.status == "fail" %}
+                >&nbsp;&nbsp; {% elif test['status'] == "fail" %}
                 <span class="badge" style="background-color: #ff6384"
                   ><i class="bi bi-bug-fill"></i>&nbsp;&nbsp;<b>FAIL</b></span
-                >&nbsp;&nbsp; {% elif sync_test.status == "error" %}
+                >&nbsp;&nbsp; {% elif test[status] == "error" %}
                 <span class="badge" style="background-color: #ffcd56"
                   ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
                     >ERROR</b
@@ -470,11 +470,11 @@ html_str = """
                   ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
                     >ERROR</b
                   ></span
-                >&nbsp;&nbsp; {% endif %} {{ sync_test.name }}
+                >&nbsp;&nbsp; {% endif %} {{ test['name'] }}
               </button>
             </h2>
             <div
-              id="panelsStayOpen-{{ sync_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
+              id="panelsStayOpen-{{ test['name'].replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
               class="accordion-collapse collapse"
             >
               <div class="accordion-body">
@@ -484,7 +484,7 @@ html_str = """
                       <td>Name</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.name }}</span
+                          >{{ test['name'] }}</span
                         >
                       </td>
                     </tr>
@@ -492,7 +492,7 @@ html_str = """
                       <td>Description</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.desc }}</span
+                          >{{ test['desc'] }}</span
                         >
                       </td>
                     </tr>
@@ -500,7 +500,7 @@ html_str = """
                       <td>Asynchronous</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{sync_test.is_async }}</span
+                          >{{test['is_async'] }}</span
                         >
                       </td>
                     </tr>
@@ -508,7 +508,7 @@ html_str = """
                       <td>Testsuite</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.testsuite }}</span
+                          >{{ test['testsuite'] }}</span
                         >
                       </td>
                     </tr>
@@ -516,7 +516,7 @@ html_str = """
                       <td>Tags</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.tags if sync_test.tags
+                          >{{ test['tags'] if test['tags']
                           else '#ALL' }}</span
                         >
                       </td>
@@ -525,7 +525,7 @@ html_str = """
                       <td>Start</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.start }}</span
+                          >{{ test['start'] }}</span
                         >
                       </td>
                     </tr>
@@ -533,7 +533,7 @@ html_str = """
                       <td>End</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.end }}</span
+                          >{{ test['end'] }}</span
                         >
                       </td>
                     </tr>
@@ -541,7 +541,7 @@ html_str = """
                       <td>Duration</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.duration }}</span
+                          >{{ test['duration'] }}</span
                         >
                       </td>
                     </tr>
@@ -549,7 +549,7 @@ html_str = """
                       <td>Bug Priority</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.bug_priority }}</span
+                          >{{ test['bug_priority'] }}</span
                         >
                       </td>
                     </tr>
@@ -557,7 +557,7 @@ html_str = """
                       <td>Error Type</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ sync_test.error_type.replace('_', ' ').title() }}</span
+                          >{{ test['error_type'].replace('_', ' ').title() }}</span
                         >
                       </td>
                     </tr>
@@ -565,7 +565,7 @@ html_str = """
                       <td>Assertions</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.assertions.get(sync_test.asyncio_task, 0) }}</span
+                          >{{ test['counts']['assertions'] }}</span
                         >
                       </td>
                     </tr>
@@ -573,7 +573,7 @@ html_str = """
                       <td>Requests</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.requests.get(sync_test.asyncio_task, 0) }}</span
+                          >{{ test['counts']['requests'] }}</span
                         >
                       </td>
                     </tr>
@@ -581,27 +581,39 @@ html_str = """
                       <td>Responses</td>
                       <td>
                         <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.responses.get(sync_test.asyncio_task, 0) }}</span
+                          >{{ test['counts']['responses'] }}</span
+                        >
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Logs</td>
+                      <td>
+                        <span class="badge text-bg-light rounded-pill"
+                          >{{ test['logs']|length }}</span
                         >
                       </td>
                     </tr>
                   </tbody>
                 </table>
+                {% for log in test['logs'] %}
                 <div class="card">
                   <div class="card-header">
                     Logs
                   </div>
                   <div class="card-body">
-                    <pre>{{ extras.logs.get(sync_test.asyncio_task,'') }}</pre>
+                        <pre>{{ log.datetime }}</pre>
+                        <pre>{{ log.level }}</pre>
+                        <pre>{{ log.message }}</pre>
                   </div>
                 </div>
+                {% endfor %}
                 <br />
                 <div class="card">
                   <div class="card-header">
                     Details
                   </div>
                   <div class="card-body">
-                    <pre>{{ sync_test.details }}</pre>
+                    <pre>{{ test['details'] }}</pre>
                   </div>
                 </div>
               </div>
@@ -611,227 +623,7 @@ html_str = """
         </div>
       </div>
       {% endif %}
-      {% if async_tests %}
-      <!-- Asynchronous Tests -->
-      <div id="async-div" style="padding: 30px; text-align: left">
-        <br />
-        <br />
-        <br />
-        <nav
-          class="navbar bg-body-tertiary"
-          style="background-color: white !important"
-        >
-          <div class="container-fluid">
-            <h4 class="text-body-secondary">
-              <i class="bi bi-list-stars"></i>&nbsp;&nbsp;Asynchronous Tests
-            </h4>
-            <form class="d-flex" role="search">
-              <input
-                id="async_test_search"
-                class="form-control me-4"
-                type="search"
-                placeholder="Search"
-              />
-              <div
-                class="btn-group"
-                role="group"
-                aria-label="Basic outlined example"
-              >
-                <button
-                  id="async_test_open_all"
-                  type="button"
-                  class="btn btn-outline-secondary"
-                >
-                  <i class="bi bi-arrow-down-circle-fill"></i>
-                </button>
-                <button
-                  id="async_test_close_all"
-                  type="button"
-                  class="btn btn-outline-secondary"
-                >
-                  <i class="bi bi-arrow-up-circle-fill"></i>
-                </button>
-              </div>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </form>
-          </div>
-        </nav>
-        <hr class="border border-secondary border-2 opacity-50" />
-        <!-- Asynchronous Test Result Accordion -->
-        <div class="accordion" id="asyncTestResultAccordion">
-          {% for async_test in async_tests %}
-          <div
-            class="accordion-item"
-            id="{{ async_test.name.replace(' ','').replace('(','').replace(')','').replace('[','').replace(']','') }}"
-          >
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
-                aria-expanded="false"
-                aria-controls="panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
-              >
-                {% if async_test.status == "pass" %}
-                <span class="badge" style="background-color: #4bc0c0"
-                  ><i class="bi bi-check-circle-fill"></i>&nbsp;&nbsp;<b
-                    >PASS</b
-                  ></span
-                >&nbsp;&nbsp; {% elif async_test.status == "fail" %}
-                <span class="badge" style="background-color: #ff6384"
-                  ><i class="bi bi-bug-fill"></i>&nbsp;&nbsp;<b>FAIL</b></span
-                >&nbsp;&nbsp; {% elif async_test.status == "error" %}
-                <span class="badge" style="background-color: #ffcd56"
-                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
-                    >ERROR</b
-                  ></span
-                >&nbsp;&nbsp; {% else %}
-                <span class="badge" style="background-color: #ffcd56"
-                  ><i class="bi bi-x-octagon-fill"></i>&nbsp;&nbsp;<b
-                    >ERROR</b
-                  ></span
-                >&nbsp;&nbsp; {% endif %} {{ async_test.name }}
-              </button>
-            </h2>
-            <div
-              id="panelsStayOpen-{{ async_test.name.replace(' ','-').replace('(','').replace(')','').replace('[','').replace(']','') }}"
-              class="accordion-collapse collapse"
-            >
-              <div class="accordion-body">
-                <table class="table table-hover">
-                  <tbody>
-                    <tr>
-                      <td>Name</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.name }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Description</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.desc }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Asynchronous</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.is_async }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Testsuite</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.testsuite }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Tags</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.tags if async_test.tags
-                          else '#ALL' }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Start</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.start }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>End</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.end }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Duration</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.duration }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Bug Priority</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.bug_priority }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Error Type</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ async_test.error_type.replace('_', ' ').title() }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Total Assertions</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.assertions.get(async_test.asyncio_task, 0) }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Requests</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.requests.get(async_test.asyncio_task, 0) }}</span
-                        >
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Responses</td>
-                      <td>
-                        <span class="badge text-bg-light rounded-pill"
-                          >{{ extras.responses.get(async_test.asyncio_task, 0) }}</span
-                        >
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div class="card">
-                  <div class="card-header">
-                    Logs
-                  </div>
-                  <div class="card-body">
-                    <pre>{{ extras.logs.get(async_test.asyncio_task,'') }}</pre>
-                  </div>
-                </div>
-                <br />
-                <div class="card">
-                  <div class="card-header">
-                    Details
-                  </div>
-                  <div class="card-body">
-                    <pre>{{ async_test.details }}</pre>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
+      
     </div>
     <!-- Floating button for navigating summary, sync & async sections -->
     <div

@@ -6,6 +6,7 @@ from dataclasses import dataclass, asdict, field
 from .html import html_str
 from ..bug.bug import BugPriority
 from ..settings.logging import logging
+from ..utils.singleton_util import Singleton
 
 
 @dataclass
@@ -32,21 +33,40 @@ class ErrorType:
 
 
 @dataclass
+class ReportTestResultLog:
+    """ Single log record for testcase logs """
+    message: str
+    level: str
+    datetime: str
+    internal: bool
+
+
+@dataclass
+class ReportTestResultCounts:
+    """ Testcase result counts, contains totals of a single testcase """
+    assertions: int = 0
+    requests: int = 0
+    responses: int = 0
+
+
+@dataclass
 class ReportTestResult:
     """ Testcase result, contains all the details of a single testcase """
     name: str
     desc: str
-    asyncio_task: str
     is_async: bool
     testsuite: str
     status: str
     details: str
     tags: str
+    execution_order: str
     start: str
     end: str
     duration: str
     bug_priority: str
     error_type: str
+    logs: List[ReportTestResultLog]
+    counts: ReportTestResultCounts
 
 
 @dataclass
@@ -171,33 +191,88 @@ class ReportTestSummary:
         return f'{self.test}{self.tests}{self.bugs}{self.errors}'
 
 
-@dataclass
-class ReportTestExtras:
-    """ Test extras, contains all the details which cannot be filled at decorator level. Uses asyncio_task as key """
-    logs: dict = field(default_factory=lambda: {})
-    assertions: dict = field(default_factory=lambda: {})
-    requests: dict = field(default_factory=lambda: {})
-    responses: dict = field(default_factory=lambda: {})
-
-
-class Report:
+class Report(metaclass=Singleton):
     """ Handles the test rest api report """
 
     def __init__(self):
         """ Initialize the test report """
-        # Stores the synchronous test results
-        self.sync_tests: List[ReportTestResult] = []
-        # Stores the asynchronous test results
-        self.async_tests: List[ReportTestResult] = []
-        # Stores the test results in a dictionary with testcase name as key
-        self.tests: Dict[str:ReportTestResult] = {}
         # Stores the test summary details
         self.summary: ReportTestSummary = ReportTestSummary()
-        # Stores the test extras details which cannot be filled at decorator level using asyncio_task as key
-        self.extras: ReportTestExtras = ReportTestExtras()
+        # Stores the test results in a dictionary with testcase name as key
+        self.tests: Dict[str:ReportTestResult] = {}
 
-    def add_test_result(self, test_result: ReportTestResult):
-        """ Add test result details for a single testcase """
+    def _update_testcase_result_before_testcase_execution(self,
+                                                          testcase_name: str,
+                                                          desc: str,
+                                                          testsuite: str,
+                                                          is_async: bool,
+                                                          tags: str,
+                                                          execution_order: str):
+        """
+        Initialize the test result details for a particular testcase
+        Ideally it should be only called once for each testcase
+        This is done before the testcase execution so that logs can be added to the test result directly during test
+        This also helps to update the test result counts based on the log records directly during test
+        """
+        # Add the test result to tests instance variable only if it's not already present
+        if testcase_name not in self.tests:
+            # Create Report test result object instance
+            test_result: ReportTestResult = ReportTestResult(name=testcase_name,
+                                                             desc=desc,
+                                                             testsuite=testsuite,
+                                                             is_async=is_async,
+                                                             tags=tags,
+                                                             execution_order=execution_order,
+                                                             status='',
+                                                             details='',
+                                                             start='',
+                                                             end='',
+                                                             duration='',
+                                                             bug_priority='',
+                                                             error_type='',
+                                                             logs=[],
+                                                             counts=ReportTestResultCounts())
+            # Add the test result to tests instance variable with testcase name as key
+            self.tests[testcase_name] = test_result
+
+    def _update_testcase_result_after_testcase_execution(self,
+                                                         testcase_name: str,
+                                                         status: str,
+                                                         details: str,
+                                                         start: str,
+                                                         end: str,
+                                                         duration: str,
+                                                         bug_priority: str,
+                                                         error_type: str):
+        """
+        Update the test result details for a particular testcase after the testcase execution
+        Ideally it should be only called once for each testcase
+        Test results from decorator can be updated at the end of the test execution
+        """
+        # Update the test status
+        report.tests[testcase_name].status = status
+        # Update the test details
+        report.tests[testcase_name].details = details
+        # Update the test start time
+        report.tests[testcase_name].start = start
+        # Update the test end time
+        report.tests[testcase_name].end = end
+        # Update the test duration
+        report.tests[testcase_name].duration = duration
+        # Update the bug priority
+        report.tests[testcase_name].bug_priority = bug_priority
+        # Update the error type
+        report.tests[testcase_name].error_type = error_type
+        # Update the summary result after the testcase execution using the test result
+        self._update_summary_result_after_testcase_execution(test_result=report.tests[testcase_name])
+        # Remove the test result from tests instance variable if it's disabled or skipped
+        # This is done to avoid displaying the disabled or skipped tests in the report
+        if status in [TestStatus.DISABLE, TestStatus.SKIP]:
+            # Remove the test result from tests
+            report.tests.pop(testcase_name)
+
+    def _update_summary_result_after_testcase_execution(self, *, test_result: ReportTestResult):
+        """ Update the summary result after the testcase execution """
         # Update the total count of tests to be displayed in test status details section
         self.summary.tests.total += 1
         # Update the sync and async tests count to be displayed in sync async donut section
@@ -209,11 +284,6 @@ class Report:
         if test_result.status not in [TestStatus.DISABLE, TestStatus.SKIP]:
             # Update the total test run count, This will not include the disabled or skipped tests
             self.summary.test.total += 1
-            # Add to the respective sync or async tests list
-            if test_result.is_async:
-                self.async_tests.append(test_result)
-            else:
-                self.sync_tests.append(test_result)
         # Update the test run status to failed if any of the test fails or errors out
         if test_result.status in [TestStatus.FAIL, TestStatus.ERROR]:
             self.summary.test.status = False
@@ -240,55 +310,30 @@ class Report:
             setattr(self.summary.errors, test_result.error_type,
                     getattr(self.summary.errors, test_result.error_type) + 1)
 
-    def add_message_to_logs(self, *, asyncio_task, message):
-        """ Add log details to report extras logs dictionary using asyncio_task as key for each test """
-        # If asyncio_task is not present in logs, then create a key with asyncio_task and assign empty string
-        if asyncio_task not in self.extras.logs:
-            self.extras.logs[asyncio_task] = ''
-        # Append the message to the existing log message
-        self.extras.logs[asyncio_task] += message
+    def _add_to_testcase_logs(self, *, testcase_name: str, log: ReportTestResultLog):
+        """ Add log record to the testcase logs """
+        # Add the log record to the testcase logs
+        self.tests[testcase_name].logs.append(log)
         # Increment the total log count by 1, test run level
         self.summary.test.logs += 1
 
-    def update_extras_assertions(self, *, asyncio_task):
-        """ Add assertion count details to report extras assertions dict using asyncio_task as key for each test """
-        # If asyncio_task is not present in assertions, then create a key with asyncio_task and assign 0
-        if asyncio_task not in self.extras.assertions:
-            self.extras.assertions[asyncio_task] = 0
-        # Increment the assertion count by 1, test level
-        self.extras.assertions[asyncio_task] += 1
-        # Increment the total assertion count by 1, test run level
-        self.summary.test.assertions += 1
+    def _increment_test_result_counts(self, *, testcase_name: str, test_result_counts_item: str):
+        """ Increment the test result counts based on the log records """
+        # Testcase level counts
+        # Dynamically set test status counts by adding 1 to the current count
+        setattr(self.tests[testcase_name].counts, test_result_counts_item,
+                getattr(self.tests[testcase_name].counts, test_result_counts_item) + 1)
+        # Test summary level counts
+        # Dynamically set test status counts by adding 1 to the current count
+        setattr(self.summary.test, test_result_counts_item,
+                getattr(self.summary.test, test_result_counts_item) + 1)
 
-    def update_extras_requests(self, *, asyncio_task):
-        """ Add request count details to report extras requests dict using asyncio_task as key for each test """
-        # If asyncio_task is not present in requests, then create a key with asyncio_task and assign 0
-        if asyncio_task not in self.extras.requests:
-            self.extras.requests[asyncio_task] = 0
-        # Increment the request count by 1, test level
-        self.extras.requests[asyncio_task] += 1
-        # Increment the total request count by 1, test run level
-        self.summary.test.requests += 1
-
-    def update_extras_responses(self, *, asyncio_task):
-        """ Add response count details to report extras responses dict using asyncio_task as key for each test """
-        # If asyncio_task is not present in responses, then create a key with asyncio_task and assign 0
-        if asyncio_task not in self.extras.responses:
-            self.extras.responses[asyncio_task] = 0
-        # Increment the response count by 1, test level
-        self.extras.responses[asyncio_task] += 1
-        # Increment the total response count by 1, test run level
-        self.summary.test.responses += 1
-
-    def save(self, *, path):
+    def _save(self, *, path):
         """ Save the test report to a html file """
         # Create Jinja2 template
         template = self._create_jija2_template()
         # Render the jinja report template html file
-        rendered_html = template.render(summary=self.summary,
-                                        sync_tests=self.sync_tests,
-                                        async_tests=self.async_tests,
-                                        extras=self.extras)
+        rendered_html = template.render(summary=self.summary, tests=self.tests)
         # Create html report file name using current datetime details
         file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.html"
         # Save to html file to the path and ensure utf-8 encoding

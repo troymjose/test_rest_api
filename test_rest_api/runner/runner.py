@@ -12,7 +12,7 @@ from typing import override
 from datetime import datetime
 from inspect import getmembers
 from time import perf_counter_ns
-from asyncio import iscoroutinefunction
+from asyncio import iscoroutinefunction, Task
 from ..reporting.report import report
 from ..utils.error_msg import ErrorMsg
 from ..test_data.test_data import testdata
@@ -268,7 +268,11 @@ class Runner(BaseRunner):
         sync_test_generator = (sync_test for sync_test in self.sync_tests)
         # Run each test synchronously
         for sync_test in sync_test_generator:
-            await sync_test()
+            # Tasks are created using asyncio.create_task() instead of directly calling the function
+            # This is to avoid the same name( asyncio.current_task().get_name() ) for all the sync tasks
+            task: Task = asyncio.create_task(sync_test())
+            # Await the task to run the test
+            await task
         # Running Tasks Concurrently (Execute async functions concurrently)
         await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
         # Logging
@@ -292,7 +296,7 @@ class Runner(BaseRunner):
             if self._is_logging_completed():
                 break
         # Create and save the test report
-        self.report.save(path=self.test_result_path)
+        self.report._save(path=self.test_result_path)
         # Logging summary result in console
         test_rest_api_console_logger.info(self.report.summary)
 

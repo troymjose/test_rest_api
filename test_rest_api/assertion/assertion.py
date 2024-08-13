@@ -58,7 +58,7 @@ class Assert:
 ^^^^^^^^^
 {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {code}
 {settings.logging.sub_point} Assert {settings.logging.key_val_sep} {assertion}
-""", extra={'update_report_extras': 'assertions'})
+""", extra={'_increment_test_result_counts': 'assertions'})
 
     @staticmethod
     def _assert(*, assertion, bug) -> None:
