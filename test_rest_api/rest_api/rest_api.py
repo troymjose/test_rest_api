@@ -76,7 +76,7 @@ class RestApi:
 <b>Rest Api Created</b>
 ^^^^^^^^^^^^^^^^
 {self}
-""")
+""", extra={'internal': True})
 
     def __str__(self):
         """ String representation of the RestApi instance """
@@ -105,7 +105,7 @@ class RestApi:
 <b>Rest Api Response</b>
 ^^^^^^^^^^^^^^^^^
 {rest_api_response}
-""", extra={'_increment_test_result_counts': 'responses'})
+""", extra={'internal': True, '_increment_test_result_counts': 'responses'})
         return rest_api_response
 
     async def _send(self, method: str):
@@ -124,7 +124,7 @@ class RestApi:
 <b>Rest Api Send</b>
 ^^^^^^^^^^^^^
 {settings.logging.sub_point} Method {settings.logging.key_val_sep} {method.upper()}
-""", extra={'_increment_test_result_counts': 'requests'})
+""", extra={'internal': True, '_increment_test_result_counts': 'requests'})
             # Send the request
             async with getattr(self._session, method)(url=self.url,
                                                       params=self.parameters,

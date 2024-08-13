@@ -603,6 +603,7 @@ html_str = """
                   <div class="card-body">
                         <pre>{{ log.datetime }}</pre>
                         <pre>{{ log.level }}</pre>
+                        <pre>{{ log.internal }}</pre>
                         <pre>{{ log.message }}</pre>
                   </div>
                 </div>

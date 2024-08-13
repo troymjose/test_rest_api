@@ -61,4 +61,4 @@ class Runtime:
 {settings.logging.sub_point} Result {settings.logging.key_val_sep} {result}
 {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {data}
 {settings.logging.sub_point} Type   {settings.logging.key_val_sep} {self.Meta.data_type}
-""")
+""", extra={'internal': True})

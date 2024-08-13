@@ -63,7 +63,7 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
                         # Get the start date time of the test
                         start = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
                         # Log the test execution started in the report
-                        test_rest_api_report_logger.info('<b>Testcase execution started</b>')
+                        test_rest_api_report_logger.info('<b>Testcase execution started</b>', extra={'internal': True})
                         # Call the async test function
                         await func(*args, **kwargs)
                         # Update the test status and details
@@ -141,15 +141,13 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
                         # Console logger will always be INFO level as its providing info about the test status
                         # Report logger level will be based on the test status
                         if status == TestStatus.PASS:
-                            test_rest_api_report_logger.info(details)
+                            test_rest_api_report_logger.info(details, extra={'internal': True})
                             test_rest_api_console_logger.info(f"{'🟢PASS' : <8}{testcase_name}")
-                            test_rest_api_console_logger.info(f"{'🔴FAIL' : <8}{testcase_name}")
-                            test_rest_api_console_logger.info(f"{'🟡ERROR' : <8}{testcase_name}")
                         elif status == TestStatus.FAIL:
-                            test_rest_api_report_logger.warning(details)
+                            test_rest_api_report_logger.warning(details, extra={'internal': True})
                             test_rest_api_console_logger.info(f"{'🔴FAIL' : <8}{testcase_name}")
                         elif status == TestStatus.ERROR:
-                            test_rest_api_report_logger.error(details)
+                            test_rest_api_report_logger.error(details, extra={'internal': True})
                             test_rest_api_console_logger.info(f"{'🟡ERROR' : <8}{testcase_name}")
 
             report._update_testcase_result_after_testcase_execution(testcase_name=testcase_name,
