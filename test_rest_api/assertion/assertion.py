@@ -76,9 +76,14 @@ class Assert:
             Convert string values to 'VALUE' by adding single quotes to the value
             """
             # Format the args
-            args = [f"'{arg}'" if isinstance(arg, str) else arg for arg in args]
+            args = [
+                f"'''{arg}'''" if isinstance(arg, str) and '\n' in arg else f"'{arg}'" if isinstance(arg, str) else arg
+                for arg in args]
             # Format the kwargs
-            kwargs = {key: f"'{value}'" if isinstance(value, str) else value for key, value in kwargs.items()}
+            kwargs = {
+                key: f"'''{value}'''" if isinstance(value, str) and '\n' in value else f"'{value}'" if isinstance(value,
+                                                                                                                  str) else value
+                for key, value in kwargs.items()}
             func(*args, **kwargs)
 
         return inner
