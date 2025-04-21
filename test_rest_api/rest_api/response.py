@@ -1,3 +1,4 @@
+import json
 from dataclasses import dataclass
 from aiohttp import ClientResponse
 from .. import settings
@@ -19,5 +20,5 @@ class RestApiResponse:
         """ String representation of the RestApiResponse instance """
         return f"""
 {settings.logging.sub_point} Status Code {settings.logging.key_val_sep} {self.status_code}
-{settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
+{settings.logging.sub_point} Body        {settings.logging.key_val_sep} {json.dumps(self.body, indent=4)}
 """

@@ -332,8 +332,10 @@ class Report(metaclass=Singleton):
         """ Save the test report to a html file """
         # Create Jinja2 template
         template = self._create_jija2_template()
+        # Convert ReportTestResult Dataclass Instances values to Dictionary/Json inorder to display/render in Jinja Html Report
+        tests_json = {key: asdict(value) for key, value in self.tests.items()}
         # Render the jinja report template html file
-        rendered_html = template.render(summary=self.summary, tests=self.tests)
+        rendered_html = template.render(summary=self.summary, tests=tests_json)
         # Create html report file name using current datetime details
         file_name = f"Result {datetime.now().strftime('%Y-%m-%d %H-%M-%S')}.html"
         # Save to html file to the path and ensure utf-8 encoding
