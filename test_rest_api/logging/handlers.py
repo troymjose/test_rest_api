@@ -1,5 +1,4 @@
 import logging
-from typing import override
 from ..reporting.report import report, ReportTestResultLog
 
 
@@ -9,7 +8,6 @@ class TestRestApiReportHandler(logging.Handler):
     This class inherits logging.Handler class and will help to add log record message directly to test rest api report
     """
 
-    @override
     def emit(self, record):
         """ Override emit method of logging.Handler class to add log record message to test rest api report """
         # Get the test case name from log record using taskName attribute

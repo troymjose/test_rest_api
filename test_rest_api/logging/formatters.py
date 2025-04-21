@@ -1,5 +1,4 @@
 import logging
-from typing import override
 from test_rest_api.reporting.report import ReportTestResultLog
 
 
@@ -13,7 +12,6 @@ class TestRestApiReportFormatter(logging.Formatter):
         # Set date time format
         self.datefmt = datefmt
 
-    @override
     def format(self, record: logging.LogRecord) -> ReportTestResultLog:
         """ Override format method of logging.Formatter class to return custom string of log record message """
         # Get log record message and strip extra spaces from both ends

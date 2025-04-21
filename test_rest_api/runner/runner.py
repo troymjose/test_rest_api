@@ -8,7 +8,6 @@ import asyncio
 import inspect
 import traceback
 import importlib.machinery
-from typing import override
 from datetime import datetime
 from inspect import getmembers
 from time import perf_counter_ns
@@ -24,7 +23,6 @@ from ..loggers.test_rest_api_console_logger import test_rest_api_console_logger
 class BaseRunnerMeta(type):
     """ Metaclass for BaseRunner """
 
-    @override
     def __new__(cls, name, bases, attrs):
         """ Executed only once when the class is created """
         # Initialise the set of validation method names to empty set
@@ -38,7 +36,6 @@ class BaseRunnerMeta(type):
         # Return the class object
         return super(BaseRunnerMeta, cls).__new__(cls, name, bases, attrs)
 
-    @override
     def __call__(cls, *args, **kwargs):
         """ Executed when an instance of the class is created """
         # Create an object to be returned
