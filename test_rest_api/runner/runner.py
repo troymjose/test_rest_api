@@ -210,8 +210,8 @@ class Runner(BaseRunner):
         Update the function objects in tests list
         """
         # Logging
-        test_rest_api_console_logger.info(f'Total test suites: {len(self.test_files)}')
-        test_rest_api_console_logger.info('Auto detecting tests from test suites')
+        test_rest_api_console_logger.info(f'Total python files in test suite: {len(self.test_files)}')
+        test_rest_api_console_logger.info('Auto detecting tests from python files in test suite')
         # Create a generator of python files from testsuite folder
         test_file_generator = (test_file for test_file in self.test_files)
         # For each file path in list of python files from testsuite folder
@@ -230,9 +230,12 @@ class Runner(BaseRunner):
             async_tests = Runner._load_async_tests(module=module)
             # Update the async_tests instance variable
             self.async_tests.extend(async_tests)
-            # Logging
-            test_rest_api_console_logger.info(
-                f'Auto detected {len(async_tests)}(Async) & {len(sync_tests)}(Sync) tests from testsuite: {test_file}')
+            # Log the test file details, only if it has @test decorated functions
+            # This avoids logging not testsuite files like util & helper files with zero Async and Sync tests count
+            if async_tests or sync_tests:
+                # Logging
+                test_rest_api_console_logger.info(
+                    f'Auto detected {len(async_tests) + len(sync_tests)} ({len(async_tests)} Async & {len(sync_tests)} Sync) tests from testsuite: {test_file}')
         # Logging
         test_rest_api_console_logger.info('Successfully competed auto detection of tests from test suites')
         test_rest_api_console_logger.info(f'Total synchronous tests: {len(self.sync_tests)}')
