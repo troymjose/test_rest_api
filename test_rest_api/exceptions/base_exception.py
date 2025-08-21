@@ -15,8 +15,10 @@ class TestRestApiException(Exception):
 {settings.logging.sub_point} Message {settings.logging.key_val_sep} {self.msg.strip() if self.msg.strip() else _no_data_to_display}
 """
 
-    def __init__(self, *, msg: str):
+    def __init__(self, *, msg: str, original: Exception | None = None):
         self.msg: str = msg
+        # Save the original exception. This helps debug faster with actual root cause
+        self.original = original
         # Convert the msg to reporting format
         self._format()
         # Set the test status to 'ERROR' which will be used in @test decorator for logging

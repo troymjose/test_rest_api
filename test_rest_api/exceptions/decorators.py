@@ -37,7 +37,7 @@ def catch_exc_async(*, test_rest_api_exception: TestRestApiException):
             try:
                 return await func(*args, **kwargs)
             except Exception as exc:
-                raise test_rest_api_exception(msg=str(exc))
+                raise test_rest_api_exception(msg=str(exc), original=exc)
 
         return inner
 

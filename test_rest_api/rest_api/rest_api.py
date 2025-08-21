@@ -1,5 +1,4 @@
 from dataclasses import asdict
-from aiohttp.client_exceptions import ClientConnectorError, InvalidURL, ContentTypeError
 from .. import settings
 from .method import RestApiMethod
 from ..utils.error_msg import ErrorMsg
@@ -110,35 +109,26 @@ class RestApi:
 
     async def _send(self, method: str):
         """ Send the rest api by providing the request method """
-        try:
-            # Check if method is of type string
-            if not isinstance(method, str):
-                raise Exception(ErrorMsg.INVALID_METHOD_DATA_TYPE)
-            # Convert to lowercase
-            method = method.lower()
-            # Check if the method is valid
-            if method not in asdict(self.METHODS).values():
-                raise Exception(ErrorMsg.INVALID_METHOD)
-            # Logging
-            test_rest_api_report_logger.info(f"""
+        # Check if method is of type string
+        if not isinstance(method, str):
+            raise Exception(ErrorMsg.INVALID_METHOD_DATA_TYPE)
+        # Convert to lowercase
+        method = method.lower()
+        # Check if the method is valid
+        if method not in asdict(self.METHODS).values():
+            raise Exception(ErrorMsg.INVALID_METHOD)
+        # Logging
+        test_rest_api_report_logger.info(f"""
 <b>Rest Api Send</b>
 ^^^^^^^^^^^^^
 {settings.logging.sub_point} Method {settings.logging.key_val_sep} {method.upper()}
 """, extra={'internal': True, '_increment_test_result_counts': 'requests'})
-            # Send the request
-            async with getattr(self._session, method)(url=self.url,
-                                                      params=self.parameters,
-                                                      headers=self.headers,
-                                                      json=self.body) as response:
-                return await self._create_response(response=response)
-        except ClientConnectorError:
-            raise Exception(ErrorMsg.CLIENT_CONNECTOR_ERROR)
-        except InvalidURL:
-            raise Exception(ErrorMsg.INVALID_URL)
-        except ContentTypeError:
-            raise Exception(ErrorMsg.INVALID_JSON_RESPONSE)
-        except Exception as exc:
-            raise exc
+        # Send the request
+        async with getattr(self._session, method)(url=self.url,
+                                                  params=self.parameters,
+                                                  headers=self.headers,
+                                                  json=self.body) as response:
+            return await self._create_response(response=response)
 
     @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def send(self, method: str):
@@ -150,26 +140,32 @@ class RestApi:
         """ Send HTTP GET Request """
         return await self._send(method=self.METHODS.GET)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def post(self):
         """ Send HTTP POST Request """
         return await self._send(method=self.METHODS.POST)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def put(self):
         """ Send HTTP PUT Request """
         return await self._send(method=self.METHODS.PUT)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def patch(self):
         """ Send HTTP PATCH Request """
         return await self._send(method=self.METHODS.PATCH)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def delete(self):
         """ Send HTTP DELETE Request """
         return await self._send(method=self.METHODS.DELETE)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def head(self):
         """ Send HTTP HEAD Request """
         return await self._send(method=self.METHODS.HEAD)
 
+    @catch_exc_async(test_rest_api_exception=RestApiSendException)
     async def options(self):
         """ Send HTTP OPTIONS Request """
         return await self._send(method=self.METHODS.OPTIONS)
