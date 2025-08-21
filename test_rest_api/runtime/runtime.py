@@ -1,6 +1,7 @@
 import re
 from inspect import getframeinfo, stack
-from .. import settings
+from test_rest_api import settings
+from ..loggers.test_rest_api_report_logger import test_rest_api_report_logger
 
 
 class Runtime:
@@ -53,11 +54,11 @@ class Runtime:
             raise Exception(f'Exception: {exc}')
 
     def _log(self, title: str, code: str, result: str, data: str) -> None:
-        print(f"""
-{title}
-{'-' * len(title)}
+        test_rest_api_report_logger.info(f"""
+<b>{title}</b>
+{"^" * len(title)}
 {settings.logging.sub_point} Code   {settings.logging.key_val_sep} {code}
 {settings.logging.sub_point} Result {settings.logging.key_val_sep} {result}
 {settings.logging.sub_point} Data   {settings.logging.key_val_sep} {data}
 {settings.logging.sub_point} Type   {settings.logging.key_val_sep} {self.Meta.data_type}
-""")
+""", extra={'internal': True})

@@ -1,12 +1,12 @@
 import os
 import sys
 import json
-from ..utils.runtime import Runtime
+from ..runtime.runtime import Runtime
+from ..reporting.report import report
 from ..utils.error_msg import ErrorMsg
-from ..utils.exception import catch_exc
-from .exception import TestDataException
-from ..utils.string_color import str_color
-from ..utils.logger import test_rest_api_logger
+from ..exceptions.decorators import catch_exc
+from ..loggers.test_rest_api_console_logger import test_rest_api_console_logger
+from ..exceptions.testdata_exception import TestDataException
 
 
 class TestData(Runtime):
@@ -33,7 +33,7 @@ class TestData(Runtime):
         if not path:
             return
         # Logging
-        test_rest_api_logger.info(str_color.info('Auto detecting test data files'))
+        test_rest_api_console_logger.info('Auto detecting test data files')
         # Set test data from json files
         self._set_from_json_files(path=path)
 
@@ -49,7 +49,7 @@ class TestData(Runtime):
         if not self.json_file_paths:
             return
         # Logging
-        test_rest_api_logger.info(str_color.info(f'Configuring test data from json files'))
+        test_rest_api_console_logger.info(f'Configuring test data from json files')
         try:
             # Total test data count
             test_data_count = 0
@@ -66,11 +66,15 @@ class TestData(Runtime):
                         # Set test data attribute
                         self._set_attr(attr_name=name, attr_value=value)
         except Exception as exc:
-            sys.exit(str_color.exception(f'{exc}\nFile : {os.path.basename(file)}\nPath : {file}'))
+            sys.exit(f'{exc}\nFile : {os.path.basename(file)}\nPath : {file}')
+        # Total test data count
+        test_file_count: int = len(self.json_file_paths)
+        # Update report summary with testdata variables count
+        report.summary.test.testdata_variables = test_data_count
+        report.summary.test.testdata_files = test_file_count
         # Logging
-        test_rest_api_logger.info(
-            str_color.info(
-                f'Initialised {test_data_count} test data variables from {len(self.json_file_paths)} json files'))
+        test_rest_api_console_logger.info(
+            f'Initialised {test_data_count} test data variables from {test_file_count} json files')
 
     def _get_json_file_paths(self, *, path: str) -> None:
         """

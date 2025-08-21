@@ -2,9 +2,11 @@
 
 # TEST REST API
 
-Create fast modern __asynchronous__ tests for __REST API__ testing
+**`test_rest_api`** is a fast, lightweight, and intuitive Python framework for testing REST APIs. Designed for both beginners and pros, it supports powerful asynchronous testing out of the box and produces beautiful HTML reports. Whether you're validating simple endpoints or building complex test flows with chained requests, `test_rest_api` makes it seamless—perfect for CI/CD pipelines and rapid development cycles.
 
 ```#FAST #EASY #ASYNC #RESTAPI #TESTING #AUTOMATION```
+
+---
 
 - [Features](#features)
 - [Installation](#installation)
@@ -47,21 +49,54 @@ Create fast modern __asynchronous__ tests for __REST API__ testing
 
 <h2 id="features">Features</h2>
 
-- __Asyncronus__ programming (Powered by [asyncio](https://pypi.org/project/asyncio/))
-- __Auto discovery__ of test modules and functions
-- Supports both __asyncronus__ & __syncronuous__ tests
-- __High speed__ test executions using async functions
-- __Html test reporting__ with custom logs & summary dashboards
-- Create complex flows using __parameterization__ & __correlation__
-- __Group__ similar tests using hashtags eg: __#smoke__
-- Supports __CI/CD__ test automation integrations
-- Designed to be __easy__ to use & learn
+- **Simple by Design**  
+  Lightweight, intuitive, and beginner-friendly—get started in minutes with minimal setup.
+
+
+- **Blazing-Fast Async Execution**  
+  Built on top of Python's `asyncio`, enabling high-speed test execution with full asynchronous support.
+
+
+- **Seamless Test Discovery**  
+  Automatically detects and runs test modules and functions—no boilerplate needed.
+
+
+- **Hybrid Test Support**  
+  Effortlessly mix and run both synchronous and asynchronous test cases.
+
+
+- **Data-Driven & Flow-Controlled Testing**  
+  Build advanced test flows using parameterization, data correlation, and chained requests.
+
+
+- **Detailed Interactive HTML Reports**  
+  Generate comprehensive and visually rich test reports with detailed logs, summary dashboards, and performance insights. These reports offer an in-depth view of test execution, including custom logs and step-by-step details of each action, making them ideal for teams and stakeholders who need a thorough understanding of the test results.
+
+
+- **Hashtag-Based Test Grouping**  
+  Organize tests using intuitive tags like `#smoke`, `#regression`, or any custom tags for targeted execution.
+
+
+- **CI/CD Friendly**  
+  Easily integrates into automated pipelines for continuous testing in DevOps environments.
+
+
+- **Comprehensive Error Handling for Faster Debugging**  
+  `test_rest_api` provides precise, detailed error messages with full traceback information whenever something goes wrong. This feature helps developers quickly pinpoint the root cause of issues, reducing the time spent on debugging. By offering clear and actionable error logs, it improves the overall developer experience and allows for faster issue resolution, ensuring smoother test execution and more reliable outcomes.
+
+
+- **Automatic Internal Logging for All Functions**  
+  `test_rest_api` automatically logs all internal actions, such as assertions, API requests, responses, variable usage, and correlation steps. These internal logs are captured and displayed in the final HTML report under "Internal Logs." This feature not only provides users with deeper insights into the framework’s operations but also accelerates debugging by offering a clear view of what’s happening behind the scenes. By automating the logging of common functionality, users can avoid the overhead of setting up logging manually, resulting in faster test creation and smoother workflows. Additionally, these logs help pinpoint issues quickly, improving the overall speed of troubleshooting and enhancing test reliability.
+
+
+- **Built-in Python Logger for Custom Logging**  
+  `test_rest_api` comes pre-configured with Python's built-in logging module, allowing users to log custom messages at various levels (e.g., DEBUG, INFO, ERROR). These logs are automatically captured and displayed in the final HTML report, so there’s no need for separate logger setup—making it easier to track and debug test executions.
 
 <h2 id="installation">Installation</h2>
 
 If you already have [Python](http://python.org/) with [pip](https://pip.pypa.io/) installed, you can simply run:
 
-```pip install test_rest_api```
+```pip install test-rest-api```
 
 <h2 id="usage">Usage</h2>
 
