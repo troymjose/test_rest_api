@@ -8,14 +8,15 @@ class Docs:
 Commands
 --------
 -> Run Test Suite
-Syntax : python -m test_rest_api -t "<Path to test suite folder/file>" -r "<Path to test result folder>" -h "<#smoke>"
-Example: python -m test_rest_api -t "/Users/user/Documents/TestSuite" -r "/Users/user/Documents/TestResult" -h #smoke#sanity
+Syntax : test_rest_api -t "<Path to test suite folder/file>" -c <Concurrency value for parallel execution> -r "<Path to test result folder>" -h "<Hash Tags for tests for filtering>" -e "<Path to test environment file>" -d "<Path to test test data folder/file which contains json files>"
+Example: test_rest_api -t "/Users/user/Documents/TestSuite" -c 10 -r "/Users/user/Documents/TestResult" -h "#smoke #sanity" -e "/Users/user/Documents/prod.env" -d "/Users/user/Documents/TestData"
 """
 
 
 @dataclass(frozen=True)
 class ErrorMsg:
     INVALID_TEST_SUITE_PATH: str = f"ERROR! Please provide a valid path for the test suite\n{Docs.commands}"
+    INVALID_CONCURRENCY: str = f"ERROR! Please provide a valid positive integer for concurrency\n{Docs.commands}"
     INVALID_ENV_PATH: str = f"ERROR! Please provide a valid path for .env file\n{Docs.commands}"
     INVALID_TEST_DATA_PATH: str = f"ERROR! Please provide a valid path for test data\n{Docs.commands}"
     INVALID_TEST_RESULT_PATH: str = f"ERROR! Please provide a valid path for the test result\n{Docs.commands}"
