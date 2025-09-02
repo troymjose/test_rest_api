@@ -60,12 +60,14 @@ class RestApi:
             raise Exception(ErrorMsg.INVALID_BODY_DATA_TYPE)
 
     @catch_exc(test_rest_api_exception=RestApiCreationException)
-    def __init__(self, url: str, parameters: dict = {}, headers: dict = {}, body: dict = {}):
+    def __init__(self, url: str, parameters: dict | None = None, headers: dict | None = None, body: dict | None = None,
+                 **kwargs):
         # Rest api variables
         self.url = url
-        self.parameters = parameters
-        self.headers = headers
-        self.body = body
+        self.parameters = {} if parameters is None else parameters
+        self.headers = {} if headers is None else headers
+        self.body = {} if body is None else body
+        self.kwargs = kwargs
         # Validate url, parameters, headers and body
         self._validate()
         # Aiohttp session
@@ -84,6 +86,7 @@ class RestApi:
 {settings.logging.sub_point} Headers     {settings.logging.key_val_sep} {self.headers}
 {settings.logging.sub_point} Parameters  {settings.logging.key_val_sep} {self.parameters}
 {settings.logging.sub_point} Body        {settings.logging.key_val_sep} {self.body}
+{settings.logging.sub_point} Arguments   {settings.logging.key_val_sep} {self.kwargs}
 """
 
     async def _create_response(self, response: ClientResponse) -> RestApiResponse:
@@ -127,7 +130,8 @@ class RestApi:
         async with getattr(self._session, method)(url=self.url,
                                                   params=self.parameters,
                                                   headers=self.headers,
-                                                  json=self.body) as response:
+                                                  json=self.body,
+                                                  **self.kwargs) as response:
             return await self._create_response(response=response)
 
     @catch_exc_async(test_rest_api_exception=RestApiSendException)

@@ -41,6 +41,13 @@ html_str = """
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
                 </svg>
             </a>
+            <!--Test Execution Timeline-->
+            <a class="group rounded-lg border hover:bg-white" href="#test-execution-timeline">
+                <svg  class="min-w-6 min-h-6 text-white m-1 group-hover:mx-2 group-hover:bg-white group-hover:text-gray-900" 
+                      aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" ill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                </svg>
+            </a>
             <!--Tests-->
             <a class="group rounded-lg border hover:bg-white" href="#testcases">
                 <svg class="min-w-6 min-h-6 text-white m-1 group-hover:mx-2 group-hover:bg-white group-hover:text-gray-900"
@@ -431,13 +438,30 @@ html_str = """
     </div>
 </div>
 
+<!--Test Execution Timeline-->
+<div  id="test-execution-timeline">
+    <div class="sm:col-span-6 flex flex-col justify-between gap-y-6 p-4 text-center">
+        <div class="group px-3 bg-white drop-shadow-md rounded-md hover:drop-shadow-xl">
+            <div class="inline-flex items-center justify-center h-[180px] w-full">
+                <hr class="w-11/12 h-px my-8 bg-gray-200 border">
+                <span class="absolute px-4 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">
+                    <p class="text-6xl py-8 font-extrabold tracking-wider text-[#20283E] group-hover:tracking-widest">Test Execution Timeline</p>
+                </span>
+            </div>
+            <div class="px-32 pb-20 group-hover:scale-105">
+                <canvas id="timelineScatterChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--Testcases-->
 <div id="testcases" class="p-4">
     <div class="flex flex-col bg-white drop-shadow-md rounded-md">
-        <div class="inline-flex items-center justify-center h-[180px] w-full">
+        <div class="group inline-flex items-center justify-center h-[180px] w-full">
             <hr class="w-11/12 h-px my-8 bg-gray-200 border">
             <span class="absolute px-6 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">
-                <p class="text-6xl py-10 font-extrabold tracking-widest text-[#20283E]"> Tests</p>
+                <p class="text-6xl py-10 font-extrabold tracking-wider text-[#20283E] group-hover:tracking-widest"> Tests</p>
             </span>
         </div>
         <!--Testcases-->
@@ -655,6 +679,9 @@ html_str = """
 
 <!-- Chart.js cdn -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- luxon.js cdn -->
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.js"></script>
 <!-- Summary Status Doughnut Chart -->
 <script>
     const statusDoughnutChart = document.getElementById(
@@ -778,7 +805,97 @@ html_str = """
       },
     });
 </script>
+<!-- Timeline (Gantt-style) Scatter Chart -->
+<script>
+const concurrency_data = {{ tests.values() | list | tojson | safe }}
 
+// Date format
+const fmt = "yyyy-MM-dd HH-mm-ss";
+
+// Expand each test into many points so tooltip works anywhere along the line
+function expandPoints(startStr, endStr, y, nPoints = 14) {
+    const start = luxon.DateTime.fromFormat(startStr, fmt).toMillis();
+    const end = luxon.DateTime.fromFormat(endStr, fmt).toMillis();
+    if (!isFinite(start) || !isFinite(end) || end <= start) {
+        return [];
+    }
+    const step = (end - start) / (nPoints - 1);
+    const pts = [];
+    for (let i = 0; i < nPoints; i++) {
+        pts.push({x: start + i * step, y: y});
+    }
+    return pts;
+}
+
+// One dataset per test
+const datasets = concurrency_data.map((t, idx) => ({
+    label: `${t.name}`,
+    data: expandPoints(t.start, t.end, t.name, 20),
+    borderColor: `hsl(${(idx * 57) % 360}, 70%, 45%)`,
+    backgroundColor: `hsl(${(idx * 57) % 360}, 70%, 45%)`,
+    borderWidth: 6,
+    showLine: true,
+    pointRadius: 0,
+    pointHitRadius: 10,
+}));
+
+const timelineScatterChart = document.getElementById("timelineScatterChart").getContext("2d");
+
+new Chart(timelineScatterChart, {
+    type: "scatter",
+    data: {datasets},
+    options: {
+        indexAxis: "y",
+        responsive: true,
+        interaction: {mode: "nearest", intersect: false},
+        plugins: {
+            legend: {display: false},
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        const test = concurrency_data[context.datasetIndex];
+                        return [
+                            `Test: ${test.name}`,
+                            `Start: ${test.start}`,
+                            `End: ${test.end}`,
+                            `Duration: ${test.duration}s`,
+                        ];
+                    },
+                },
+            },
+        },
+        scales: {
+            x: {
+                type: "time",
+                time: {
+                    parser: fmt,
+                    tooltipFormat: "yyyy-MM-dd HH:mm:ss",
+                    displayFormats: {
+                        minute: "HH:mm",
+                        hour: "HH:mm",
+                        second: "HH:mm:ss"
+
+                    },
+                },
+                ticks: {
+                    callback: (val) => luxon.DateTime.fromMillis(val).toFormat("HH:mm:ss"),
+                },
+                title: {display: true, text: "Time"},
+            },
+            y: {
+                type: "category",
+                labels: concurrency_data.map((t) => t.name),
+                offset: true,
+                reverse: true,
+                title: {display: true, text: "Tests"},
+            },
+        },
+        elements: {
+            point: {hitRadius: 10},
+        },
+    },
+});
+</script>
 
 <script>
     const tests = {{tests | tojson | safe}}
