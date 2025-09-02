@@ -19,7 +19,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'READM
 
 # Setup
 setup(name='test_rest_api',
-      version='0.0.0.0.51',
+      version='0.0.0.0.52',
       author='Troy M Jose',
       entry_points={"console_scripts": ["test_rest_api = test_rest_api.cli.cli:main", ], },
       author_email='',
