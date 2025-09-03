@@ -142,6 +142,14 @@ html_str = """
                     Total Tests
                 </div>
                 <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.total }}</p>
+                <!--Concurrency-->
+                <div class="flex gap-x-3 pl-12 font-bold text-gray-600 truncate group-hover:pl-11">
+                    <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 0 0 2.25-2.25V6.75a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Zm.75-12h9v9h-9v-9Z" />
+                    </svg>
+                    Concurrency
+                </div>
+                <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.concurrency }}</p>
                 <!--Bugs-->
                 <div class="flex gap-x-3 pl-12 font-bold text-gray-600 truncate group-hover:pl-11">
                     <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -166,14 +174,6 @@ html_str = """
                     Assertions
                 </div>
                 <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.assertions }}</p>
-                <!--Test Logs-->
-                <div class="flex gap-x-3 pl-12 font-bold text-gray-600 truncate group-hover:pl-11">
-                    <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
-                    Test Logs
-                </div>
-                <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.logs }}</p>
             </div>
         </div>
     </div>
@@ -260,7 +260,7 @@ html_str = """
                     <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" d="m21 7.5-9-5.25L3 7.5m18 0-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
                     </svg>
-                    Environments
+                    Env
                 </div>
                 <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.environment_variables }}</p>
                 <!--Testdata-->
@@ -268,7 +268,7 @@ html_str = """
                     <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
                     </svg>
-                    Testdata
+                    Data
                 </div>
                 <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.testdata_variables }}</p>
                 <!--Testdata Files-->
@@ -276,7 +276,7 @@ html_str = """
                     <svg class="min-w-6 min-h-6 text-gray-700" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75 2.25 12l4.179 2.25m0-4.5 5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0 4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0-5.571 3-5.571-3" />
                     </svg>
-                    Testdata Files
+                    Data Files
                 </div>
                 <p class="font-semibold text-gray-500 group-hover:font-extrabold group-hover:pl-1">{{ summary.test.testdata_files }}</p>
             </div>
@@ -682,6 +682,35 @@ html_str = """
 <!-- luxon.js cdn -->
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.js"></script>
+
+<!-- Zero Doughnut Plugin -->
+<script>
+    const zeroDoughnutPlugin = {
+        id: 'zeroDoughnut',
+        afterDraw(chart, args, options) {
+            // Check if there is data and all values are zero
+            const hasData = chart.data.datasets.some(dataset => dataset.data.length > 0);
+            const allValuesZero = hasData && chart.data.datasets.every(dataset =>
+                dataset.data.every(value => value === 0)
+            );
+
+            if (allValuesZero) {
+                const {chartArea, ctx} = chart;
+                const centerX = (chartArea.left + chartArea.right) / 2;
+                const centerY = (chartArea.top + chartArea.bottom) / 2;
+
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = options.font || '24px'; // Use custom font from options
+                ctx.fillStyle = options.color || 'gray'; // Use custom color from options
+                ctx.fillText(options.text || 'All Values Are Zero', centerX, centerY);
+                ctx.restore();
+            }
+        }
+    };
+</script>
+
 <!-- Summary Status Doughnut Chart -->
 <script>
     const statusDoughnutChart = document.getElementById(
@@ -752,6 +781,18 @@ html_str = """
           },
         ],
       },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                zeroDoughnut: {
+                    text: "Rest Api Traffic is Zero",
+                    color: "rgba(75, 73, 172, 0.7)",
+                    font: '16px ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
+                }
+            }
+        },
+        plugins: [zeroDoughnutPlugin]
     });
 </script>
 <!-- Summary Bug Doughnut Chart -->
@@ -850,6 +891,7 @@ new Chart(timelineScatterChart, {
         interaction: {mode: "nearest", intersect: false},
         plugins: {
             legend: {display: false},
+            title: { display: true, text: 'Concurrency: {{ summary.test.concurrency }}' },
             tooltip: {
                 callbacks: {
                     label: function (context) {

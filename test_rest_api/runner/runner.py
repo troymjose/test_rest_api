@@ -220,6 +220,8 @@ class Runner(BaseRunner):
         self.report = report
         # Update the report with the test tags
         self.report.summary.test.tags = tuple(self.test_tags)
+        # Update the report with the concurrency
+        self.report.summary.test.concurrency = self.concurrency
 
     def _load_test_files(self, path):
         """
