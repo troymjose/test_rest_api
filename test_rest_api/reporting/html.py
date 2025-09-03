@@ -786,8 +786,8 @@ html_str = """
             maintainAspectRatio: false,
             plugins: {
                 zeroDoughnut: {
-                    text: "Rest Api Traffic is Zero",
-                    color: "rgba(75, 73, 172, 0.7)",
+                    text: "No Rest Api Traffic Found",
+                    color: "#20283E",
                     font: '16px ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
                 }
             }
@@ -817,6 +817,18 @@ html_str = """
           },
         ],
       },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                zeroDoughnut: {
+                    text: "No Bugs Found",
+                    color: "#20283E",
+                    font: '16px ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
+                }
+            }
+        },
+        plugins: [zeroDoughnutPlugin]
     });
 </script>
 <!-- Summary Error Doughnut Chart -->
@@ -844,6 +856,18 @@ html_str = """
           },
         ],
       },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                zeroDoughnut: {
+                    text: "No Errors Found",
+                    color: "#20283E",
+                    font: '16px ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji'
+                }
+            }
+        },
+        plugins: [zeroDoughnutPlugin]
     });
 </script>
 <!-- Timeline (Gantt-style) Scatter Chart -->
