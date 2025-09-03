@@ -142,13 +142,13 @@ def test(*, name: str = '', desc: str = '', enabled: bool = True,
                         # Report logger level will be based on the test status
                         if status == TestStatus.PASS:
                             test_rest_api_report_logger.info(details, extra={'internal': True})
-                            test_rest_api_console_logger.info(f"{'🟢PASS' : <9}⏰{duration : <20}📂{testcase_name}")
+                            test_rest_api_console_logger.info(f"{'🟢 PASS' : <12}⏰ {duration : <20}📂 {testcase_name}")
                         elif status == TestStatus.FAIL:
                             test_rest_api_report_logger.warning(details, extra={'internal': True})
-                            test_rest_api_console_logger.info(f"{'🔴FAIL' : <9}⏰{duration : <20}📂{testcase_name}")
+                            test_rest_api_console_logger.info(f"{'🔴 FAIL' : <12}⏰ {duration : <20}📂 {testcase_name}")
                         elif status == TestStatus.ERROR:
                             test_rest_api_report_logger.error(details, extra={'internal': True})
-                            test_rest_api_console_logger.info(f"{'🟡ERROR' : <9}⏰{duration : <20}📂{testcase_name}")
+                            test_rest_api_console_logger.info(f"{'🟡 ERROR' : <12}⏰ {duration : <20}📂 {testcase_name}")
 
             report._update_testcase_result_after_testcase_execution(testcase_name=testcase_name,
                                                                     status=status,
