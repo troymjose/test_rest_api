@@ -19,7 +19,7 @@ with codecs.open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'READM
 
 # Setup
 setup(name='test_rest_api',
-      version='0.0.0.0.55',
+      version='0.0.0.0.56',
       author='Troy M Jose',
       entry_points={"console_scripts": ["test_rest_api = test_rest_api.cli.cli:main", ], },
       author_email='',
@@ -36,7 +36,8 @@ setup(name='test_rest_api',
                 'restapitest', 'restapitesting', 'restapiunittest', 'restapiunittesting', 'restapiautomation',
                 'restapiautomationtest', 'restapiautomationtesting', 'apitest', 'apitesting', 'apiunittest',
                 'apiunittesting', 'apiautomation', 'apiautomationtest', 'apiautomationtesting'],
-      packages=['test_rest_api', 'test_rest_api.assertion', 'test_rest_api.bug', 'test_rest_api.constant',
+      packages=['test_rest_api', 'test_rest_api.assertion', 'test_rest_api.bug', 'test_rest_api.cli',
+                'test_rest_api.constant',
                 'test_rest_api.decorator', 'test_rest_api.environment', 'test_rest_api.exceptions',
                 'test_rest_api.loggers', 'test_rest_api.logging', 'test_rest_api.reporting', 'test_rest_api.rest_api',
                 'test_rest_api.runner', 'test_rest_api.runtime', 'test_rest_api.settings', 'test_rest_api.test_data',
