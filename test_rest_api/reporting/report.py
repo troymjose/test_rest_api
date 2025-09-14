@@ -75,6 +75,7 @@ class ReportTestSummaryTest:
     start: str = ''
     end: str = ''
     duration: str = ''
+    concurrency: str = ''
     tags: tuple = ()
     status: bool = True
     total: int = 0
@@ -90,11 +91,12 @@ class ReportTestSummaryTest:
         """ String representation of the test run details """
         return f"""
 {logging.console_report} Total Tests Executed ({self.total})
-{logging.console_report} Run Status : {'PASS' if self.status else 'FAIL'}
-{logging.console_report} Tags       : {'#' + ' #'.join(self.tags) if self.tags else '#ALL'}
-{logging.console_report} Start Time : {self.start}
-{logging.console_report} End Time   : {self.end}
-{logging.console_report} Duration   : {self.duration}
+{logging.console_report} Run Status  : {'PASS' if self.status else 'FAIL'}
+{logging.console_report} Concurrency : {self.concurrency}
+{logging.console_report} Tags        : {'#' + ' #'.join(self.tags) if self.tags else '#ALL'}
+{logging.console_report} Start Time  : {self.start}
+{logging.console_report} End Time    : {self.end}
+{logging.console_report} Duration    : {self.duration}
 """
 
 

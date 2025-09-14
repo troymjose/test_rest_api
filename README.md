@@ -2,7 +2,10 @@
 
 # TEST REST API
 
-**`test_rest_api`** is a fast, lightweight, and intuitive Python framework for testing REST APIs. Designed for both beginners and pros, it supports powerful asynchronous testing out of the box and produces beautiful HTML reports. Whether you're validating simple endpoints or building complex test flows with chained requests, `test_rest_api` makes it seamless—perfect for CI/CD pipelines and rapid development cycles.
+**`test_rest_api`** is a fast, lightweight, and intuitive Python framework for testing REST APIs. Designed for both
+beginners and pros, it supports powerful asynchronous testing out of the box and produces beautiful HTML reports.
+Whether you're validating simple endpoints or building complex test flows with chained requests, `test_rest_api` makes
+it seamless—perfect for CI/CD pipelines and rapid development cycles.
 
 ```#FAST #EASY #ASYNC #RESTAPI #TESTING #AUTOMATION```
 
@@ -70,7 +73,9 @@
 
 
 - **Detailed Interactive HTML Reports**  
-  Generate comprehensive and visually rich test reports with detailed logs, summary dashboards, and performance insights. These reports offer an in-depth view of test execution, including custom logs and step-by-step details of each action, making them ideal for teams and stakeholders who need a thorough understanding of the test results.
+  Generate comprehensive and visually rich test reports with detailed logs, summary dashboards, and performance
+  insights. These reports offer an in-depth view of test execution, including custom logs and step-by-step details of
+  each action, making them ideal for teams and stakeholders who need a thorough understanding of the test results.
 
 
 - **Hashtag-Based Test Grouping**  
@@ -82,15 +87,26 @@
 
 
 - **Comprehensive Error Handling for Faster Debugging**  
-  `test_rest_api` provides precise, detailed error messages with full traceback information whenever something goes wrong. This feature helps developers quickly pinpoint the root cause of issues, reducing the time spent on debugging. By offering clear and actionable error logs, it improves the overall developer experience and allows for faster issue resolution, ensuring smoother test execution and more reliable outcomes.
+  `test_rest_api` provides precise, detailed error messages with full traceback information whenever something goes
+  wrong. This feature helps developers quickly pinpoint the root cause of issues, reducing the time spent on debugging.
+  By offering clear and actionable error logs, it improves the overall developer experience and allows for faster issue
+  resolution, ensuring smoother test execution and more reliable outcomes.
 
 
 - **Automatic Internal Logging for All Functions**  
-  `test_rest_api` automatically logs all internal actions, such as assertions, API requests, responses, variable usage, and correlation steps. These internal logs are captured and displayed in the final HTML report under "Internal Logs." This feature not only provides users with deeper insights into the framework’s operations but also accelerates debugging by offering a clear view of what’s happening behind the scenes. By automating the logging of common functionality, users can avoid the overhead of setting up logging manually, resulting in faster test creation and smoother workflows. Additionally, these logs help pinpoint issues quickly, improving the overall speed of troubleshooting and enhancing test reliability.
+  `test_rest_api` automatically logs all internal actions, such as assertions, API requests, responses, variable usage,
+  and correlation steps. These internal logs are captured and displayed in the final HTML report under "Internal Logs."
+  This feature not only provides users with deeper insights into the framework’s operations but also accelerates
+  debugging by offering a clear view of what’s happening behind the scenes. By automating the logging of common
+  functionality, users can avoid the overhead of setting up logging manually, resulting in faster test creation and
+  smoother workflows. Additionally, these logs help pinpoint issues quickly, improving the overall speed of
+  troubleshooting and enhancing test reliability.
 
 
 - **Built-in Python Logger for Custom Logging**  
-  `test_rest_api` comes pre-configured with Python's built-in logging module, allowing users to log custom messages at various levels (e.g., DEBUG, INFO, ERROR). These logs are automatically captured and displayed in the final HTML report, so there’s no need for separate logger setup—making it easier to track and debug test executions.
+  `test_rest_api` comes pre-configured with Python's built-in logging module, allowing users to log custom messages at
+  various levels (e.g., DEBUG, INFO, ERROR). These logs are automatically captured and displayed in the final HTML
+  report, so there’s no need for separate logger setup—making it easier to track and debug test executions.
 
 <h2 id="installation">Installation</h2>
 
@@ -106,13 +122,15 @@ If you already have [Python](http://python.org/) with [pip](https://pip.pypa.io/
 
 __Syntax__
 
-``` python -m test_rest_api -t "<Test folder/file path>" ```
+``` test_rest_api -t "<Test folder/file path>" -c 32 ```
 
 - Tests are executed from the __command line__ using the test_rest_api module directly
 - The basic usage is by giving a __file path__ or __directory path__ as an argument
 - __-t__ stands for Test suite path
 - We can __organise__ folders, sub folders and python files in any __custom__ structure
 - test_rest_api will __autodetect__ python files and folders as __Test suites__
+- __-c__ stands for Concurrency
+- We can control the number of __concurrent__ tests to be executed using __-c__ followed by a number
 
 <h4 id="2-set-report-path">2. Set report path</h4>
 
@@ -120,7 +138,7 @@ __Syntax__
 
 __Syntax__
 
-``` python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" ```
+``` test_rest_api -t "<Test folder/file path>" -c 32 -r "Result folder path" ```
 
 - In the above example, __html test report__ is saved under the same test folder path
 - We can save the final report to our __custom path__ by providing __-r__ followed by path
@@ -135,7 +153,7 @@ __Syntax__
 __Syntax__
 
 ```
-python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path"
+test_rest_api -t "<Test folder/file path>" -c 32 -r "Result folder path" -e ".env file path"
 ```
 
 - We can __set variables__ with values, example Domain, Username, Password etc. in __.env file__
@@ -153,7 +171,7 @@ python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e 
 __Syntax__
 
 ```
-python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" -e ".env file path" -h #SMOKE#SANITY
+test_rest_api -t "<Test folder/file path>" -c 32 -r "Result folder path" -e ".env file path" -h #SMOKE#SANITY
 ```
 
 - __Group__ your test by providing tags in test creation
@@ -235,7 +253,7 @@ Now let's __execute__ it from command line . . .
 - Create new python file (eg: __my_first_testsuite.py__) and paste the above code
 - Execute the test from the __command line__ using the test_rest_api module directly
 
-``` python -m test_rest_api -t "<Test folder/file path>" -r "Result folder path" ```
+``` test_rest_api -t "<Test folder/file path>" -c 32 -r "Result folder path" ```
 
 <h4 id="2-configure-my-test">2. Configure my test</h4>
 
@@ -245,7 +263,7 @@ Now let's __execute__ it from command line . . .
 from test_rest_api import test
 
 
-@test(name='Custom Name', desc='Description', enabled=True, tags=['SMOKE', 'ABC'], is_async=True, execution_order='1')
+@test(name='Custom Name', desc='Description', enabled=True, tags='#SMOKE #ABC', is_async=True, execution_order='1')
 async def my_second_test():
     assert 4 == 5
 ```

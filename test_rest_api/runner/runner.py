@@ -8,17 +8,20 @@ import asyncio
 import inspect
 import traceback
 import importlib.machinery
-from typing import override
 from datetime import datetime
 from inspect import getmembers
 from time import perf_counter_ns
 from asyncio import iscoroutinefunction, Task
+from typing import override, TypeVar, Callable, Awaitable
 from ..reporting.report import report
 from ..utils.error_msg import ErrorMsg
 from ..test_data.test_data import testdata
 from ..environment.environment import environment
 from ..utils.aiohttp_session import AioHttpSession
 from ..loggers.test_rest_api_console_logger import test_rest_api_console_logger
+
+T = TypeVar("T")
+AsyncFunc = Callable[[], Awaitable[T]]
 
 
 class BaseRunnerMeta(type):
@@ -27,14 +30,16 @@ class BaseRunnerMeta(type):
     @override
     def __new__(cls, name, bases, attrs):
         """ Executed only once when the class is created """
-        # Initialise the set of validation method names to empty set
-        validation_method_names: set = set()
-        # Loop through all the attributes of the class and get the method names starting with '_validate_'
-        for method_name in [attr for attr in attrs if attr.startswith("_validate_")]:
-            # Add the method name to the set. Set will take care of duplications
-            validation_method_names.add(method_name)
-        # Add the set of validation method names to the class attributes
-        attrs['_validation_method_names'] = validation_method_names
+        # Only execute for Runer Base Class
+        if not bases:
+            # Initialise the set of validation method names to empty set
+            validation_method_names: set = set()
+            # Loop through all the attributes of the class and get the method names starting with '_validate_'
+            for method_name in [attr for attr in attrs if attr.startswith("_validate_")]:
+                # Add the method name to the set. Set will take care of duplications
+                validation_method_names.add(method_name)
+            # Add the set of validation method names to the class attributes
+            attrs['_validation_method_names'] = validation_method_names
         # Return the class object
         return super(BaseRunnerMeta, cls).__new__(cls, name, bases, attrs)
 
@@ -74,12 +79,15 @@ class BaseRunner(metaclass=BaseRunnerMeta):
 
     def __init__(self,
                  test_suite_path: str,
+                 concurrency: int | str,
                  test_result_path: str | None = None,
                  test_env_path: str | None = None,
                  test_data_path: str | None = None,
                  test_tags: str | None = None):
         # Initialise test suite path
         self.test_suite_path: str = test_suite_path
+        # Initialise concurrency
+        self.concurrency: int | str = concurrency
         # Test result path is optional and by default its test suite path
         self.test_result_path: str = test_result_path if test_result_path else test_suite_path
         # Initialise test env path
@@ -95,6 +103,19 @@ class BaseRunner(metaclass=BaseRunnerMeta):
         if all(conditions):
             return
         sys.exit(ErrorMsg.INVALID_TEST_SUITE_PATH)
+
+    def _validate_concurrency(self):
+        """ Validate concurrency """
+        if not self.concurrency:
+            sys.exit(ErrorMsg.INVALID_CONCURRENCY)
+
+        if isinstance(self.concurrency, str):
+            if not self.concurrency.isdigit():
+                sys.exit(ErrorMsg.INVALID_CONCURRENCY)
+            self.concurrency = int(self.concurrency)
+
+        if not isinstance(self.concurrency, int):
+            sys.exit(ErrorMsg.INVALID_CONCURRENCY)
 
     def _validate_test_result_path(self):
         """ Validate test result path """
@@ -175,9 +196,18 @@ class Runner(BaseRunner):
     Auto detect test suites and test cases
     """
 
-    def __init__(self, test_suite_path, test_result_path=None, env_path=None, test_data_path=None, test_tags=[]):
+    def __init__(self,
+                 test_suite_path,
+                 concurrency: int | str,
+                 test_result_path=None,
+                 env_path=None,
+                 test_data_path=None,
+                 test_tags=[]):
         # Initialise Base Class
-        super(Runner, self).__init__(test_suite_path, test_result_path, env_path, test_data_path, test_tags)
+        super(Runner, self).__init__(test_suite_path,
+                                     concurrency,
+                                     test_result_path, env_path, test_data_path,
+                                     test_tags)
         # List of test file paths
         self.test_files: list = []
         # List of test data file paths
@@ -190,6 +220,8 @@ class Runner(BaseRunner):
         self.report = report
         # Update the report with the test tags
         self.report.summary.test.tags = tuple(self.test_tags)
+        # Update the report with the concurrency
+        self.report.summary.test.concurrency = self.concurrency
 
     def _load_test_files(self, path):
         """
@@ -262,11 +294,10 @@ class Runner(BaseRunner):
         # Logging
         test_rest_api_console_logger.info('Completed test setup')
 
-    async def _run_tests(self):
-        """ Run the tests """
+    async def _run_tests_sync(self):
+        """ Run the synchronous tests """
         # Logging
-        test_rest_api_console_logger.info('Started test execution')
-        #  Run synchronous tests before asynchronous tests
+        test_rest_api_console_logger.info('Started synchronous test execution (Concurrency: 1)')
         # Create a generator of sync tests
         sync_test_generator = (sync_test for sync_test in self.sync_tests)
         # Run each test synchronously
@@ -276,10 +307,37 @@ class Runner(BaseRunner):
             task: Task = asyncio.create_task(sync_test())
             # Await the task to run the test
             await task
-        # Running Tasks Concurrently (Execute async functions concurrently)
-        await asyncio.gather(*[async_test() for async_test in self.async_tests], return_exceptions=False)
         # Logging
-        test_rest_api_console_logger.info('Completed test execution')
+        test_rest_api_console_logger.info('Completed synchronous test execution')
+
+    async def _run_tests_async(self):
+        """ Run the asynchronous tests """
+        # Logging
+        test_rest_api_console_logger.info(f'Started asynchronous test execution (Concurrency: {self.concurrency})')
+
+        semaphore = asyncio.Semaphore(self.concurrency)
+
+        async def semaphore_task(func: AsyncFunc):
+            async with semaphore:
+                try:
+                    await func()
+                except:
+                    pass
+
+        semaphore_tasks: list = [semaphore_task(async_test) for async_test in self.async_tests]
+
+        for future in asyncio.as_completed(semaphore_tasks):
+            await future  # discard result
+
+        # Logging
+        test_rest_api_console_logger.info('Completed asynchronous test execution')
+
+    async def _run_tests(self):
+        """ Run the tests """
+        # Run synchronous tests before asynchronous tests
+        await self._run_tests_sync()
+        # Run asynchronous tests (Execute async functions concurrently)
+        await self._run_tests_async()
 
     @staticmethod
     def _is_logging_completed():
