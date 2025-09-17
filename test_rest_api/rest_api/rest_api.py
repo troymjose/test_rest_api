@@ -126,12 +126,24 @@ class RestApi:
 ^^^^^^^^^^^^^
 {settings.logging.sub_point} Method {settings.logging.key_val_sep} {method.upper()}
 """, extra={'internal': True, '_increment_test_result_counts': 'requests'})
+        # Prepare the request arguments. Only add if the argument is not empty. Don't add empty arguments
+        request_kwargs = {}
+        # Add additional kwargs if any
+        request_kwargs.update(self.kwargs)
+        # Add url
+        if self.url:
+            request_kwargs['url'] = self.url
+        # Add parameters
+        if self.parameters:
+            request_kwargs['params'] = self.parameters
+        # Add headers
+        if self.headers:
+            request_kwargs['headers'] = self.headers
+        # Add body
+        if self.body:
+            request_kwargs['json'] = self.body
         # Send the request
-        async with getattr(self._session, method)(url=self.url,
-                                                  params=self.parameters,
-                                                  headers=self.headers,
-                                                  json=self.body,
-                                                  **self.kwargs) as response:
+        async with getattr(self._session, method)(**request_kwargs) as response:
             return await self._create_response(response=response)
 
     @catch_exc_async(test_rest_api_exception=RestApiSendException)
